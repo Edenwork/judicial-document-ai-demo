@@ -1,0 +1,592 @@
+.admin-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: 16px;
+    gap: 12px;
+}
+
+.admin-metric {
+    display: flex;
+    align-items: center;
+    min-height: 88px;
+    padding: 16px;
+    gap: 12px;
+}
+
+.admin-metric-icon {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 auto;
+    color: var(--color-primary-700);
+    background: var(--color-primary-100);
+    border-radius: var(--radius-md);
+    place-items: center;
+}
+
+.admin-metric-icon--success {
+    color: var(--color-success-700);
+    background: var(--color-success-100);
+}
+
+.admin-metric-icon--warning {
+    color: var(--color-warning-700);
+    background: var(--color-warning-100);
+}
+
+.admin-metric-icon--danger {
+    color: var(--color-danger-700);
+    background: var(--color-danger-100);
+}
+
+.admin-metric-icon svg {
+    width: 18px;
+}
+
+.admin-metric strong,
+.admin-metric span {
+    display: block;
+}
+
+.admin-metric strong {
+    color: var(--color-text-strong);
+    font-size: 22px;
+    line-height: 1.1;
+}
+
+.admin-metric div>span {
+    margin-top: 5px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+}
+
+.audit-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    align-items: start;
+    gap: 14px;
+}
+
+.audit-list-panel,
+.account-list-panel,
+.organization-panel,
+.scope-preview,
+.role-matrix-panel {
+    overflow: hidden;
+}
+
+.admin-filter-bar {
+    display: grid;
+    grid-template-columns: minmax(210px, 1fr) 150px 120px 150px;
+    padding: 13px 16px;
+    background: var(--color-neutral-50);
+    border-bottom: 1px solid var(--color-border);
+    gap: 8px;
+}
+
+.admin-filter-bar .search-mini {
+    min-width: 0;
+}
+
+.admin-table th,
+.admin-table td {
+    white-space: nowrap;
+}
+
+.admin-table td:nth-child(4) {
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.audit-user strong,
+.account-identity strong {
+    display: block;
+    font-size: 12px;
+}
+
+.audit-user span,
+.account-identity span {
+    display: block;
+    margin-top: 2px;
+    color: var(--color-text-faint);
+    font-size: 10px;
+}
+
+.audit-action {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.audit-module {
+    display: block;
+    margin-top: 2px;
+    color: var(--color-text-faint);
+    font-size: 10px;
+}
+
+.audit-row {
+    cursor: pointer;
+}
+
+.audit-row.is-selected td {
+    background: var(--color-primary-50);
+}
+
+.audit-detail {
+    position: sticky;
+    top: 86px;
+    overflow: hidden;
+}
+
+.audit-detail-empty,
+.admin-empty {
+    display: grid;
+    min-height: 240px;
+    padding: 28px;
+    color: var(--color-text-muted);
+    text-align: center;
+    align-content: center;
+    justify-items: center;
+    gap: 7px;
+}
+
+.audit-detail-empty svg,
+.admin-empty svg {
+    width: 27px;
+    margin-bottom: 4px;
+    color: var(--color-primary-400);
+}
+
+.audit-detail-empty strong {
+    color: var(--color-text-secondary);
+    font-size: 12px;
+}
+
+.audit-detail-empty span,
+.admin-empty span {
+    font-size: 11px;
+}
+
+.audit-detail-head {
+    padding: 18px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.audit-detail-head h3 {
+    margin: 8px 0 3px;
+    font-size: 15px;
+}
+
+.audit-detail-head p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 11px;
+}
+
+.audit-detail-body {
+    display: grid;
+    padding: 17px 18px;
+    gap: 14px;
+}
+
+.audit-detail-item label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--color-text-subtle);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.audit-detail-item span {
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.audit-change {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+}
+
+.audit-change div {
+    padding: 9px;
+    background: var(--color-neutral-50);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+}
+
+.audit-change small,
+.audit-change strong {
+    display: block;
+}
+
+.audit-change small {
+    margin-bottom: 4px;
+    color: var(--color-text-faint);
+    font-size: 9px;
+}
+
+.audit-change strong {
+    color: var(--color-text-secondary);
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.admin-tabs {
+    display: flex;
+    width: fit-content;
+    margin-bottom: 16px;
+    padding: 4px;
+    gap: 4px;
+}
+
+.admin-tab {
+    min-height: 36px;
+    padding: 7px 13px;
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.admin-tab svg {
+    width: 15px;
+    margin-right: 6px;
+    vertical-align: -3px;
+}
+
+.admin-tab:hover {
+    color: var(--color-primary-700);
+    background: var(--color-primary-50);
+}
+
+.admin-tab.active {
+    color: var(--color-primary-700);
+    background: var(--color-primary-100);
+}
+
+.admin-tab-panel {
+    display: none;
+}
+
+.admin-tab-panel.active {
+    display: block;
+}
+
+.account-filter-bar {
+    grid-template-columns: minmax(220px, 1fr) 160px;
+}
+
+.account-avatar {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 auto;
+    color: var(--color-primary-700);
+    background: var(--color-primary-100);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 750;
+    place-items: center;
+}
+
+.account-user {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.account-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.permission-rule-callout {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    padding: 13px 15px;
+    color: var(--color-primary-700);
+    background: var(--color-primary-50);
+    border: 1px solid var(--color-primary-200);
+    border-radius: var(--radius-lg);
+    gap: 10px;
+}
+
+.permission-rule-callout>svg {
+    width: 17px;
+    flex: 0 0 auto;
+    margin-top: 1px;
+}
+
+.permission-rule-callout strong,
+.permission-rule-callout span {
+    display: block;
+}
+
+.permission-rule-callout strong {
+    margin-bottom: 3px;
+    font-size: 12px;
+}
+
+.permission-rule-callout span {
+    color: var(--color-text-secondary);
+    font-size: 11px;
+}
+
+.permission-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(300px, .8fr);
+    align-items: stretch;
+    margin-bottom: 14px;
+    gap: 14px;
+}
+
+.organization-tree {
+    min-height: 420px;
+    padding: 22px;
+    overflow: auto;
+}
+
+.organization-tree ul {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 24px 0 0;
+    list-style: none;
+}
+
+.organization-tree>ul {
+    padding-top: 0;
+}
+
+.organization-tree li {
+    position: relative;
+    padding: 24px 6px 0;
+    text-align: center;
+}
+
+.organization-tree>ul>li {
+    padding-top: 0;
+}
+
+.organization-tree li::before,
+.organization-tree li::after {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 24px;
+    border-top: 1px solid var(--color-border-strong);
+    content: "";
+}
+
+.organization-tree li::before {
+    right: 50%;
+}
+
+.organization-tree li::after {
+    left: 50%;
+    border-left: 1px solid var(--color-border-strong);
+}
+
+.organization-tree li:only-child::before,
+.organization-tree li:only-child::after,
+.organization-tree>ul>li::before,
+.organization-tree>ul>li::after {
+    display: none;
+}
+
+.organization-tree li:first-child::before,
+.organization-tree li:last-child::after {
+    border-top: 0;
+}
+
+.organization-tree li:first-child::after {
+    border-radius: var(--radius-sm) 0 0;
+}
+
+.organization-tree li:last-child::before {
+    border-right: 1px solid var(--color-border-strong);
+    border-radius: 0 var(--radius-sm) 0 0;
+}
+
+.organization-tree ul ul::before {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 24px;
+    border-left: 1px solid var(--color-border-strong);
+    content: "";
+}
+
+.organization-node {
+    min-width: 76px;
+    padding: 8px 10px;
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-panel);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.organization-node:hover {
+    color: var(--color-primary-700);
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-400);
+}
+
+.organization-node.active {
+    color: var(--color-on-dark);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.scope-preview-body {
+    display: grid;
+    padding: 18px;
+    gap: 17px;
+}
+
+.scope-selected {
+    padding: 12px;
+    background: var(--color-primary-50);
+    border: 1px solid var(--color-primary-200);
+    border-radius: var(--radius-md);
+}
+
+.scope-selected small,
+.scope-selected strong,
+.scope-selected span {
+    display: block;
+}
+
+.scope-selected small {
+    color: var(--color-text-subtle);
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.scope-selected strong {
+    margin: 4px 0;
+    color: var(--color-primary-700);
+    font-size: 15px;
+}
+
+.scope-selected span {
+    color: var(--color-text-muted);
+    font-size: 10px;
+}
+
+.scope-group h4 {
+    display: flex;
+    align-items: center;
+    margin: 0 0 8px;
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    gap: 6px;
+}
+
+.scope-group h4 svg {
+    width: 14px;
+}
+
+.scope-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.scope-chip {
+    padding: 5px 8px;
+    color: var(--color-success-700);
+    background: var(--color-success-100);
+    border-radius: var(--radius-pill);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.scope-chip--blocked {
+    color: var(--color-text-muted);
+    background: var(--color-neutral-100);
+}
+
+.role-matrix-panel .panel-header {
+    justify-content: space-between;
+}
+
+.permission-matrix th,
+.permission-matrix td {
+    padding: 12px 14px;
+    border-color: var(--color-border-subtle);
+    text-align: center;
+    vertical-align: middle;
+    font-size: 11px;
+}
+
+.permission-matrix thead th {
+    color: var(--color-text-muted);
+    background: var(--color-neutral-50);
+    font-size: 10px;
+}
+
+.permission-matrix th:first-child {
+    text-align: left;
+}
+
+.permission-matrix tbody td {
+    color: var(--color-success-700);
+    font-weight: 750;
+}
+
+.permission-denied {
+    color: var(--color-text-faint);
+}
+
+@media (max-width: 1180px) {
+    .audit-layout,
+    .permission-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .audit-detail {
+        position: static;
+    }
+}
+
+@media (max-width: 900px) {
+    .admin-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-filter-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .admin-metrics,
+    .admin-filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-tabs {
+        width: 100%;
+    }
+
+    .admin-tab {
+        flex: 1;
+    }
+
+    .organization-tree {
+        padding: 18px 10px;
+    }
+}

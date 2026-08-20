@@ -209,21 +209,4 @@
     display: none;
   }
 
-  .search-box {
-    display: block;
-  }
-
-  .search-box .btn {
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  .result-item {
-    grid-template-columns: 36px 1fr;
-  }
-
-  .result-item>.btn {
-    grid-column: 2;
-    justify-self: start;
-  }
 }

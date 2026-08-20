@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/pages/search.css">
   <link rel="stylesheet" href="css/pages/relations.css">
   <link rel="stylesheet" href="css/pages/reports.css">
+  <link rel="stylesheet" href="css/pages/admin.css">
   <link rel="stylesheet" href="css/components/overlays.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -43,6 +44,13 @@
       <div class="nav-label mt-4">審核作業</div>
       <nav class="side-nav"><button class="nav-item-btn" data-page="supervisor" type="button"><i
             data-lucide="shield-check"></i><span>主管複核</span><span class="nav-count">2</span></button></nav>
+      <div class="nav-label mt-4">系統設定</div>
+      <nav class="side-nav">
+        <button class="nav-item-btn" data-page="audit" type="button"><i
+            data-lucide="scroll-text"></i><span>稽核日誌</span></button>
+        <button class="nav-item-btn" data-page="accounts" type="button"><i
+            data-lucide="users-round"></i><span>帳號與權限</span></button>
+      </nav>
       <div class="side-footer">
         <div class="user-card">
           <div class="avatar">王</div>
@@ -422,24 +430,128 @@
           <div class="page-heading">
             <div>
               <h2 id="searchHeading">智慧搜尋</h2>
-              <p>以自然語言查詢所有已入庫司法互助文件。</p>
+              <p>以自然語言或條件查找文件，勾選後產生跨文件彙整報告。</p>
             </div>
           </div>
           <div class="panel search-hero">
+            <span class="section-eyebrow">搜尋方式 1・自然語言查詢</span>
             <h3>想查找哪一類案件或證據？</h3>
             <p class="mb-0 opacity-75">系統會根據文件內容、AI 欄位與摘要找出相關文件，並標示來源。</p>
             <div class="search-box"><i data-lucide="search"></i><input class="form-control" id="smartQuery"
-                value="找出向日本請求銀行交易紀錄的案件" aria-label="自然語言查詢"><button class="btn btn-light px-4" id="smartSearch"
+                value="找出向日本請求銀行交易紀錄的案件" aria-label="自然語言查詢"
+                aria-describedby="searchQueryHelp"><button class="btn btn-light px-4" id="smartSearch"
                 type="button"><i data-lucide="sparkles"></i>搜尋</button></div>
+            <span class="visually-hidden" id="searchQueryHelp">可輸入國家、證據類型、案件狀態或期限等自然語言問題</span>
             <div class="example-queries"><button class="query-chip" type="button">哪些案件要求凍結犯罪所得？</button><button
                 class="query-chip" type="button">找出回覆期限在十月底前的文件</button><button class="query-chip"
                 type="button">哪些文件涉及平台帳號資料？</button></div>
           </div>
-          <div class="panel search-results" id="searchResults">
-            <div class="panel-header">
-              <h3>搜尋結果</h3><span class="subtle ms-auto">找到 3 份相關文件</span>
-            </div>
-            <div id="resultsBody"></div>
+
+          <div class="search-workspace">
+            <aside class="panel search-filter-panel" aria-labelledby="filterHeading">
+              <div class="panel-header search-section-head">
+                <div>
+                  <span class="section-eyebrow">搜尋方式 2</span>
+                  <h3 id="filterHeading">條件式篩選</h3>
+                </div>
+                <button class="icon-btn search-filter-toggle" id="filterToggle" type="button"
+                  aria-label="展開或收合篩選條件" aria-expanded="true" aria-controls="filterBody"><i
+                    data-lucide="sliders-horizontal"></i></button>
+              </div>
+              <form class="search-filter-body" id="filterBody">
+                <div class="filter-field"><label for="filterCase">案號</label><input class="form-control form-control-sm"
+                    id="filterCase" type="search" placeholder="例如 ML-2026"></div>
+                <div class="filter-field"><label for="filterCountry">請求國家／地區</label><select
+                    class="form-select form-select-sm" id="filterCountry">
+                    <option value="">全部國家／地區</option>
+                    <option>日本</option>
+                    <option>美國</option>
+                    <option>新加坡</option>
+                    <option>英國</option>
+                    <option>香港</option>
+                  </select></div>
+                <div class="filter-field"><label for="filterEvidence">證據類型</label><select
+                    class="form-select form-select-sm" id="filterEvidence">
+                    <option value="">全部證據類型</option>
+                    <option value="銀行交易">銀行帳戶／交易紀錄</option>
+                    <option value="平台帳號">電信／平台電子證據</option>
+                    <option value="公司登記">公司登記／受益人</option>
+                    <option value="證人訊問">證人訊問／證詞</option>
+                    <option value="犯罪所得">犯罪所得／凍結</option>
+                  </select></div>
+                <div class="filter-field"><label for="filterStatus">處理狀態</label><select
+                    class="form-select form-select-sm" id="filterStatus">
+                    <option value="">全部狀態</option>
+                    <option value="完成">完成</option>
+                    <option value="處理中">處理中</option>
+                    <option value="待複核">待複核</option>
+                    <option value="需人工處置">需人工處置</option>
+                  </select></div>
+                <div class="filter-field"><label for="filterAnomaly">AI 判定</label><select
+                    class="form-select form-select-sm" id="filterAnomaly">
+                    <option value="">全部判定</option>
+                    <option value="normal">正常</option>
+                    <option value="anomaly">異常</option>
+                  </select></div>
+                <div class="filter-field"><label for="filterDate">上傳日期</label><select
+                    class="form-select form-select-sm" id="filterDate">
+                    <option value="">不限日期</option>
+                    <option value="7">最近 7 天</option>
+                    <option value="30">最近 30 天</option>
+                    <option value="90">最近 90 天</option>
+                  </select></div>
+                <div class="search-filter-actions"><button class="btn btn-sm btn-outline-secondary" id="resetFilters"
+                    type="button"><i data-lucide="rotate-ccw"></i>清除條件</button><span id="filterResultCount"
+                    aria-live="polite">6 份符合</span></div>
+              </form>
+            </aside>
+
+            <section class="panel search-results" id="searchResults" aria-labelledby="resultsHeading">
+              <div class="panel-header search-results-head">
+                <div>
+                  <span class="section-eyebrow">搜尋結果</span>
+                  <h3 id="resultsHeading">相關文件</h3>
+                </div>
+                <span class="search-result-count" id="searchResultCount">找到 6 份文件</span>
+              </div>
+              <div class="search-selection-toolbar">
+                <label><input class="form-check-input" id="selectVisibleResults" type="checkbox">選取本頁全部文件</label>
+                <span class="subtle" id="searchModeSummary">依自然語言與篩選條件顯示</span>
+              </div>
+              <div id="resultsBody" aria-live="polite"></div>
+            </section>
+
+            <aside class="panel search-selection-panel" aria-labelledby="selectedHeading">
+              <div class="panel-header search-section-head">
+                <div>
+                  <span class="section-eyebrow">搜尋方式 3</span>
+                  <h3 id="selectedHeading">已選文件</h3>
+                </div>
+                <span class="selected-count" id="searchSelectedCount">0</span>
+              </div>
+              <div class="selected-documents" id="selectedDocuments">
+                <div class="selection-empty"><i data-lucide="files"></i><strong>尚未選取文件</strong><span>從搜尋結果勾選要彙整的文件</span></div>
+              </div>
+              <div class="search-report-controls">
+                <div class="filter-field"><label for="searchReportType">報告用途</label><select
+                    class="form-select form-select-sm" id="searchReportType">
+                    <option>案件摘要</option>
+                    <option>證據彙整</option>
+                    <option>異常文件清單</option>
+                    <option>主管複核報告</option>
+                  </select></div>
+                <div class="filter-field"><label for="searchReportInstruction">補充要求</label><textarea
+                    class="form-control form-control-sm" id="searchReportInstruction" rows="2"
+                    placeholder="例如：依國家整理證據類型"></textarea></div>
+                <span class="search-report-hint">AI 將只讀取已勾選的文件內容。</span>
+                <div class="search-report-actions"><button class="btn btn-primary report-output search-report-output"
+                    data-output="web" type="button" disabled><i data-lucide="panels-top-left"></i>網頁報告</button><button
+                    class="btn btn-outline-secondary report-output search-report-output" data-output="pdf" type="button"
+                    disabled><i data-lucide="file-down"></i>PDF</button><button
+                    class="btn btn-outline-secondary report-output search-report-output" data-output="word" type="button"
+                    disabled><i data-lucide="file-type-2"></i>Word</button></div>
+              </div>
+            </aside>
           </div>
         </section>
         <section class="page" id="page-relations" aria-labelledby="relationsHeading">
@@ -589,6 +701,185 @@
             </article>
           </div>
         </section>
+        <section class="page" id="page-audit" aria-labelledby="auditHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="auditHeading">稽核日誌</h2>
+              <p>檢索登入、帳號異動、文件查詢修改及 AI 結果覆核軌跡。</p>
+            </div>
+            <button class="btn btn-outline-secondary" id="exportAuditLog" type="button"><i
+                data-lucide="download"></i>匯出稽核紀錄</button>
+          </div>
+          <div class="admin-metrics">
+            <article class="panel admin-metric">
+              <span class="admin-metric-icon admin-metric-icon--primary"><i data-lucide="activity"></i></span>
+              <div><strong>128</strong><span>今日操作</span></div>
+            </article>
+            <article class="panel admin-metric">
+              <span class="admin-metric-icon admin-metric-icon--danger"><i data-lucide="log-in"></i></span>
+              <div><strong>3</strong><span>登入失敗</span></div>
+            </article>
+            <article class="panel admin-metric">
+              <span class="admin-metric-icon admin-metric-icon--warning"><i data-lucide="user-cog"></i></span>
+              <div><strong>5</strong><span>帳號異動</span></div>
+            </article>
+            <article class="panel admin-metric">
+              <span class="admin-metric-icon admin-metric-icon--success"><i data-lucide="brain-circuit"></i></span>
+              <div><strong>17</strong><span>AI 覆核紀錄</span></div>
+            </article>
+          </div>
+          <div class="audit-layout">
+            <section class="panel audit-list-panel" aria-labelledby="auditListHeading">
+              <div class="panel-header">
+                <h3 id="auditListHeading">操作紀錄</h3>
+                <span class="subtle ms-auto" id="auditResultCount">7 筆紀錄</span>
+              </div>
+              <div class="admin-filter-bar">
+                <div class="search-mini"><i data-lucide="search"></i><input class="form-control form-control-sm"
+                    id="auditSearch" type="search" aria-label="搜尋操作紀錄" placeholder="搜尋人員、文件或案號"></div>
+                <select class="form-select form-select-sm" id="auditModule" aria-label="篩選功能模組">
+                  <option value="">全部模組</option>
+                  <option value="登入驗證">登入驗證</option>
+                  <option value="帳號管理">帳號管理</option>
+                  <option value="文件管理">文件管理</option>
+                  <option value="AI 覆核">AI 覆核</option>
+                </select>
+                <select class="form-select form-select-sm" id="auditResult" aria-label="篩選執行結果">
+                  <option value="">全部結果</option>
+                  <option value="成功">成功</option>
+                  <option value="失敗">失敗</option>
+                </select>
+                <input class="form-control form-control-sm" id="auditDate" type="date" value="2026-08-20"
+                  aria-label="篩選日期">
+              </div>
+              <div class="table-responsive">
+                <table class="table data-table admin-table mb-0">
+                  <thead>
+                    <tr>
+                      <th>時間</th>
+                      <th>操作者／單位</th>
+                      <th>操作</th>
+                      <th>操作對象</th>
+                      <th>結果</th>
+                      <th><span class="visually-hidden">查看明細</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="auditTableBody"></tbody>
+                </table>
+              </div>
+              <div class="admin-empty" id="auditEmpty" hidden><i data-lucide="search-x"></i><span>查無符合的稽核紀錄</span></div>
+            </section>
+            <aside class="panel audit-detail" id="auditDetail" aria-live="polite">
+              <div class="audit-detail-empty">
+                <i data-lucide="mouse-pointer-click"></i>
+                <strong>選擇一筆操作紀錄</strong>
+                <span>查看來源、執行結果與異動前後內容。</span>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="page" id="page-accounts" aria-labelledby="accountsHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="accountsHeading">帳號與權限</h2>
+              <p>管理使用者狀態、角色權限及依組織階層繼承的資料查看範圍。</p>
+            </div>
+            <button class="btn btn-primary" id="addAccount" type="button"><i data-lucide="user-plus"></i>新增帳號</button>
+          </div>
+          <div class="panel admin-tabs" role="tablist" aria-label="帳號與權限管理">
+            <button class="admin-tab active" id="accountListTab" data-admin-tab="account-list" type="button"
+              role="tab" aria-selected="true" aria-controls="admin-account-list"><i data-lucide="users"></i>帳號管理</button>
+            <button class="admin-tab" id="permissionRulesTab" data-admin-tab="permission-rules" type="button"
+              role="tab" aria-selected="false" aria-controls="admin-permission-rules"><i
+                data-lucide="shield-check"></i>組織與角色權限</button>
+          </div>
+
+          <div class="admin-tab-panel active" id="admin-account-list" role="tabpanel" aria-labelledby="accountListTab">
+            <div class="admin-metrics account-metrics">
+              <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--primary"><i
+                    data-lucide="users"></i></span><div><strong>36</strong><span>全部帳號</span></div></article>
+              <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--success"><i
+                    data-lucide="user-check"></i></span><div><strong>32</strong><span>啟用中</span></div></article>
+              <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--danger"><i
+                    data-lucide="lock-keyhole"></i></span><div><strong>2</strong><span>已鎖定</span></div></article>
+              <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--warning"><i
+                    data-lucide="user-x"></i></span><div><strong>2</strong><span>已停用</span></div></article>
+            </div>
+            <section class="panel account-list-panel" aria-labelledby="accountListHeading">
+              <div class="panel-header">
+                <h3 id="accountListHeading">使用者帳號</h3>
+                <span class="subtle ms-auto" id="accountResultCount">6 筆示例帳號</span>
+              </div>
+              <div class="admin-filter-bar account-filter-bar">
+                <div class="search-mini"><i data-lucide="search"></i><input class="form-control form-control-sm"
+                    id="accountSearch" type="search" aria-label="搜尋使用者帳號" placeholder="搜尋姓名、帳號或單位"></div>
+                <select class="form-select form-select-sm" id="accountStatus" aria-label="篩選帳號狀態">
+                  <option value="">全部狀態</option>
+                  <option value="啟用">啟用</option>
+                  <option value="鎖定">鎖定</option>
+                  <option value="停用">停用</option>
+                </select>
+              </div>
+              <div class="table-responsive">
+                <table class="table data-table admin-table account-table mb-0">
+                  <thead>
+                    <tr>
+                      <th>使用者</th>
+                      <th>組織節點</th>
+                      <th>角色</th>
+                      <th>最後登入</th>
+                      <th>狀態</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="accountTableBody"></tbody>
+                </table>
+              </div>
+              <div class="admin-empty" id="accountEmpty" hidden><i data-lucide="user-search"></i><span>查無符合的使用者帳號</span></div>
+            </section>
+          </div>
+
+          <div class="admin-tab-panel" id="admin-permission-rules" role="tabpanel"
+            aria-labelledby="permissionRulesTab" hidden>
+            <div class="permission-rule-callout">
+              <i data-lucide="info"></i>
+              <div><strong>組織資料範圍採向下繼承</strong><span>使用者可查看所屬節點及全部下層資料；不可查看上層節點、同層其他分支或其下層資料。</span></div>
+            </div>
+            <div class="permission-layout">
+              <section class="panel organization-panel" aria-labelledby="organizationHeading">
+                <div class="panel-header">
+                  <div><span class="section-eyebrow">資料範圍</span><h3 id="organizationHeading">組織階層</h3></div>
+                  <span class="subtle ms-auto">點擊節點預覽</span>
+                </div>
+                <div class="organization-tree" id="organizationTree"></div>
+              </section>
+              <aside class="panel scope-preview" aria-labelledby="scopePreviewHeading">
+                <div class="panel-header"><div><span class="section-eyebrow">權限預覽</span><h3
+                      id="scopePreviewHeading">可查看資料範圍</h3></div></div>
+                <div class="scope-preview-body" id="scopePreview"></div>
+              </aside>
+            </div>
+            <section class="panel role-matrix-panel" aria-labelledby="roleMatrixHeading">
+              <div class="panel-header">
+                <div><span class="section-eyebrow">功能權限</span><h3 id="roleMatrixHeading">角色權限矩陣</h3></div>
+                <button class="btn btn-sm btn-outline-secondary" id="saveRolePermissions" type="button"><i
+                    data-lucide="save"></i>儲存設定</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table permission-matrix mb-0">
+                  <thead><tr><th>角色</th><th>查看文件</th><th>上傳／修改</th><th>承辦確認</th><th>主管複核</th><th>稽核日誌</th><th>帳號管理</th></tr></thead>
+                  <tbody>
+                    <tr><th>司長</th><td>✓</td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td>✓</td><td>✓</td><td><span class="permission-denied">—</span></td></tr>
+                    <tr><th>科長／股長</th><td>✓</td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td>✓</td><td>✓</td><td><span class="permission-denied">—</span></td></tr>
+                    <tr><th>承辦人</th><td>✓</td><td>✓</td><td>✓</td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td></tr>
+                    <tr><th>系統管理員</th><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td>✓</td><td>✓</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
       </main>
     </div>
   </div>
@@ -688,6 +979,7 @@
   <script src="js/features/search.js" defer></script>
   <script src="js/features/relations.js" defer></script>
   <script src="js/features/reports.js" defer></script>
+  <script src="js/features/admin.js" defer></script>
   <script src="js/bootstrap.js" defer></script>
 </body>
 

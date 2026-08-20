@@ -2,7 +2,7 @@
   "use strict";
 
   const App = global.JudicialApp;
-  const reportStages = ["讀取選取文件", "整理相關內容", "彙整欄位與數據", "產生報告摘要", "整理報告格式"];
+  const reportStages = ["讀取文件內容", "比對欄位與標籤", "彙整案件脈絡", "產生摘要", "建立報告格式"];
 
   App.initReports = function () {
     function downloadWordReport() {

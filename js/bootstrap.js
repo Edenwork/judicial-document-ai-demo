@@ -13,6 +13,7 @@
   App.initRelations();
   App.initReports();
   App.initSupervisor();
+  App.initAdmin();
 
   if (initialPage && App.pageMeta[initialPage]) {
     App.goToPage(initialPage);
