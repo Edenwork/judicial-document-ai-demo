@@ -4,116 +4,64 @@
   const App = global.JudicialApp;
   const auditLogs = [
     {
-      id: "log-001",
       date: "2026-08-20",
       time: "15:18:42",
       user: "王小明",
-      account: "wang.xm",
       unit: "國際科／亞洲股",
       module: "AI 覆核",
       action: "修正 AI 擷取欄位",
       target: "美國平台帳號資料保全請求書",
       result: "成功",
-      ip: "10.24.18.36",
-      detail: "修正資料時間範圍，並確認 AI 分類標籤。",
-      before: "2025/01/01－2025/12/31",
-      after: "2025/01/01－2026/03/31",
     },
     {
-      id: "log-002",
       date: "2026-08-20",
       time: "14:52:10",
       user: "陳怡君",
-      account: "chen.yj",
       unit: "國際科／歐洲股",
       module: "文件管理",
       action: "查詢文件",
       target: "ML-2026-0817-08 英國證人訊問協助請求書",
       result: "成功",
-      ip: "10.24.22.18",
-      detail: "以案號查詢並開啟文件校對頁面。",
-      before: "—",
-      after: "—",
     },
     {
-      id: "log-003",
       date: "2026-08-20",
       time: "13:41:27",
       user: "林志宏",
-      account: "lin.zh",
       unit: "系統管理",
       module: "帳號管理",
       action: "解除帳號鎖定",
       target: "帳號：hsu.mt",
       result: "成功",
-      ip: "10.24.10.5",
-      detail: "經身分確認後解除連續登入失敗鎖定。",
-      before: "已鎖定",
-      after: "啟用",
     },
     {
-      id: "log-004",
       date: "2026-08-20",
       time: "11:26:03",
       user: "徐美婷",
-      account: "hsu.mt",
       unit: "國際科／美洲股",
       module: "登入驗證",
       action: "帳號登入",
       target: "司法文件智慧平台",
       result: "失敗",
-      ip: "203.66.118.42",
-      detail: "密碼驗證失敗，累計第 5 次後自動鎖定帳號。",
-      before: "登入失敗 4 次",
-      after: "帳號已鎖定",
     },
     {
-      id: "log-005",
       date: "2026-08-20",
       time: "10:08:55",
       user: "黃建國",
-      account: "huang.jg",
       unit: "國兩司",
       module: "AI 覆核",
       action: "主管複核核准",
       target: "日本銀行交易紀錄調取請求書",
       result: "成功",
-      ip: "10.24.8.11",
-      detail: "確認承辦人修正內容並核准文件。",
-      before: "待主管複核",
-      after: "審核完成",
     },
     {
-      id: "log-006",
       date: "2026-08-20",
       time: "09:17:36",
       user: "何宗翰",
-      account: "ho.zh",
       unit: "兩岸科",
       module: "登入驗證",
       action: "變更密碼",
       target: "帳號：ho.zh",
       result: "成功",
-      ip: "10.24.31.20",
-      detail: "使用者完成定期密碼變更；日誌不保存密碼內容。",
-      before: "上次變更：2026/05/20",
-      after: "變更時間：2026/08/20",
-    },
-    {
-      id: "log-007",
-      date: "2026-08-19",
-      time: "17:34:12",
-      user: "系統服務",
-      account: "ai-service",
-      unit: "系統服務",
-      module: "AI 覆核",
-      action: "產生結構化結果",
-      target: "新加坡公司登記資料請求書",
-      result: "成功",
-      ip: "內部服務",
-      detail: "完成 OCR、欄位擷取、摘要與標籤產生。",
-      before: "待處理",
-      after: "待承辦確認",
     },
   ];
 
@@ -203,59 +151,24 @@
 
   App.initAdmin = function () {
     const auditTableBody = document.getElementById("auditTableBody");
-    const auditDetail = document.getElementById("auditDetail");
     const accountTableBody = document.getElementById("accountTableBody");
     const organizationTree = document.getElementById("organizationTree");
     const allOrganizationNodes = flattenOrganization(organization);
-    let selectedAuditId = null;
     let selectedOrganizationId = "asia";
 
-    function getFilteredAuditLogs() {
-      const search = document.getElementById("auditSearch").value.trim().toLowerCase();
-      const module = document.getElementById("auditModule").value;
-      const result = document.getElementById("auditResult").value;
-      const date = document.getElementById("auditDate").value;
-
-      return auditLogs.filter(function (log) {
-        const searchText = [log.user, log.account, log.unit, log.action, log.target].join(" ").toLowerCase();
-        return (!search || searchText.includes(search))
-          && (!module || log.module === module)
-          && (!result || log.result === result)
-          && (!date || log.date === date);
-      });
-    }
-
     function renderAuditTable() {
-      const logs = getFilteredAuditLogs();
+      const logs = auditLogs;
       document.getElementById("auditResultCount").textContent = logs.length + " 筆紀錄";
-      document.getElementById("auditEmpty").hidden = logs.length > 0;
       auditTableBody.innerHTML = logs.map(function (log) {
-        return '<tr class="audit-row' + (selectedAuditId === log.id ? " is-selected" : "") + '" data-log-id="' + log.id + '" tabindex="0">' +
+        return "<tr>" +
           "<td>" + escapeHtml(log.time) + '<span class="doc-sub">' + escapeHtml(log.date.replaceAll("-", "/")) + "</span></td>" +
           '<td><div class="audit-user"><strong>' + escapeHtml(log.user) + "</strong><span>" + escapeHtml(log.unit) + "</span></div></td>" +
           '<td><span class="audit-action">' + escapeHtml(log.action) + '</span><span class="audit-module">' + escapeHtml(log.module) + "</span></td>" +
           "<td>" + escapeHtml(log.target) + "</td>" +
           '<td><span class="badge-status ' + getStatusClass(log.result) + '">' + escapeHtml(log.result) + "</span></td>" +
-          '<td><button class="icon-btn view-audit" type="button" aria-label="查看操作明細"><i data-lucide="chevron-right"></i></button></td>' +
           "</tr>";
       }).join("");
       App.renderIcons();
-    }
-
-    function renderAuditDetail(logId) {
-      const log = auditLogs.find(function (item) { return item.id === logId; });
-      if (!log) return;
-      selectedAuditId = logId;
-      auditDetail.innerHTML = '<div class="audit-detail-head"><span class="badge-status ' + getStatusClass(log.result) + '">' +
-        escapeHtml(log.result) + "</span><h3>" + escapeHtml(log.action) + "</h3><p>" + escapeHtml(log.date + " " + log.time) +
-        '</p></div><div class="audit-detail-body">' +
-        '<div class="audit-detail-item"><label>操作者</label><span>' + escapeHtml(log.user + "（" + log.account + "）・" + log.unit) + "</span></div>" +
-        '<div class="audit-detail-item"><label>來源</label><span>IP／服務：' + escapeHtml(log.ip) + "</span></div>" +
-        '<div class="audit-detail-item"><label>操作對象</label><span>' + escapeHtml(log.target) + "</span></div>" +
-        '<div class="audit-detail-item"><label>操作說明</label><span>' + escapeHtml(log.detail) + "</span></div>" +
-        '<div class="audit-detail-item"><label>異動內容</label><div class="audit-change"><div><small>異動前</small><strong>' +
-        escapeHtml(log.before) + "</strong></div><div><small>異動後</small><strong>" + escapeHtml(log.after) + "</strong></div></div></div></div>";
-      renderAuditTable();
     }
 
     function getFilteredAccounts() {
@@ -332,26 +245,9 @@
       });
     }
 
-    ["auditSearch", "auditModule", "auditResult", "auditDate"].forEach(function (id) {
-      const element = document.getElementById(id);
-      element.addEventListener(element.tagName === "INPUT" ? "input" : "change", renderAuditTable);
-    });
-
     ["accountSearch", "accountStatus"].forEach(function (id) {
       const element = document.getElementById(id);
       element.addEventListener(element.tagName === "INPUT" ? "input" : "change", renderAccountTable);
-    });
-
-    auditTableBody.addEventListener("click", function (event) {
-      const row = event.target.closest(".audit-row");
-      if (row) renderAuditDetail(row.dataset.logId);
-    });
-    auditTableBody.addEventListener("keydown", function (event) {
-      const row = event.target.closest(".audit-row");
-      if (row && (event.key === "Enter" || event.key === " ")) {
-        event.preventDefault();
-        renderAuditDetail(row.dataset.logId);
-      }
     });
 
     accountTableBody.addEventListener("click", function (event) {

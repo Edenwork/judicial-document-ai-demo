@@ -14,6 +14,7 @@
   App.initReports();
   App.initSupervisor();
   App.initAdmin();
+  App.initSessionMenu();
 
   if (initialPage && App.pageMeta[initialPage]) {
     App.goToPage(initialPage);

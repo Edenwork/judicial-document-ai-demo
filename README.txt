@@ -2,11 +2,13 @@
 
 使用方式
 1. 解壓縮 judicial-document-ai-demo.zip。
-2. 以 Chrome、Edge 或 Safari 開啟 index.html。
+2. 以 Chrome、Edge 或 Safari 開啟 login.html；直接開啟 index.html 時，未登入會自動導向登入頁。
 3. 第一次開啟時需保持網路連線，以載入 Bootstrap 與 Lucide Icons。
+4. 登入頁預設已填入 Demo 帳號與密碼，可直接按「登入」進入系統。
 
 專案結構
-- index.html：頁面語意與各功能區塊。
+- index.html：系統主介面與各功能區塊。
+- login.html：獨立登入介面。
 - css/tokens.css：全站色彩、陰影及圓角設計變數。
 - css/base.css：全站基礎樣式。
 - css/layout.css：Sidebar、Topbar 與頁面框架。
@@ -15,7 +17,8 @@
 - css/components/overlays.css：Modal、Toast 與報告處理狀態。
 - css/responsive.css：列印及 RWD 規則。
 - js/core/app.js：導覽、Toast、Overlay 等共用功能。
-- js/features/：文件清單、上傳、校對、搜尋、關聯及報告功能。
+- js/auth-guard.js：Demo 登入狀態與未登入導向。
+- js/features/：文件作業、搜尋報告、後台管理、登入與使用者選單功能。
 - js/bootstrap.js：初始化各功能模組。
 
 色彩調整
@@ -41,8 +44,9 @@
 - 案件／文件關聯圖與節點側欄
 - 網頁、PDF（瀏覽器列印）及 Word 報告輸出
 - 主管核准與退回操作
-- 稽核日誌篩選、操作明細及異動前後內容對照
+- 稽核日誌操作紀錄列表與匯出示例
 - 帳號管理、組織階層資料範圍及角色權限矩陣
+- Sidebar 使用者選單、變更密碼提示、登出與登入流程
 
 備註
 - 本版本為純前端互動 Demo，所有案件與文件內容均為虛構示例。

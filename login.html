@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="司法文件智慧平台登入頁面 Demo">
+  <title>登入｜司法文件智慧平台</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/auth.css">
+</head>
+
+<body class="auth-body">
+  <main class="auth-shell">
+    <section class="auth-intro" aria-labelledby="platformTitle">
+      <div class="auth-brand">
+        <span class="auth-brand-mark"><i data-lucide="landmark"></i></span>
+        <div><strong>司法文件智慧平台</strong><small>Mutual Legal Assistance</small></div>
+      </div>
+      <div class="auth-intro-copy">
+        <span class="auth-kicker"><i data-lucide="shield-check"></i>安全的跨境司法文件工作環境</span>
+        <h1 id="platformTitle">讓文件處理、AI 校對與複核流程集中完成</h1>
+        <p>登入後，系統將依所屬組織節點與職務角色，顯示可查看及可操作的案件資料。</p>
+        <ul class="auth-features">
+          <li><i data-lucide="scan-text"></i><span><strong>AI 文件處理</strong><small>OCR、欄位擷取與異常標示</small></span></li>
+          <li><i data-lucide="git-compare-arrows"></i><span><strong>人工覆核軌跡</strong><small>保留原始結果與修正版本</small></span></li>
+          <li><i data-lucide="lock-keyhole"></i><span><strong>分層資料權限</strong><small>依科別、股別及職位限制資料範圍</small></span></li>
+        </ul>
+      </div>
+      <p class="auth-intro-foot">本系統僅供經授權人員使用，所有操作均留存稽核紀錄。</p>
+    </section>
+
+    <section class="auth-form-area" aria-labelledby="loginHeading">
+      <div class="auth-card">
+        <div class="auth-card-head">
+          <span class="auth-card-icon"><i data-lucide="user-round-check"></i></span>
+          <div><h2 id="loginHeading">登入系統</h2><p>請使用您的機關帳號登入</p></div>
+        </div>
+        <form id="loginForm" novalidate>
+          <div class="auth-field">
+            <label for="loginAccount">使用者帳號</label>
+            <div class="auth-input"><i data-lucide="user-round"></i><input class="form-control" id="loginAccount"
+                name="account" autocomplete="username" value="wang.xm" required></div>
+          </div>
+          <div class="auth-field">
+            <label for="loginPassword">密碼</label>
+            <div class="auth-input auth-input--password"><i data-lucide="lock-keyhole"></i><input class="form-control"
+                id="loginPassword" name="password" type="password" autocomplete="current-password"
+                value="Demo1234!" required><button class="auth-password-toggle" id="togglePassword" type="button"
+                aria-label="顯示密碼" aria-pressed="false"><i data-lucide="eye"></i></button></div>
+          </div>
+          <div class="auth-options">
+            <label><input class="form-check-input" type="checkbox">保持登入</label>
+            <button class="auth-link" id="forgotPassword" type="button">忘記密碼？</button>
+          </div>
+          <div class="auth-message" id="loginMessage" role="status" hidden></div>
+          <button class="btn btn-primary auth-submit" id="loginButton" type="submit"><span>登入</span><i
+              data-lucide="arrow-right"></i></button>
+        </form>
+        <div class="auth-security-note"><i data-lucide="shield"></i><span>密碼及身分驗證資訊將透過安全連線傳送。</span></div>
+      </div>
+      <p class="auth-help">如無法登入，請聯繫系統管理員協助處理。</p>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="js/features/login.js"></script>
+</body>
+
+</html>

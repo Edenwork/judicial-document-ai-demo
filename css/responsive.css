@@ -48,6 +48,13 @@
     display: none;
   }
 
+  .user-menu {
+    right: auto;
+    bottom: 0;
+    left: calc(100% + 8px);
+    width: 210px;
+  }
+
   .nav-item-btn {
     justify-content: center;
     padding-inline: 8px;
@@ -100,6 +107,13 @@
   .nav-label,
   .user-copy {
     display: block;
+  }
+
+  .user-menu {
+    right: 0;
+    bottom: calc(100% + 9px);
+    left: 0;
+    width: auto;
   }
 
   .nav-item-btn {
