@@ -1,0 +1,95 @@
+(function (global) {
+  "use strict";
+
+  const App = global.JudicialApp;
+  const reportStages = ["讀取選取文件", "整理相關內容", "彙整欄位與數據", "產生報告摘要", "整理報告格式"];
+
+  App.initReports = function () {
+    function downloadWordReport() {
+      const content =
+        '<html><head><meta charset="utf-8"></head><body>' +
+        "<h1>跨境司法互助案件彙整報告</h1>" +
+        "<p>涵蓋日本、美國、新加坡及香港等四個司法管轄區。</p>" +
+        "<h2>主要證據類型</h2>" +
+        "<ul><li>銀行交易與匯款資料</li><li>平台帳號與登入紀錄</li><li>公司登記與實質受益人</li><li>犯罪所得凍結資料</li></ul>" +
+        "</body></html>";
+      const blob = new Blob([content], { type: "application/msword;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const downloadLink = document.createElement("a");
+      downloadLink.href = url;
+      downloadLink.download = "司法互助案件彙整報告.doc";
+      downloadLink.click();
+      URL.revokeObjectURL(url);
+      App.showToast("Word 報告已產生並開始下載。");
+    }
+
+    function finishReport(outputType) {
+      if (outputType === "word") {
+        downloadWordReport();
+        return;
+      }
+
+      App.showOverlay("reportPreview");
+      if (outputType === "pdf") {
+        App.showToast("報告已完成，請使用「列印／另存 PDF」輸出。");
+      }
+    }
+
+    function startReport(outputType) {
+      const progressOverlay = document.getElementById("reportProgress");
+      let stageIndex = 0;
+
+      App.showOverlay("reportProgress");
+      document.getElementById("reportStages").innerHTML = reportStages
+        .map(function (stage, index) {
+          return '<div class="report-stage"><span class="check">' + (index + 1) + "</span><span>" + stage + "</span></div>";
+        })
+        .join("");
+
+      const timer = global.setInterval(function () {
+        document.querySelectorAll(".report-stage").forEach(function (item, index) {
+          item.classList.toggle("done", index < stageIndex);
+          item.classList.toggle("active", index === stageIndex);
+          if (index < stageIndex) item.querySelector(".check").textContent = "✓";
+        });
+
+        document.getElementById("reportProgressText").textContent =
+          stageIndex < reportStages.length ? reportStages[stageIndex] + "..." : "報告產生完成";
+        stageIndex += 1;
+
+        if (stageIndex <= reportStages.length) return;
+        global.clearInterval(timer);
+        global.setTimeout(function () {
+          App.hideOverlay(progressOverlay);
+          finishReport(outputType);
+        }, 450);
+      }, 620);
+    }
+
+    document.querySelectorAll(".report-output").forEach(function (button) {
+      button.addEventListener("click", function () {
+        startReport(button.dataset.output);
+      });
+    });
+    document.getElementById("printReport").addEventListener("click", function () {
+      global.print();
+    });
+  };
+
+  App.initSupervisor = function () {
+    document.querySelectorAll(".approve-review").forEach(function (button) {
+      button.addEventListener("click", function () {
+        button.closest(".supervisor-card").style.opacity = ".45";
+        button.disabled = true;
+        App.showToast("文件已核准並標記為審核完成。");
+      });
+    });
+
+    document.querySelectorAll(".return-review").forEach(function (button) {
+      button.addEventListener("click", function () {
+        const reason = global.prompt("請輸入退回原因：", "請重新確認資料時間範圍");
+        if (reason) App.showToast("文件已退回承辦人：" + reason);
+      });
+    });
+  };
+})(window);
