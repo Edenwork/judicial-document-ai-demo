@@ -207,7 +207,7 @@
     right: -26px;
     bottom: -34px;
     border-radius: 50%;
-    background: var(--metric-tone, var(--color-primary-100));
+    /* background: var(--metric-tone, var(--color-primary-100)); */
 }
 
 .metric-icon {
