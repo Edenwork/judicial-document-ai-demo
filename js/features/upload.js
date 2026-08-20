@@ -76,13 +76,19 @@
 
     function startProcessing() {
       const processCard = document.getElementById("processCard");
+      const statusSection = document.getElementById("uploadStatusSection");
+      const filesBeingProcessed = queue.map(function (file) {
+        return Object.assign({}, file);
+      });
       const total = queue.length;
       let stageIndex = 0;
 
+      startButton.disabled = true;
       processCard.classList.add("show");
       processCard.scrollIntoView({ behavior: "smooth", block: "center" });
       renderProcessingStages();
       document.getElementById("processCount").textContent = "0 / " + total;
+      App.uploadStatus.upsertFiles(filesBeingProcessed, "processing", processingStages[0], 5);
 
       const timer = global.setInterval(function () {
         document.querySelectorAll(".stage-item").forEach(function (item, index) {
@@ -103,6 +109,7 @@
         document.querySelectorAll(".file-stage").forEach(function (label) {
           label.textContent = activeStage;
         });
+        App.uploadStatus.upsertFiles(filesBeingProcessed, "processing", activeStage, progress);
 
         stageIndex += 1;
         if (stageIndex <= processingStages.length) return;
@@ -111,9 +118,10 @@
         document.getElementById("overallProgress").style.width = "100%";
         document.getElementById("processCount").textContent = total + " / " + total;
         document.getElementById("processCaption").textContent = "全部文件處理完成";
+        App.uploadStatus.upsertFiles(filesBeingProcessed, "completed", "處理完成", 100);
         App.showToast("AI 已完成 " + total + " 份文件的初步處理。");
         global.setTimeout(function () {
-          App.goToPage("files");
+          statusSection.scrollIntoView({ behavior: "smooth", block: "start" });
         }, 900);
       }, 700);
     }

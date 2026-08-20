@@ -185,6 +185,11 @@
     background: var(--color-neutral-100);
 }
 
+.status-processing {
+    color: var(--color-processing);
+    background: var(--color-processing-100);
+}
+
 .metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -6,6 +6,7 @@
 
   App.initCore();
   App.initFileList();
+  App.initUploadStatus();
   App.initUpload();
   App.initReview();
   App.initSearch();

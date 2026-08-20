@@ -11,7 +11,7 @@
 - css/base.css：全站基礎樣式。
 - css/layout.css：Sidebar、Topbar 與頁面框架。
 - css/components.css：按鈕、狀態、表格、上傳及進度元件。
-- css/pages/：各功能頁專屬樣式。
+- css/pages/：上傳狀態、校對、搜尋、關聯與報告等頁面專屬樣式。
 - css/components/overlays.css：Modal、Toast 與報告處理狀態。
 - css/responsive.css：列印及 RWD 規則。
 - js/core/app.js：導覽、Toast、Overlay 等共用功能。
@@ -31,7 +31,7 @@
 若要調整主色，優先修改 tokens.css，不需逐頁搜尋色碼。
 
 可操作功能
-- 批次上傳示例文件與 AI 處理階段動畫
+- 批次上傳示例文件、AI 處理階段動畫與處理狀態篩選
 - 文件清單篩選、勾選多份正常文件及批次確認
 - 原始請求書與 AI 擷取欄位左右對照
 - 正常欄位批次確認、異常欄位修改與主管送審
