@@ -41,7 +41,7 @@
       } catch (error) {
         // file:// 預覽可能限制 localStorage，仍可正常切換頁面。
       }
-      global.setTimeout(function () { global.location.href = "login.html"; }, 450);
+      global.setTimeout(function () { global.location.replace("login.html"); }, 450);
     });
   };
 })(window);

@@ -52,7 +52,7 @@
       // file:// 預覽可能限制 localStorage，仍可正常進入 Demo。
     }
 
-    global.setTimeout(function () { global.location.href = "index.html"; }, 850);
+    global.setTimeout(function () { global.location.replace("index.html"); }, 850);
   });
 
   [accountInput, passwordInput].forEach(function (input) {

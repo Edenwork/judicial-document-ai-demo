@@ -19,9 +19,10 @@
     if (global.lucide) global.lucide.createIcons();
   };
 
-  App.goToPage = function (pageName) {
+  App.goToPage = function (pageName, options) {
     const target = document.getElementById("page-" + pageName);
     const pageMeta = App.pageMeta[pageName];
+    const navigationOptions = options || {};
 
     if (!target || !pageMeta) return;
 
@@ -44,8 +45,17 @@
     global.scrollTo({ top: 0, behavior: "smooth" });
 
     try {
+      if (navigationOptions.skipHistory) return;
+
       const nextUrl = pageName === "files" ? location.pathname : "?page=" + pageName;
-      history.replaceState(null, "", nextUrl);
+      const shouldReturnHome = pageName === "relations" || pageName === "reports";
+
+      if (shouldReturnHome) {
+        history.replaceState({ page: "files" }, "", location.pathname);
+        history.pushState({ page: pageName }, "", nextUrl);
+      } else {
+        history.replaceState({ page: pageName }, "", nextUrl);
+      }
     } catch (error) {
       // Some browsers restrict history changes when index.html is opened via file://.
     }
@@ -110,6 +120,14 @@
         const mayClose = event.target === overlay && overlay.id !== "reportProgress";
         if (mayClose) App.hideOverlay(overlay);
       });
+    });
+
+    global.addEventListener("popstate", function (event) {
+      const pageFromUrl = new URLSearchParams(global.location.search).get("page");
+      const pageName = event.state && event.state.page
+        ? event.state.page
+        : pageFromUrl || "files";
+      App.goToPage(App.pageMeta[pageName] ? pageName : "files", { skipHistory: true });
     });
   };
 })(window);
