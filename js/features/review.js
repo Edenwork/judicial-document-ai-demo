@@ -7,7 +7,6 @@
     const fieldChecks = Array.from(document.querySelectorAll(".field-check"));
     const documentSelect = document.getElementById("caseDocumentSelect");
     const versionSelect = document.getElementById("versionSelect");
-    const archiveButton = document.getElementById("archiveDocument");
     const paperTitle = document.getElementById("reviewPaperTitle");
     const caseNumberInput = document.getElementById("reviewCaseNumber");
     const caseCountryInput = document.getElementById("reviewCaseCountry");
@@ -125,22 +124,6 @@
       });
     });
 
-    archiveButton.addEventListener("click", function () {
-      const unconfirmedCount = fieldChecks.filter(function (checkbox) {
-        return !checkbox.checked;
-      }).length;
-
-      if (unconfirmedCount) {
-        App.showToast("尚有 " + unconfirmedCount + " 個欄位未確認，請完成後再歸檔。", "warning");
-        return;
-      }
-
-      App.showToast("文件已歸檔並納入此案件。");
-      global.setTimeout(function () {
-        App.goToPage("files");
-      }, 800);
-    });
-
     documentSelect.addEventListener("change", function (event) {
       paperTitle.textContent = documentTitles[event.target.value];
       document.querySelector(".document-scroll").scrollTo({ top: 0, behavior: "smooth" });
@@ -161,8 +144,6 @@
       document.querySelectorAll("#fieldsList input, #fieldsList select, #fieldsList textarea").forEach(function (control) {
         control.disabled = isHistoricalVersion;
       });
-      archiveButton.disabled = isHistoricalVersion;
-
       if (isHistoricalVersion) {
         App.showToast("目前正在檢視歷史版本，欄位為唯讀模式。");
       }

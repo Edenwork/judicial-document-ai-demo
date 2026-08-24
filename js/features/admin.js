@@ -2,6 +2,7 @@
   "use strict";
 
   const App = global.JudicialApp;
+  const AUDIT_PAGE_SIZE = 10;
   const auditLogs = [
     {
       date: "2026-08-20",
@@ -64,6 +65,40 @@
       result: "成功",
     },
   ];
+
+  const additionalAuditLogs = [
+    ["2026-08-20", "08:52:14", "陳國勝", "國際科", "帳號管理", "修改角色權限", "角色：國際科主管", "成功"],
+    ["2026-08-20", "08:31:09", "林淑恩", "亞洲股／東南亞", "案件管理", "下載文件", "新加坡公司登記資料附件", "成功"],
+    ["2026-08-20", "08:12:46", "張雅雯", "國際科／歐洲股", "登入驗證", "帳號登入", "司法文件智慧平台", "成功"],
+    ["2026-08-20", "07:58:22", "系統服務", "系統管理", "案件管理", "批次匯入文件", "ML-2026-0820-03，共 4 份文件", "成功"],
+    ["2026-08-19", "17:42:18", "王小明", "國際科／亞洲股", "AI 覆核", "確認 AI 摘要", "加拿大電子郵件證據保全請求書", "成功"],
+    ["2026-08-19", "16:35:51", "徐美婷", "國際科／美洲股", "案件管理", "修改案件國家", "ML-2026-0818-04", "成功"],
+    ["2026-08-19", "15:27:33", "林志宏", "系統管理", "帳號管理", "停用使用者帳號", "帳號：lin.cy", "成功"],
+    ["2026-08-19", "14:19:07", "何宗翰", "兩岸科", "登入驗證", "帳號登入", "司法文件智慧平台", "失敗"],
+    ["2026-08-19", "13:08:44", "黃建國", "國兩司", "AI 覆核", "退回人工審核", "德國電信通聯紀錄調取請求書", "成功"],
+    ["2026-08-19", "11:56:20", "陳怡君", "國際科／歐洲股", "案件管理", "查詢文件", "法國公司實質受益人資料請求書", "成功"],
+    ["2026-08-19", "10:43:05", "王小明", "國際科／亞洲股", "AI 覆核", "修正證據類型標籤", "日本虛擬資產交易資料補充請求書", "成功"],
+    ["2026-08-19", "09:28:39", "系統服務", "系統管理", "案件管理", "OCR 處理失敗", "澳洲虛擬資產錢包交易紀錄", "失敗"],
+    ["2026-08-18", "17:16:12", "張雅雯", "國際科／歐洲股", "案件管理", "新增案件文件", "英國證人訊問筆錄與認證文件", "成功"],
+    ["2026-08-18", "16:04:58", "林志宏", "系統管理", "帳號管理", "新增使用者帳號", "帳號：chang.yw", "成功"],
+    ["2026-08-18", "14:51:31", "林淑恩", "亞洲股／東南亞", "AI 覆核", "批次確認正常欄位", "新加坡公司登記與實質受益人請求書", "成功"],
+    ["2026-08-18", "13:37:26", "徐美婷", "國際科／美洲股", "登入驗證", "變更密碼", "帳號：hsu.mt", "成功"],
+    ["2026-08-18", "11:22:43", "陳國勝", "國際科", "帳號管理", "解除帳號鎖定", "帳號：wang.xm", "成功"],
+    ["2026-08-18", "09:09:15", "系統服務", "系統管理", "案件管理", "發布 API 資料", "ML-2026-0815-06", "成功"],
+  ].map(function (entry) {
+    return {
+      date: entry[0],
+      time: entry[1],
+      user: entry[2],
+      unit: entry[3],
+      module: entry[4],
+      action: entry[5],
+      target: entry[6],
+      result: entry[7],
+    };
+  });
+
+  auditLogs.push.apply(auditLogs, additionalAuditLogs);
 
   const accounts = [
     { id: "huang.jg", name: "黃建國", unit: "國兩司", orgId: "directorate", role: "司長", lastLogin: "今日 14:06", status: "啟用" },
@@ -151,15 +186,25 @@
 
   App.initAdmin = function () {
     const auditTableBody = document.getElementById("auditTableBody");
+    const auditPrevPage = document.getElementById("auditPrevPage");
+    const auditNextPage = document.getElementById("auditNextPage");
+    const auditPageNumbers = document.getElementById("auditPageNumbers");
+    const auditPageSummary = document.getElementById("auditPageSummary");
     const accountTableBody = document.getElementById("accountTableBody");
     const organizationTree = document.getElementById("organizationTree");
     const allOrganizationNodes = flattenOrganization(organization);
     let selectedOrganizationId = "asia";
+    let currentAuditPage = 1;
 
     function renderAuditTable() {
       const logs = auditLogs;
+      const totalPages = Math.max(1, Math.ceil(logs.length / AUDIT_PAGE_SIZE));
+      currentAuditPage = Math.min(Math.max(currentAuditPage, 1), totalPages);
+      const startIndex = (currentAuditPage - 1) * AUDIT_PAGE_SIZE;
+      const pageLogs = logs.slice(startIndex, startIndex + AUDIT_PAGE_SIZE);
       document.getElementById("auditResultCount").textContent = logs.length + " 筆紀錄";
-      auditTableBody.innerHTML = logs.map(function (log) {
+      document.getElementById("auditEmpty").hidden = logs.length > 0;
+      auditTableBody.innerHTML = pageLogs.map(function (log) {
         return "<tr>" +
           "<td>" + escapeHtml(log.time) + '<span class="doc-sub">' + escapeHtml(log.date.replaceAll("-", "/")) + "</span></td>" +
           '<td><div class="audit-user"><strong>' + escapeHtml(log.user) + "</strong><span>" + escapeHtml(log.unit) + "</span></div></td>" +
@@ -167,6 +212,16 @@
           "<td>" + escapeHtml(log.target) + "</td>" +
           '<td><span class="badge-status ' + getStatusClass(log.result) + '">' + escapeHtml(log.result) + "</span></td>" +
           "</tr>";
+      }).join("");
+      auditPageSummary.textContent = "第 " + (startIndex + 1) + "–" + (startIndex + pageLogs.length) + " 筆，共 " + logs.length + " 筆";
+      auditPrevPage.disabled = currentAuditPage === 1;
+      auditNextPage.disabled = currentAuditPage === totalPages;
+      auditPageNumbers.innerHTML = Array.from({ length: totalPages }, function (_, index) {
+        const pageNumber = index + 1;
+        const isCurrent = pageNumber === currentAuditPage;
+        return '<button class="btn btn-sm audit-page-button' + (isCurrent ? " active" : "") + '" data-audit-page="' +
+          pageNumber + '" type="button" aria-label="第 ' + pageNumber + ' 頁" aria-current="' +
+          (isCurrent ? "page" : "false") + '">' + pageNumber + "</button>";
       }).join("");
       App.renderIcons();
     }
@@ -273,6 +328,20 @@
     });
     document.getElementById("exportAuditLog").addEventListener("click", function () {
       App.showToast("稽核紀錄匯出工作已建立。");
+    });
+    auditPrevPage.addEventListener("click", function () {
+      currentAuditPage -= 1;
+      renderAuditTable();
+    });
+    auditNextPage.addEventListener("click", function () {
+      currentAuditPage += 1;
+      renderAuditTable();
+    });
+    auditPageNumbers.addEventListener("click", function (event) {
+      const pageButton = event.target.closest("[data-audit-page]");
+      if (!pageButton) return;
+      currentAuditPage = Number(pageButton.dataset.auditPage);
+      renderAuditTable();
     });
     document.getElementById("saveRolePermissions").addEventListener("click", function () {
       App.showToast("角色權限設定已儲存，異動已寫入稽核日誌。");
