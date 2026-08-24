@@ -2,6 +2,10 @@
     padding: 0;
 }
 
+.review-mode .topbar {
+    display: none;
+}
+
 .review-context {
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
@@ -87,17 +91,35 @@
 }
 
 .review-layout {
-    height: calc(100vh - 330px);
+    height: calc(100vh - 262px);
     min-height: 560px;
     display: grid;
     grid-template-columns: minmax(430px, 1.08fr) minmax(420px, .92fr);
 }
 
 .document-pane {
-    overflow: auto;
-    padding: 26px;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     background: var(--color-background-document);
     border-right: 1px solid var(--color-border-strong);
+}
+
+.document-scroll {
+    min-height: 0;
+    flex: 1;
+    overflow: auto;
+    padding: 26px;
+}
+
+.document-footer {
+    flex: 0 0 auto;
+    padding: 13px 26px;
+    background: var(--color-surface-glass-strong);
+    border-top: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sticky);
 }
 
 .paper {
@@ -154,13 +176,15 @@
 
 .fields-pane {
     min-width: 0;
-    overflow: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     background: var(--color-surface);
 }
 
 .fields-sticky {
-    position: sticky;
-    top: 0;
+    flex: 0 0 auto;
     z-index: 3;
     padding: 14px 18px;
     background: var(--color-surface-glass-strong);
@@ -178,7 +202,10 @@
 }
 
 .fields-list {
-    padding: 12px 18px 90px;
+    min-height: 0;
+    flex: 1;
+    overflow: auto;
+    padding: 12px 18px;
 }
 
 .field-group-title {
@@ -267,8 +294,7 @@
 }
 
 .review-footer {
-    position: sticky;
-    bottom: 0;
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     gap: 9px;

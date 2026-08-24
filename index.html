@@ -142,6 +142,8 @@
                     <th>案件狀態</th>
                     <th>更新時間</th>
                     <th>操作</th>
+                    <th>回拋狀態</th>
+                    <th><span class="return-target-head">是否回拋<small>司互案管系統</small></span></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -155,6 +157,11 @@
                     <td><span class="badge-status status-info">待處理</span></td>
                     <td>2026/08/24 14:32</td>
                     <td><button class="btn btn-sm btn-primary open-review" type="button">處理</button></td>
+                    <td><button class="badge-status status-info return-config-trigger" data-return-status="待回拋"
+                        type="button">待回拋</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseJapan" type="checkbox" role="switch"><label class="visually-hidden"
+                          for="returnCaseJapan">日本銀行交易紀錄調取案是否回拋</label></div></td>
                   </tr>
                   <tr data-status="manual" data-search="美國 平台帳號 ml-2026-0818-04">
                     <td><input class="form-check-input" type="checkbox" disabled aria-label="需人工處理案件不可批次選取"></td>
@@ -166,6 +173,11 @@
                     <td><span class="badge-status status-warn">需人工處理</span></td>
                     <td>2026/08/24 13:54</td>
                     <td><button class="btn btn-sm btn-primary open-review" type="button">處理</button></td>
+                    <td><button class="badge-status status-warn return-config-trigger" data-return-status="需人工處理"
+                        type="button">需人工處理</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseUsa" type="checkbox" role="switch"><label class="visually-hidden"
+                          for="returnCaseUsa">美國平台帳號資料保全案是否回拋</label></div></td>
                   </tr>
                   <tr data-status="processing" data-search="新加坡 公司登記 ml-2026-0818-02">
                     <td><input class="form-check-input" type="checkbox" disabled aria-label="處理中案件不可批次選取"></td>
@@ -177,6 +189,11 @@
                     <td><span class="badge-status status-processing">處理中</span></td>
                     <td>2026/08/24 11:40</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
+                    <td><button class="badge-status status-info return-config-trigger" data-return-status="待回拋"
+                        type="button">待回拋</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseSingapore" type="checkbox" role="switch" checked><label class="visually-hidden"
+                          for="returnCaseSingapore">新加坡公司登記資料協查案是否回拋</label></div></td>
                   </tr>
                   <tr data-status="completed" data-search="英國 證人訊問 ml-2026-0817-08">
                     <td><input class="form-check-input" type="checkbox" disabled aria-label="已完成案件不可批次選取"></td>
@@ -188,6 +205,11 @@
                     <td><span class="badge-status status-ok">完成</span></td>
                     <td>2026/08/23 17:21</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
+                    <td><button class="badge-status status-ok return-config-trigger" data-return-status="已回拋"
+                        type="button">已回拋</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseUk" type="checkbox" role="switch" checked><label class="visually-hidden"
+                          for="returnCaseUk">英國證人訊問協助案是否回拋</label></div></td>
                   </tr>
                   <tr data-status="failed" data-search="德國 電信紀錄 ml-2026-0817-03">
                     <td><input class="form-check-input" type="checkbox" disabled aria-label="處理失敗案件不可批次選取"></td>
@@ -199,6 +221,11 @@
                     <td><span class="badge-status status-danger">失敗</span></td>
                     <td>2026/08/23 16:08</td>
                     <td><button class="btn btn-sm btn-primary open-review" type="button">處理</button></td>
+                    <td><button class="badge-status status-danger return-config-trigger" data-return-status="回拋失敗"
+                        type="button">回拋失敗</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseGermany" type="checkbox" role="switch"><label class="visually-hidden"
+                          for="returnCaseGermany">德國電信紀錄調取案是否回拋</label></div></td>
                   </tr>
                   <tr data-status="completed" data-search="香港 凍結資產 ml-2026-0815-06">
                     <td><input class="form-check-input" type="checkbox" disabled aria-label="已完成案件不可批次選取"></td>
@@ -210,6 +237,11 @@
                     <td><span class="badge-status status-ok">完成</span></td>
                     <td>2026/08/18 10:25</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
+                    <td><button class="badge-status status-ok return-config-trigger" data-return-status="已回拋"
+                        type="button">已回拋</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseHongKong" type="checkbox" role="switch" checked><label class="visually-hidden"
+                          for="returnCaseHongKong">香港犯罪所得凍結協助案是否回拋</label></div></td>
                   </tr>
                 </tbody>
               </table>
@@ -273,8 +305,7 @@
         </section>
         <section class="page review-page" id="page-review" aria-label="文件校對">
           <div class="review-context">
-            <div class="review-toolbar"><button class="icon-btn" data-go="files" type="button" aria-label="返回案件清單"><i
-                  data-lucide="arrow-left"></i></button>
+            <div class="review-toolbar">
               <div class="review-title"><strong>美國平台帳號資料保全案</strong><span
                   id="reviewCaseSummary">ML-2026-0818-04・需人工處理</span></div>
             </div>
@@ -314,7 +345,8 @@
           </div>
           <div class="review-layout">
             <section class="document-pane" aria-label="原始文件">
-              <article class="paper">
+              <div class="document-scroll">
+                <article class="paper">
                 <div class="paper-kicker">中華民國司法互助請求</div>
                 <h3 id="reviewPaperTitle">司法互助請求書</h3>
                 <div class="paper-ref" id="reviewPaperCaseNumber">案號：ML-2026-0818-04</div>
@@ -331,8 +363,11 @@
                 <div class="paper-section">四、希望回覆期限</div>
                 <p>考量本案偵查期程，敬請於 <mark data-source="deadline">2026 年 10 月 30 日</mark> 前提供前述資料。</p>
                 <p class="mt-5">此致<br>美利堅合眾國司法部</p>
-                <p class="text-end mt-5">請求機關：臺灣臺北地方檢察署<br>中華民國 2026 年 8 月 18 日</p>
-              </article>
+                  <p class="text-end mt-5">請求機關：臺灣臺北地方檢察署<br>中華民國 2026 年 8 月 18 日</p>
+                </article>
+              </div>
+              <div class="document-footer"><button class="btn btn-outline-primary" data-go="files" type="button"><i
+                    data-lucide="arrow-left"></i>返回案件管理</button></div>
             </section>
             <section class="fields-pane" aria-label="AI 擷取欄位">
               <div class="fields-sticky">
@@ -914,6 +949,45 @@
           <li>建議比對回覆函與登入紀錄附件的資料涵蓋期間是否一致。</li>
         </ul>
       </article>
+    </div>
+  </div>
+  <div class="overlay" id="returnConfigModal" role="dialog" aria-modal="true" aria-labelledby="returnConfigTitle">
+    <div class="modal-card return-config-modal">
+      <div class="modal-head">
+        <div><span class="section-eyebrow">回拋至司互案管系統</span><h3 id="returnConfigTitle">設定回拋內容</h3></div>
+        <button class="icon-btn close-overlay" type="button" aria-label="關閉回拋設定"><i
+            data-lucide="x"></i></button>
+      </div>
+      <div class="modal-content-inner">
+        <div class="return-config-summary">
+          <div><span>案件</span><strong id="returnConfigCaseName">美國平台帳號資料保全案</strong></div>
+          <div><span>目標系統</span><strong>司互案管系統</strong></div>
+          <div><span>回拋狀態</span><strong id="returnConfigStatus">待回拋</strong></div>
+        </div>
+        <fieldset class="return-fieldset">
+          <div class="return-fieldset-head"><legend>可回拋欄位／標籤</legend><label><input
+                class="form-check-input" id="selectAllReturnFields" type="checkbox">全選</label></div>
+          <p class="subtle small">人工勾選本次允許司互案管系統引用的資料範圍。</p>
+          <div class="return-field-grid">
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>案號</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>國家</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>受請求國家／機關</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>請求機關</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>案件類型</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>證據類型標籤</label>
+            <label><input class="form-check-input return-field-check" type="checkbox">案件摘要</label>
+            <label><input class="form-check-input return-field-check" type="checkbox">關聯電子郵件</label>
+          </div>
+        </fieldset>
+        <div class="return-api-option">
+          <div><strong>發布至 API 服務</strong><span>啟用後，司互案管系統可透過 API 引用已勾選欄位。</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" id="publishReturnApi" type="checkbox"
+              role="switch" checked><label class="visually-hidden" for="publishReturnApi">發布至 API 服務</label></div>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4"><button class="btn btn-outline-secondary close-overlay"
+            type="button">取消</button><button class="btn btn-primary" id="saveReturnConfig" type="button"><i
+              data-lucide="save"></i>儲存回拋設定</button></div>
+      </div>
     </div>
   </div>
   <div class="overlay" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">

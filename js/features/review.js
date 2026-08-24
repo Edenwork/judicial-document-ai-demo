@@ -143,7 +143,7 @@
 
     documentSelect.addEventListener("change", function (event) {
       paperTitle.textContent = documentTitles[event.target.value];
-      document.querySelector(".document-pane").scrollTo({ top: 0, behavior: "smooth" });
+      document.querySelector(".document-scroll").scrollTo({ top: 0, behavior: "smooth" });
       updateDocumentNavigation();
       App.showToast("已切換至「" + event.target.options[event.target.selectedIndex].text + "」。");
     });

@@ -36,6 +36,7 @@
 
     document.getElementById("topTitle").textContent = pageMeta[0];
     document.getElementById("topSubtitle").textContent = pageMeta[1];
+    document.body.classList.toggle("review-mode", pageName === "review");
     document.getElementById("sidebar").classList.remove("open");
     global.scrollTo({ top: 0, behavior: "smooth" });
 

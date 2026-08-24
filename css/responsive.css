@@ -241,6 +241,10 @@
   .report-grid {
     grid-template-columns: 1fr;
   }
+
+  .return-config-summary {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -268,6 +272,10 @@
 
   .review-update-button {
     width: 100%;
+  }
+
+  .return-field-grid {
+    grid-template-columns: 1fr;
   }
 
 }

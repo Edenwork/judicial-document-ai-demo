@@ -43,6 +43,124 @@
     padding: 22px;
 }
 
+.return-config-modal {
+    width: min(720px, 100%);
+}
+
+.return-config-summary {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr .8fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.return-config-summary>div {
+    padding: 12px;
+    border-radius: var(--radius-md);
+    background: var(--color-background);
+}
+
+.return-config-summary span,
+.return-config-summary strong,
+.return-api-option span {
+    display: block;
+}
+
+.return-config-summary span {
+    margin-bottom: 4px;
+    color: var(--color-text-muted);
+    font-size: 10px;
+}
+
+.return-config-summary strong {
+    color: var(--color-text-strong);
+    font-size: 12px;
+}
+
+.return-fieldset {
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.return-fieldset-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.return-fieldset-head legend {
+    width: auto;
+    margin: 0;
+    color: var(--color-text-strong);
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.return-fieldset-head label,
+.return-field-grid label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.return-fieldset-head label {
+    color: var(--color-primary-700);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.return-field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 14px;
+}
+
+.return-field-grid label {
+    padding: 10px 11px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    background: var(--color-surface-subtle);
+    font-size: 12px;
+}
+
+.return-api-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-primary-200);
+    border-radius: var(--radius-lg);
+    background: var(--color-primary-50);
+}
+
+.return-api-option strong {
+    color: var(--color-primary-800);
+}
+
+.return-api-option span {
+    margin-top: 3px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+}
+
+.return-api-option .form-check-input {
+    width: 2.5rem;
+    height: 1.3rem;
+    cursor: pointer;
+}
+
+.return-api-option .form-check-input:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
 .ai-orbit {
     width: 92px;
     height: 92px;
