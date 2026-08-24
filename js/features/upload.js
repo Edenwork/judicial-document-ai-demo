@@ -22,7 +22,14 @@
     const dropzone = document.getElementById("dropzone");
     const queueContainer = document.getElementById("uploadQueue");
     const startButton = document.getElementById("startProcess");
+    const caseNumberInput = document.getElementById("uploadCaseNumber");
+    const countryInput = document.getElementById("uploadCountry");
     let queue = [];
+
+    function updateStartButton() {
+      const hasCaseData = caseNumberInput.value.trim() && countryInput.value.trim();
+      startButton.disabled = !queue.length || !hasCaseData;
+    }
 
     function formatFileSize(size) {
       return size ? (size / 1024 / 1024).toFixed(1) + " MB" : "2.1 MB";
@@ -31,7 +38,7 @@
     function renderQueue() {
       if (!queue.length) {
         queueContainer.innerHTML = '<div class="empty-state">尚未選擇文件</div>';
-        startButton.disabled = true;
+        updateStartButton();
         return;
       }
 
@@ -55,7 +62,7 @@
         });
       });
 
-      startButton.disabled = false;
+      updateStartButton();
       App.renderIcons();
     }
 
@@ -120,9 +127,11 @@
         document.getElementById("processCaption").textContent = "全部文件處理完成";
         App.uploadStatus.upsertFiles(filesBeingProcessed, "completed", "處理完成", 100);
         App.showToast("AI 已完成 " + total + " 份文件的初步處理。");
-        global.setTimeout(function () {
-          statusSection.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 900);
+        if (statusSection) {
+          global.setTimeout(function () {
+            statusSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 900);
+        }
       }, 700);
     }
 
@@ -147,6 +156,9 @@
         return Object.assign({}, file);
       });
       renderQueue();
+    });
+    [caseNumberInput, countryInput].forEach(function (input) {
+      input.addEventListener("input", updateStartButton);
     });
 
     ["dragenter", "dragover"].forEach(function (eventName) {

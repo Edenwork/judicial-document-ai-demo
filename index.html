@@ -216,9 +216,22 @@
             </div>
           </div>
           <div class="row g-3">
-            <div class="col-xl-8">
+            <div class="col-12">
               <div class="panel">
-                <div class="panel-body"><input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg" multiple hidden>
+                <div class="panel-body">
+                  <div class="row g-3 mb-4" aria-label="案件基本資料">
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold" for="uploadCaseNumber">案號</label>
+                      <input class="form-control" id="uploadCaseNumber" type="text" placeholder="例如：ML-2026-0824-01"
+                        autocomplete="off" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold" for="uploadCountry">國家</label>
+                      <input class="form-control" id="uploadCountry" type="text" placeholder="例如：日本"
+                        autocomplete="off" required>
+                    </div>
+                  </div>
+                  <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg" multiple hidden>
                   <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="選擇上傳文件">
                     <div class="drop-icon"><i data-lucide="files-up"></i></div>
                     <h3 class="h6 fw-bold">拖曳文件至此，或點擊選擇檔案</h3>
@@ -232,9 +245,8 @@
                     <div class="empty-state" id="queueEmpty">尚未選擇文件</div>
                   </div>
                 </div>
-                <div class="panel-header justify-content-end"><button class="btn btn-outline-secondary" data-go="files"
-                    type="button">取消</button><button class="btn btn-primary" id="startProcess" type="button" disabled><i
-                      data-lucide="sparkles"></i>開始 AI 處理</button></div>
+                <div class="panel-header justify-content-end"><button class="btn btn-primary" id="startProcess"
+                    type="button" disabled><i data-lucide="upload"></i>確認上傳</button></div>
               </div>
               <div class="panel process-card" id="processCard">
                 <div class="panel-header">
@@ -247,21 +259,6 @@
                   <div class="stage-list" id="stageList"></div>
                 </div>
               </div>
-            </div>
-            <div class="col-xl-4">
-              <aside class="panel">
-                <div class="panel-header">
-                  <h3>上傳注意事項</h3>
-                </div>
-                <div class="panel-body">
-                  <ul class="mb-0 ps-3 subtle">
-                    <li class="mb-2">原始文件將完整保留，不覆蓋原檔。</li>
-                    <li class="mb-2">AI 結果完成後仍須由承辦人確認。</li>
-                    <li class="mb-2">低信心度或缺漏欄位會標示為異常。</li>
-                    <li>每次修改及送審皆保留操作紀錄。</li>
-                  </ul>
-                </div>
-              </aside>
             </div>
           </div>
 
