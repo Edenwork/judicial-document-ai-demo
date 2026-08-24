@@ -58,7 +58,7 @@
         const badge = row.querySelector(".badge-status");
         row.dataset.status = "review";
         badge.className = "badge-status status-neutral";
-        badge.textContent = "待需人工審核";
+        badge.textContent = "需人工審核";
         checkbox.checked = false;
         checkbox.disabled = true;
       });

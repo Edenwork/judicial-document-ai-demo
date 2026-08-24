@@ -106,7 +106,7 @@
                 <option value="all">全部狀態</option>
                 <option value="normal">待承辦確認</option>
                 <option value="anomaly">需人工處理</option>
-                <option value="review">待需人工審核</option>
+                <option value="review">需人工審核</option>
                 <option value="done">審核完成</option>
               </select><button class="btn btn-sm btn-outline-secondary ms-md-auto" type="button"><i
                   data-lucide="sliders-horizontal"></i>更多篩選</button>
@@ -174,7 +174,7 @@
                     <td><span class="confidence"><span class="confidence-bar"><i style="width:88%"></i></span>88%</span>
                     </td>
                     <td>0</td>
-                    <td><span class="badge-status status-neutral">待需人工審核</span></td>
+                    <td><span class="badge-status status-neutral">需人工審核</span></td>
                     <td>昨日 17:21</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
                   </tr>
@@ -263,63 +263,7 @@
               </aside>
             </div>
           </div>
-          <section class="panel upload-status-panel" id="uploadStatusSection" aria-labelledby="uploadStatusHeading">
-            <div class="panel-header upload-status-header">
-              <div>
-                <h3 id="uploadStatusHeading">檢視處理狀態</h3>
-                <p>追蹤已上傳文件的 AI 處理進度與異常狀況。</p>
-              </div>
-              <button class="btn btn-sm btn-outline-secondary" id="refreshUploadStatus" type="button"><i
-                  data-lucide="refresh-cw"></i>重新整理</button>
-            </div>
-            <div class="panel-body">
-              <div class="status-overview" id="uploadStatusFilters" aria-label="依處理狀態篩選">
-                <button class="status-overview-card active" data-status-filter="all" type="button" aria-pressed="true">
-                  <span class="status-overview-icon"><i data-lucide="files"></i></span>
-                  <span><small>全部文件</small><strong data-status-count="all">0</strong></span>
-                </button>
-                <button class="status-overview-card" data-status-filter="pending" type="button" aria-pressed="false">
-                  <span class="status-overview-icon"><i data-lucide="clock-3"></i></span>
-                  <span><small>待處理</small><strong data-status-count="pending">0</strong></span>
-                </button>
-                <button class="status-overview-card" data-status-filter="processing" type="button" aria-pressed="false">
-                  <span class="status-overview-icon"><i data-lucide="loader-circle"></i></span>
-                  <span><small>處理中</small><strong data-status-count="processing">0</strong></span>
-                </button>
-                <button class="status-overview-card" data-status-filter="completed" type="button" aria-pressed="false">
-                  <span class="status-overview-icon"><i data-lucide="circle-check-big"></i></span>
-                  <span><small>完成</small><strong data-status-count="completed">0</strong></span>
-                </button>
-                <button class="status-overview-card" data-status-filter="failed" type="button" aria-pressed="false">
-                  <span class="status-overview-icon"><i data-lucide="circle-x"></i></span>
-                  <span><small>失敗</small><strong data-status-count="failed">0</strong></span>
-                </button>
-                <button class="status-overview-card" data-status-filter="manual" type="button" aria-pressed="false">
-                  <span class="status-overview-icon"><i data-lucide="user-round-cog"></i></span>
-                  <span><small>需人工審核</small><strong data-status-count="manual">0</strong></span>
-                </button>
-              </div>
-              <div class="status-table-wrap">
-                <table class="table status-table mb-0">
-                  <thead>
-                    <tr>
-                      <th scope="col">文件名稱</th>
-                      <th scope="col">目前階段</th>
-                      <th scope="col">處理進度</th>
-                      <th scope="col">狀態</th>
-                      <th scope="col">最後更新</th>
-                      <th scope="col"><span class="visually-hidden">操作</span></th>
-                    </tr>
-                  </thead>
-                  <tbody id="uploadStatusTable"></tbody>
-                </table>
-                <div class="status-empty" id="uploadStatusEmpty" hidden>
-                  <i data-lucide="inbox"></i>
-                  <span>此狀態目前沒有文件</span>
-                </div>
-              </div>
-            </div>
-          </section>
+
         </section>
         <section class="page review-page" id="page-review" aria-label="文件校對">
           <div class="review-toolbar"><button class="icon-btn" data-go="files" type="button" aria-label="返回文件清單"><i
@@ -906,7 +850,7 @@
           <p class="subtle mb-0">產生日期：2026 年 8 月 19 日・資料範圍：4 份司法互助文件</p>
         </div>
         <h3 class="h6 fw-bold">一、整體摘要</h3>
-        <p>本次彙整涵蓋日本、美國、新加坡及香港等四個司法管轄區，請求內容以銀行交易、平台帳號、公司登記及犯罪所得凍結資料為主。其中 2 份文件已完成承辦確認，1 份待需人工審核，1 份仍有欄位待人工確認。</p>
+        <p>本次彙整涵蓋日本、美國、新加坡及香港等四個司法管轄區，請求內容以銀行交易、平台帳號、公司登記及犯罪所得凍結資料為主。其中 2 份文件已完成承辦確認，1 份需人工審核，1 份仍有欄位待人工確認。</p>
         <div class="report-grid">
           <div class="report-stat"><strong>4</strong><span>請求國家／地區</span></div>
           <div class="report-stat"><strong>7</strong><span>主要證據類型</span></div>
