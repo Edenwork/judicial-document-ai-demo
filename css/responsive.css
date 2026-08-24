@@ -60,6 +60,10 @@
     padding-inline: 8px;
   }
 
+  .nav-item-btn--child {
+    padding-inline: 8px;
+  }
+
   .nav-count {
     position: absolute;
     margin: -25px 0 0 22px;
@@ -124,6 +128,10 @@
   .nav-item-btn {
     justify-content: flex-start;
     padding-inline: 12px;
+  }
+
+  .nav-item-btn--child {
+    padding-left: 54px;
   }
 
   .nav-count {
