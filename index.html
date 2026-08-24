@@ -375,125 +375,110 @@
               <p>以自然語言或條件查找文件，勾選後產生跨文件彙整報告。</p>
             </div>
           </div>
-          <div class="panel search-hero">
-            <span class="section-eyebrow">搜尋方式 1・自然語言查詢</span>
-            <h3>想查找哪一類案件或證據？</h3>
-            <p class="mb-0 opacity-75">系統會根據文件內容、AI 欄位與摘要找出相關文件，並標示來源。</p>
-            <div class="search-box"><i data-lucide="search"></i><input class="form-control" id="smartQuery"
-                value="找出向日本請求銀行交易紀錄的案件" aria-label="自然語言查詢"
-                aria-describedby="searchQueryHelp"><button class="btn btn-light px-4" id="smartSearch"
-                type="button"><i data-lucide="sparkles"></i>搜尋</button></div>
-            <span class="visually-hidden" id="searchQueryHelp">可輸入國家、證據類型、案件狀態或期限等自然語言問題</span>
-            <div class="example-queries"><button class="query-chip" type="button">哪些案件要求凍結犯罪所得？</button><button
-                class="query-chip" type="button">找出回覆期限在十月底前的文件</button><button class="query-chip"
-                type="button">哪些文件涉及平台帳號資料？</button></div>
+          <div class="panel search-tabs" role="tablist" aria-label="智慧搜尋方式">
+            <button class="search-tab active" id="searchTabNatural" data-search-tab="natural" type="button"
+              role="tab" aria-selected="true" aria-controls="searchPanelNatural"><i
+                data-lucide="message-circle-question"></i><span>自然語言查詢</span></button>
+            <button class="search-tab" id="searchTabFilter" data-search-tab="filter" type="button" role="tab"
+              aria-selected="false" aria-controls="searchPanelFilter" tabindex="-1"><i
+                data-lucide="list-filter"></i><span>條件式篩選</span></button>
+            <button class="search-tab" id="searchTabSelected" data-search-tab="selected" type="button" role="tab"
+              aria-selected="false" aria-controls="searchPanelSelected" tabindex="-1"><i
+                data-lucide="list-checks"></i><span>多文件勾選</span><span class="search-tab-count"
+                id="selectedTabCount">0</span></button>
           </div>
 
-          <div class="search-workspace">
-            <aside class="panel search-filter-panel" aria-labelledby="filterHeading">
+          <div class="search-tab-panel" id="searchPanelNatural" role="tabpanel" aria-labelledby="searchTabNatural">
+            <div class="panel search-hero">
+              <span class="section-eyebrow">自然語言查詢</span>
+              <h3>想查找哪一類案件或證據？</h3>
+              <p class="mb-0 opacity-75">系統會根據文件內容、AI 欄位與摘要找出相關文件，並標示符合原因。</p>
+              <div class="search-box"><i data-lucide="search"></i><input class="form-control" id="smartQuery"
+                  value="找出向日本請求銀行交易紀錄的案件" aria-label="自然語言查詢"
+                  aria-describedby="searchQueryHelp"><button class="btn btn-light px-4" id="smartSearch"
+                  type="button"><i data-lucide="sparkles"></i>開始搜尋</button></div>
+              <span class="visually-hidden" id="searchQueryHelp">可輸入國家、證據類型、案件狀態或期限等自然語言問題</span>
+              <div class="example-queries"><button class="query-chip" type="button">哪些案件要求凍結犯罪所得？</button><button
+                  class="query-chip" type="button">找出回覆期限在十月底前的文件</button><button class="query-chip"
+                  type="button">哪些文件涉及平台帳號資料？</button></div>
+            </div>
+          </div>
+
+          <div class="search-tab-panel" id="searchPanelFilter" role="tabpanel" aria-labelledby="searchTabFilter" hidden>
+            <section class="panel search-filter-panel" aria-labelledby="filterHeading">
               <div class="panel-header search-section-head">
-                <div>
-                  <span class="section-eyebrow">搜尋方式 2</span>
-                  <h3 id="filterHeading">條件式篩選</h3>
-                </div>
-                <button class="icon-btn search-filter-toggle" id="filterToggle" type="button"
-                  aria-label="展開或收合篩選條件" aria-expanded="true" aria-controls="filterBody"><i
-                    data-lucide="sliders-horizontal"></i></button>
+                <div><span class="section-eyebrow">條件式篩選</span><h3 id="filterHeading">設定文件篩選條件</h3></div>
+                <span class="subtle">可單獨或組合使用多個條件</span>
               </div>
               <form class="search-filter-body" id="filterBody">
-                <div class="filter-field"><label for="filterCase">案號</label><input class="form-control form-control-sm"
-                    id="filterCase" type="search" placeholder="例如 ML-2026"></div>
-                <div class="filter-field"><label for="filterCountry">請求國家／地區</label><select
-                    class="form-select form-select-sm" id="filterCountry">
-                    <option value="">全部國家／地區</option>
-                    <option>日本</option>
-                    <option>美國</option>
-                    <option>新加坡</option>
-                    <option>英國</option>
-                    <option>香港</option>
-                  </select></div>
-                <div class="filter-field"><label for="filterEvidence">證據類型</label><select
-                    class="form-select form-select-sm" id="filterEvidence">
-                    <option value="">全部證據類型</option>
-                    <option value="銀行交易">銀行帳戶／交易紀錄</option>
-                    <option value="平台帳號">電信／平台電子證據</option>
-                    <option value="公司登記">公司登記／受益人</option>
-                    <option value="證人訊問">證人訊問／證詞</option>
-                    <option value="犯罪所得">犯罪所得／凍結</option>
-                  </select></div>
-                <div class="filter-field"><label for="filterStatus">處理狀態</label><select
-                    class="form-select form-select-sm" id="filterStatus">
-                    <option value="">全部狀態</option>
-                    <option value="完成">完成</option>
-                    <option value="處理中">處理中</option>
-                    <option value="待複核">待複核</option>
-                    <option value="需人工審核">需人工審核</option>
-                  </select></div>
-                <div class="filter-field"><label for="filterAnomaly">AI 判定</label><select
-                    class="form-select form-select-sm" id="filterAnomaly">
-                    <option value="">全部判定</option>
-                    <option value="normal">正常</option>
-                    <option value="anomaly">異常</option>
-                  </select></div>
-                <div class="filter-field"><label for="filterDate">上傳日期</label><select
-                    class="form-select form-select-sm" id="filterDate">
-                    <option value="">不限日期</option>
-                    <option value="7">最近 7 天</option>
-                    <option value="30">最近 30 天</option>
-                    <option value="90">最近 90 天</option>
-                  </select></div>
-                <div class="search-filter-actions"><button class="btn btn-sm btn-outline-secondary" id="resetFilters"
-                    type="button"><i data-lucide="rotate-ccw"></i>清除條件</button><span id="filterResultCount"
-                    aria-live="polite">6 份符合</span></div>
+                <div class="search-filter-grid">
+                  <div class="filter-field"><label for="filterCase">案號</label><input class="form-control"
+                      id="filterCase" type="search" placeholder="例如 ML-2026"></div>
+                  <div class="filter-field"><label for="filterCountry">請求國家／地區</label><select
+                      class="form-select" id="filterCountry"><option value="">全部國家／地區</option><option>日本</option><option>美國</option><option>新加坡</option><option>英國</option><option>香港</option></select></div>
+                  <div class="filter-field"><label for="filterEvidence">證據類型</label><select
+                      class="form-select" id="filterEvidence"><option value="">全部證據類型</option><option value="銀行交易">銀行帳戶／交易紀錄</option><option value="平台帳號">電信／平台電子證據</option><option value="公司登記">公司登記／受益人</option><option value="證人訊問">證人訊問／證詞</option><option value="犯罪所得">犯罪所得／凍結</option></select></div>
+                  <div class="filter-field"><label for="filterStatus">處理狀態</label><select
+                      class="form-select" id="filterStatus"><option value="">全部狀態</option><option value="完成">完成</option><option value="處理中">處理中</option><option value="待複核">待複核</option><option value="需人工審核">需人工審核</option></select></div>
+                  <div class="filter-field"><label for="filterAnomaly">AI 判定</label><select
+                      class="form-select" id="filterAnomaly"><option value="">全部判定</option><option value="normal">正常</option><option value="anomaly">異常</option></select></div>
+                  <div class="filter-field"><label for="filterDate">上傳日期</label><select
+                      class="form-select" id="filterDate"><option value="">不限日期</option><option value="7">最近 7 天</option><option value="30">最近 30 天</option><option value="90">最近 90 天</option></select></div>
+                </div>
+                <div class="search-filter-actions"><button class="btn btn-outline-secondary" id="resetFilters"
+                    type="button"><i data-lucide="rotate-ccw"></i>清除條件</button><div class="d-flex align-items-center gap-3"><span
+                      id="filterResultCount" aria-live="polite"></span><button class="btn btn-primary" id="applyFilters"
+                      type="submit"><i data-lucide="search"></i>套用篩選</button></div></div>
               </form>
-            </aside>
-
-            <section class="panel search-results" id="searchResults" aria-labelledby="resultsHeading">
-              <div class="panel-header search-results-head">
-                <div>
-                  <span class="section-eyebrow">搜尋結果</span>
-                  <h3 id="resultsHeading">相關文件</h3>
-                </div>
-                <span class="search-result-count" id="searchResultCount">找到 6 份文件</span>
-              </div>
-              <div class="search-selection-toolbar">
-                <label><input class="form-check-input" id="selectVisibleResults" type="checkbox">選取本頁全部文件</label>
-                <span class="subtle" id="searchModeSummary">依自然語言與篩選條件顯示</span>
-              </div>
-              <div id="resultsBody" aria-live="polite"></div>
             </section>
+          </div>
 
-            <aside class="panel search-selection-panel" aria-labelledby="selectedHeading">
-              <div class="panel-header search-section-head">
-                <div>
-                  <span class="section-eyebrow">搜尋方式 3</span>
-                  <h3 id="selectedHeading">已選文件</h3>
+          <section class="panel search-results" id="searchResults" aria-labelledby="resultsHeading" hidden>
+            <div class="panel-header search-results-head">
+              <div><span class="section-eyebrow">搜尋結果</span><h3 id="resultsHeading">相關文件</h3></div>
+              <span class="search-result-count" id="searchResultCount"></span>
+            </div>
+            <div class="search-selection-toolbar">
+              <label><input class="form-check-input" id="selectVisibleResults" type="checkbox">選取本頁全部文件</label>
+              <span class="subtle" id="searchModeSummary"></span>
+            </div>
+            <div id="resultsBody" aria-live="polite"></div>
+          </section>
+
+          <div class="search-tab-panel" id="searchPanelSelected" role="tabpanel" aria-labelledby="searchTabSelected" hidden>
+            <section class="panel search-selection-workspace" aria-labelledby="selectedHeading">
+              <div class="panel-header search-selected-head">
+                <div><span class="section-eyebrow">多文件勾選</span><h3 id="selectedHeading">已選文件</h3></div>
+                <div class="d-flex align-items-center gap-2"><span class="selected-count" id="searchSelectedCount">0</span><button
+                    class="btn btn-sm btn-outline-secondary" id="clearSelectedDocuments" type="button" disabled><i
+                      data-lucide="trash-2"></i>清除全部</button></div>
+              </div>
+              <div class="search-selected-layout">
+                <div class="selected-documents" id="selectedDocuments">
+                  <div class="selection-empty"><i data-lucide="files"></i><strong>尚未選取文件</strong><span>請先透過自然語言查詢或條件式篩選找到文件。</span><div
+                      class="selection-empty-actions"><button class="btn btn-sm btn-primary" data-open-search-tab="natural"
+                        type="button">前往自然語言查詢</button><button class="btn btn-sm btn-outline-secondary"
+                        data-open-search-tab="filter" type="button">前往條件式篩選</button></div></div>
                 </div>
-                <span class="selected-count" id="searchSelectedCount">0</span>
+                <div class="search-report-controls">
+                  <h4>彙整報告設定</h4>
+                  <div class="filter-field"><label for="searchReportName">報告名稱</label><input class="form-control"
+                      id="searchReportName" value="司法互助案件彙整報告"></div>
+                  <div class="filter-field"><label for="searchReportType">報告用途</label><select
+                      class="form-select" id="searchReportType"><option>案件摘要</option><option>證據彙整</option><option>異常文件清單</option><option>需人工審核報告</option></select></div>
+                  <div class="filter-field"><label for="searchReportInstruction">補充要求</label><textarea
+                      class="form-control" id="searchReportInstruction" rows="3"
+                      placeholder="例如：依國家整理證據類型"></textarea></div>
+                  <span class="search-report-hint">AI 將只讀取已勾選的文件內容。</span>
+                  <div class="search-report-actions"><button class="btn btn-primary report-output search-report-output"
+                      data-output="web" type="button" disabled><i data-lucide="panels-top-left"></i>網頁報告</button><button
+                      class="btn btn-outline-secondary report-output search-report-output" data-output="pdf" type="button"
+                      disabled><i data-lucide="file-down"></i>PDF</button><button
+                      class="btn btn-outline-secondary report-output search-report-output" data-output="word" type="button"
+                      disabled><i data-lucide="file-type-2"></i>Word</button></div>
+                </div>
               </div>
-              <div class="selected-documents" id="selectedDocuments">
-                <div class="selection-empty"><i data-lucide="files"></i><strong>尚未選取文件</strong><span>從搜尋結果勾選要彙整的文件</span></div>
-              </div>
-              <div class="search-report-controls">
-                <div class="filter-field"><label for="searchReportType">報告用途</label><select
-                    class="form-select form-select-sm" id="searchReportType">
-                    <option>案件摘要</option>
-                    <option>證據彙整</option>
-                    <option>異常文件清單</option>
-                    <option>需人工審核報告</option>
-                  </select></div>
-                <div class="filter-field"><label for="searchReportInstruction">補充要求</label><textarea
-                    class="form-control form-control-sm" id="searchReportInstruction" rows="2"
-                    placeholder="例如：依國家整理證據類型"></textarea></div>
-                <span class="search-report-hint">AI 將只讀取已勾選的文件內容。</span>
-                <div class="search-report-actions"><button class="btn btn-primary report-output search-report-output"
-                    data-output="web" type="button" disabled><i data-lucide="panels-top-left"></i>網頁報告</button><button
-                    class="btn btn-outline-secondary report-output search-report-output" data-output="pdf" type="button"
-                    disabled><i data-lucide="file-down"></i>PDF</button><button
-                    class="btn btn-outline-secondary report-output search-report-output" data-output="word" type="button"
-                    disabled><i data-lucide="file-type-2"></i>Word</button></div>
-              </div>
-            </aside>
+            </section>
           </div>
         </section>
         <section class="page" id="page-relations" aria-labelledby="relationsHeading">

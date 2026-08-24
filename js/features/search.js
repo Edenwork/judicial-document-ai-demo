@@ -2,7 +2,7 @@
   "use strict";
 
   const App = global.JudicialApp;
-  const DEMO_TODAY = new Date("2026-08-20T00:00:00");
+  const DEMO_TODAY = new Date("2026-08-24T00:00:00");
   const documents = [
     {
       id: "doc-jp-bank",
@@ -137,16 +137,18 @@
       .join(" ")
       .toLowerCase();
     if (normalizedQuery.includes("ml-")) return searchableText.includes(normalizedQuery);
-
-    // Demo 階段尚未串接語意搜尋服務；未知問法先回傳候選文件供 UI 展示。
     return true;
   }
 
   App.initSearch = function () {
+    const tabButtons = Array.from(document.querySelectorAll("[data-search-tab]"));
+    const tabPanels = Array.from(document.querySelectorAll(".search-tab-panel"));
     const queryInput = document.getElementById("smartQuery");
+    const searchResults = document.getElementById("searchResults");
     const resultsBody = document.getElementById("resultsBody");
     const selectVisible = document.getElementById("selectVisibleResults");
     const selectedDocuments = document.getElementById("selectedDocuments");
+    const clearSelectedButton = document.getElementById("clearSelectedDocuments");
     const selectedIds = new Set();
     const filterElements = {
       caseId: document.getElementById("filterCase"),
@@ -156,26 +158,44 @@
       anomaly: document.getElementById("filterAnomaly"),
       date: document.getElementById("filterDate"),
     };
-    let activeQuery = queryInput.value;
+    const searchState = {
+      natural: { hasSearched: false, query: "" },
+      filter: { hasSearched: false, values: null },
+    };
+    let activeTab = "natural";
     let visibleDocuments = [];
     let searchTimer;
 
-    function matchesFilters(document) {
-      const caseQuery = filterElements.caseId.value.trim().toLowerCase();
-      const dateRange = Number(filterElements.date.value);
+    function readFilterValues() {
+      return Object.keys(filterElements).reduce(function (values, key) {
+        values[key] = filterElements[key].value;
+        return values;
+      }, {});
+    }
 
+    function matchesFilters(document, values) {
+      const caseQuery = values.caseId.trim().toLowerCase();
+      const dateRange = Number(values.date);
       return (!caseQuery || document.caseId.toLowerCase().includes(caseQuery))
-        && (!filterElements.country.value || document.country === filterElements.country.value)
-        && (!filterElements.evidence.value || document.evidence.includes(filterElements.evidence.value))
-        && (!filterElements.status.value || document.status === filterElements.status.value)
-        && (!filterElements.anomaly.value || document.anomaly === filterElements.anomaly.value)
+        && (!values.country || document.country === values.country)
+        && (!values.evidence || document.evidence.includes(values.evidence))
+        && (!values.status || document.status === values.status)
+        && (!values.anomaly || document.anomaly === values.anomaly)
         && (!dateRange || daysSince(document.uploadedAt) <= dateRange);
     }
 
-    function getVisibleDocuments() {
-      return documents.filter(function (document) {
-        return matchesNaturalLanguage(document, activeQuery) && matchesFilters(document);
-      });
+    function getDocumentsForMode(mode) {
+      if (mode === "natural") {
+        return documents.filter(function (document) {
+          return matchesNaturalLanguage(document, searchState.natural.query);
+        });
+      }
+      if (mode === "filter" && searchState.filter.values) {
+        return documents.filter(function (document) {
+          return matchesFilters(document, searchState.filter.values);
+        });
+      }
+      return [];
     }
 
     function renderResultItem(document) {
@@ -207,86 +227,156 @@
     }
 
     function renderSelectedDocuments() {
-      const selected = documents.filter(function (document) { return selectedIds.has(document.id); });
+      const selected = documents.filter(function (document) {
+        return selectedIds.has(document.id);
+      });
       document.getElementById("searchSelectedCount").textContent = selected.length;
+      document.getElementById("selectedTabCount").textContent = selected.length;
+      clearSelectedButton.disabled = selected.length === 0;
       document.querySelectorAll(".search-report-output").forEach(function (button) {
         button.disabled = selected.length === 0;
       });
 
-      if (selected.length === 0) {
-        selectedDocuments.innerHTML = '<div class="selection-empty"><i data-lucide="files"></i><strong>尚未選取文件</strong><span>從搜尋結果勾選要彙整的文件</span></div>';
+      if (!selected.length) {
+        selectedDocuments.innerHTML = '<div class="selection-empty"><i data-lucide="files"></i><strong>尚未選取文件</strong>' +
+          '<span>請先透過自然語言查詢或條件式篩選找到文件。</span><div class="selection-empty-actions">' +
+          '<button class="btn btn-sm btn-primary" data-open-search-tab="natural" type="button">前往自然語言查詢</button>' +
+          '<button class="btn btn-sm btn-outline-secondary" data-open-search-tab="filter" type="button">前往條件式篩選</button></div></div>';
       } else {
         selectedDocuments.innerHTML = selected.map(function (document) {
-          return '<div class="selected-document" data-document-id="' + document.id + '"><div><strong>' +
-            escapeHtml(document.title) + "</strong><span>" + escapeHtml(document.caseId + "・" + document.country) +
-            '</span></div><button class="icon-btn remove-selected" type="button" aria-label="移除 ' +
-            escapeHtml(document.title) + '"><i data-lucide="x"></i></button></div>';
+          return '<div class="selected-document" data-document-id="' + document.id + '">' +
+            '<input class="form-check-input selected-workspace-check" type="checkbox" checked aria-label="取消選取 ' + escapeHtml(document.title) + '">' +
+            '<div class="selected-document-content"><strong><a href="#" class="doc-link open-selected-document">' + escapeHtml(document.title) + "</a></strong>" +
+            '<span>' + escapeHtml(document.caseId + "・" + document.country + "・" + document.pages + " 頁") + "</span>" +
+            '<div class="result-meta"><span class="result-meta-item">' + escapeHtml(document.evidence) + "</span>" +
+            '<span class="result-meta-item result-status ' + statusClassNames[document.status] + '">' + escapeHtml(document.status) + "</span></div></div>" +
+            '<button class="icon-btn remove-selected" type="button" aria-label="移除 ' + escapeHtml(document.title) + '"><i data-lucide="x"></i></button></div>';
         }).join("");
       }
       App.renderIcons();
     }
 
     function renderResults() {
-      visibleDocuments = getVisibleDocuments();
-      const resultLabel = "找到 " + visibleDocuments.length + " 份文件";
-      document.getElementById("searchResultCount").textContent = resultLabel;
-      document.getElementById("filterResultCount").textContent = visibleDocuments.length + " 份符合";
-      document.getElementById("searchModeSummary").textContent = activeQuery
-        ? "自然語言：" + activeQuery
-        : "目前顯示全部已入庫文件";
+      if (activeTab !== "natural" && activeTab !== "filter") return;
+      const state = searchState[activeTab];
+      if (!state.hasSearched) {
+        searchResults.hidden = true;
+        visibleDocuments = [];
+        return;
+      }
+
+      visibleDocuments = getDocumentsForMode(activeTab);
+      searchResults.hidden = false;
+      document.getElementById("searchResultCount").textContent = "找到 " + visibleDocuments.length + " 份文件";
+      document.getElementById("searchModeSummary").textContent = activeTab === "natural"
+        ? "自然語言：" + (searchState.natural.query || "全部已入庫文件")
+        : "依已套用的條件顯示";
+      if (activeTab === "filter") {
+        document.getElementById("filterResultCount").textContent = visibleDocuments.length + " 份符合";
+      }
 
       resultsBody.innerHTML = visibleDocuments.length
         ? visibleDocuments.map(renderResultItem).join("")
-        : '<div class="search-empty"><div><i data-lucide="search-x"></i><p class="mt-2 mb-1 fw-bold">找不到符合的文件</p><span>請調整自然語言問題或清除部分篩選條件。</span></div></div>';
-
+        : '<div class="search-empty"><div><i data-lucide="search-x"></i><p class="mt-2 mb-1 fw-bold">找不到符合的文件</p><span>請調整查詢內容或篩選條件後再試一次。</span></div></div>';
       updateSelectVisibleState();
       App.renderIcons();
     }
 
-    function refreshSelection() {
-      renderResults();
-      renderSelectedDocuments();
+    function showSearchLoading(message) {
+      searchResults.hidden = false;
+      resultsBody.innerHTML = '<div class="search-loading"><span class="loading-inline"><span class="spinner-mini"></span>' + message + "</span></div>";
+      document.getElementById("searchResultCount").textContent = "搜尋中";
+      document.getElementById("searchModeSummary").textContent = "正在比對文件資料";
+      selectVisible.disabled = true;
     }
 
-    function runSearch() {
+    function runSearch(mode) {
       global.clearTimeout(searchTimer);
-      resultsBody.innerHTML = '<div class="search-loading"><span class="loading-inline"><span class="spinner-mini"></span>正在理解問題並比對文件內容、欄位與摘要...</span></div>';
-      selectVisible.disabled = true;
+      if (mode === "natural") searchState.natural.query = queryInput.value.trim();
+      else searchState.filter.values = readFilterValues();
+      searchState[mode].hasSearched = false;
+      showSearchLoading(mode === "natural"
+        ? "正在理解問題並比對文件內容、欄位與摘要..."
+        : "正在套用條件並篩選已入庫文件...");
 
       searchTimer = global.setTimeout(function () {
-        activeQuery = queryInput.value.trim();
-        renderResults();
-        App.showToast("智慧搜尋完成，已附上每份文件的符合原因。");
-      }, 850);
+        searchState[mode].hasSearched = true;
+        if (activeTab === mode) renderResults();
+        App.showToast(mode === "natural" ? "智慧搜尋完成。" : "條件篩選完成。");
+      }, 700);
     }
 
-    document.getElementById("smartSearch").addEventListener("click", runSearch);
-    queryInput.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") runSearch();
-    });
+    function refreshSelection() {
+      renderSelectedDocuments();
+      if ((activeTab === "natural" || activeTab === "filter") && searchState[activeTab].hasSearched) {
+        renderResults();
+      }
+    }
 
-    document.querySelectorAll(".query-chip").forEach(function (chip) {
-      chip.addEventListener("click", function () {
-        queryInput.value = chip.textContent.trim();
-        runSearch();
+    function setActiveTab(tabName, shouldFocus) {
+      activeTab = tabName;
+      tabButtons.forEach(function (button) {
+        const isActive = button.dataset.searchTab === tabName;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", String(isActive));
+        button.tabIndex = isActive ? 0 : -1;
+        if (isActive && shouldFocus) button.focus();
+      });
+      tabPanels.forEach(function (panel) {
+        const controlledBy = tabButtons.find(function (button) {
+          return button.getAttribute("aria-controls") === panel.id;
+        });
+        panel.hidden = !controlledBy || controlledBy.dataset.searchTab !== tabName;
+      });
+
+      if (tabName === "selected") {
+        searchResults.hidden = true;
+        renderSelectedDocuments();
+      } else {
+        renderResults();
+      }
+      App.renderIcons();
+    }
+
+    tabButtons.forEach(function (button, index) {
+      button.addEventListener("click", function () {
+        setActiveTab(button.dataset.searchTab, false);
+      });
+      button.addEventListener("keydown", function (event) {
+        let nextIndex;
+        if (event.key === "ArrowRight") nextIndex = (index + 1) % tabButtons.length;
+        if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = tabButtons.length - 1;
+        if (nextIndex === undefined) return;
+        event.preventDefault();
+        setActiveTab(tabButtons[nextIndex].dataset.searchTab, true);
       });
     });
 
-    Object.values(filterElements).forEach(function (element) {
-      element.addEventListener(element.tagName === "INPUT" ? "input" : "change", renderResults);
+    document.getElementById("smartSearch").addEventListener("click", function () {
+      runSearch("natural");
+    });
+    queryInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") runSearch("natural");
+    });
+    document.querySelectorAll(".query-chip").forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        queryInput.value = chip.textContent.trim();
+        runSearch("natural");
+      });
     });
 
+    document.getElementById("filterBody").addEventListener("submit", function (event) {
+      event.preventDefault();
+      runSearch("filter");
+    });
     document.getElementById("resetFilters").addEventListener("click", function () {
       Object.values(filterElements).forEach(function (element) { element.value = ""; });
-      renderResults();
-      App.showToast("條件篩選已清除。自然語言查詢仍保留。 ");
-    });
-
-    document.getElementById("filterToggle").addEventListener("click", function () {
-      const filterBody = document.getElementById("filterBody");
-      const isExpanded = this.getAttribute("aria-expanded") === "true";
-      this.setAttribute("aria-expanded", String(!isExpanded));
-      filterBody.classList.toggle("is-collapsed", isExpanded);
+      searchState.filter = { hasSearched: false, values: null };
+      document.getElementById("filterResultCount").textContent = "";
+      if (activeTab === "filter") searchResults.hidden = true;
+      App.showToast("條件篩選已清除。");
     });
 
     selectVisible.addEventListener("change", function () {
@@ -304,7 +394,6 @@
       else selectedIds.delete(documentId);
       refreshSelection();
     });
-
     resultsBody.addEventListener("click", function (event) {
       const resultLink = event.target.closest(".open-result");
       if (!resultLink) return;
@@ -312,14 +401,32 @@
       App.goToPage("review");
     });
 
-    selectedDocuments.addEventListener("click", function (event) {
-      const removeButton = event.target.closest(".remove-selected");
-      if (!removeButton) return;
-      selectedIds.delete(removeButton.closest(".selected-document").dataset.documentId);
+    selectedDocuments.addEventListener("change", function (event) {
+      if (!event.target.classList.contains("selected-workspace-check")) return;
+      selectedIds.delete(event.target.closest(".selected-document").dataset.documentId);
       refreshSelection();
     });
+    selectedDocuments.addEventListener("click", function (event) {
+      const tabLink = event.target.closest("[data-open-search-tab]");
+      const removeButton = event.target.closest(".remove-selected");
+      const documentLink = event.target.closest(".open-selected-document");
+      if (tabLink) setActiveTab(tabLink.dataset.openSearchTab, false);
+      if (removeButton) {
+        selectedIds.delete(removeButton.closest(".selected-document").dataset.documentId);
+        refreshSelection();
+      }
+      if (documentLink) {
+        event.preventDefault();
+        App.goToPage("review");
+      }
+    });
+    clearSelectedButton.addEventListener("click", function () {
+      selectedIds.clear();
+      refreshSelection();
+      App.showToast("已清除所有已選文件。");
+    });
 
-    renderResults();
+    setActiveTab("natural", false);
     renderSelectedDocuments();
   };
 })(window);
