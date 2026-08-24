@@ -507,6 +507,28 @@
             </section>
           </div>
 
+          <div class="search-tab-panel" id="searchPanelSelected" role="tabpanel" aria-labelledby="searchTabSelected" hidden>
+            <section class="panel search-selection-workspace" aria-labelledby="selectedHeading">
+              <div class="panel-header search-selected-head">
+                <div><span class="section-eyebrow">多文件勾選</span><h3 id="selectedHeading">已選文件</h3></div>
+                <div class="d-flex align-items-center gap-2"><button class="btn btn-sm btn-outline-primary"
+                    id="selectAllDocuments" type="button">全部勾選</button><span class="selected-count"
+                    id="searchSelectedCount" aria-live="polite">0</span><button
+                    class="btn btn-sm btn-outline-secondary" id="clearSelectedDocuments" type="button" disabled><i
+                      data-lucide="trash-2"></i>清除全部</button></div>
+              </div>
+              <div class="search-selected-layout">
+                <p class="selection-scope-note">以下列出目前帳號可查看的全部文件，請勾選要納入彙整報告的資料。</p>
+                <div class="selected-documents" id="selectedDocuments" aria-label="可勾選文件清單"></div>
+                <div class="search-filter-actions search-selected-actions"><button class="btn btn-outline-secondary"
+                    id="resetSelectedDocuments" type="button"><i data-lucide="rotate-ccw"></i>清除條件</button><div
+                    class="d-flex align-items-center gap-3"><span id="selectedResultCount" aria-live="polite">0 份符合</span><button
+                      class="btn btn-primary" id="applySelectedDocuments" type="button"><i
+                        data-lucide="search"></i>套用篩選</button></div></div>
+              </div>
+            </section>
+          </div>
+
           <section class="panel search-results" id="searchResults" aria-labelledby="resultsHeading" hidden>
             <div class="panel-header search-results-head">
               <div><span class="section-eyebrow">搜尋結果</span><h3 id="resultsHeading">相關文件</h3></div>
@@ -517,43 +539,24 @@
               <span class="subtle" id="searchModeSummary"></span>
             </div>
             <div id="resultsBody" aria-live="polite"></div>
+            <div class="search-report-controls" id="searchReportControls" hidden>
+              <h4>彙整報告設定</h4>
+              <div class="filter-field"><label for="searchReportName">報告名稱</label><input class="form-control"
+                  id="searchReportName" value="司法互助案件彙整報告"></div>
+              <div class="filter-field"><label for="searchReportType">報告用途</label><select
+                  class="form-select" id="searchReportType"><option>案件摘要</option><option>證據彙整</option><option>異常文件清單</option><option>需人工審核報告</option></select></div>
+              <div class="filter-field"><label for="searchReportInstruction">補充要求</label><textarea
+                  class="form-control" id="searchReportInstruction" rows="3"
+                  placeholder="例如：依國家整理證據類型"></textarea></div>
+              <span class="search-report-hint">AI 將只讀取已勾選的文件內容。</span>
+              <div class="search-report-actions"><button class="btn btn-primary report-output search-report-output"
+                  data-output="web" type="button" disabled><i data-lucide="panels-top-left"></i>網頁報告</button><button
+                  class="btn btn-outline-secondary report-output search-report-output" data-output="pdf" type="button"
+                  disabled><i data-lucide="file-down"></i>PDF</button><button
+                  class="btn btn-outline-secondary report-output search-report-output" data-output="word" type="button"
+                  disabled><i data-lucide="file-type-2"></i>Word</button></div>
+            </div>
           </section>
-
-          <div class="search-tab-panel" id="searchPanelSelected" role="tabpanel" aria-labelledby="searchTabSelected" hidden>
-            <section class="panel search-selection-workspace" aria-labelledby="selectedHeading">
-              <div class="panel-header search-selected-head">
-                <div><span class="section-eyebrow">多文件勾選</span><h3 id="selectedHeading">已選文件</h3></div>
-                <div class="d-flex align-items-center gap-2"><span class="selected-count" id="searchSelectedCount">0</span><button
-                    class="btn btn-sm btn-outline-secondary" id="clearSelectedDocuments" type="button" disabled><i
-                      data-lucide="trash-2"></i>清除全部</button></div>
-              </div>
-              <div class="search-selected-layout">
-                <div class="selected-documents" id="selectedDocuments">
-                  <div class="selection-empty"><i data-lucide="files"></i><strong>尚未選取文件</strong><span>請先透過自然語言查詢或條件式篩選找到文件。</span><div
-                      class="selection-empty-actions"><button class="btn btn-sm btn-primary" data-open-search-tab="natural"
-                        type="button">前往自然語言查詢</button><button class="btn btn-sm btn-outline-secondary"
-                        data-open-search-tab="filter" type="button">前往條件式篩選</button></div></div>
-                </div>
-                <div class="search-report-controls">
-                  <h4>彙整報告設定</h4>
-                  <div class="filter-field"><label for="searchReportName">報告名稱</label><input class="form-control"
-                      id="searchReportName" value="司法互助案件彙整報告"></div>
-                  <div class="filter-field"><label for="searchReportType">報告用途</label><select
-                      class="form-select" id="searchReportType"><option>案件摘要</option><option>證據彙整</option><option>異常文件清單</option><option>需人工審核報告</option></select></div>
-                  <div class="filter-field"><label for="searchReportInstruction">補充要求</label><textarea
-                      class="form-control" id="searchReportInstruction" rows="3"
-                      placeholder="例如：依國家整理證據類型"></textarea></div>
-                  <span class="search-report-hint">AI 將只讀取已勾選的文件內容。</span>
-                  <div class="search-report-actions"><button class="btn btn-primary report-output search-report-output"
-                      data-output="web" type="button" disabled><i data-lucide="panels-top-left"></i>網頁報告</button><button
-                      class="btn btn-outline-secondary report-output search-report-output" data-output="pdf" type="button"
-                      disabled><i data-lucide="file-down"></i>PDF</button><button
-                      class="btn btn-outline-secondary report-output search-report-output" data-output="word" type="button"
-                      disabled><i data-lucide="file-type-2"></i>Word</button></div>
-                </div>
-              </div>
-            </section>
-          </div>
         </section>
         <section class="page" id="page-relations" aria-labelledby="relationsHeading">
           <div class="page-heading">

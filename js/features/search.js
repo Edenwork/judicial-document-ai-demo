@@ -3,7 +3,7 @@
 
   const App = global.JudicialApp;
   const DEMO_TODAY = new Date("2026-08-24T00:00:00");
-  const documents = [
+  const coreDocuments = [
     {
       id: "doc-jp-bank",
       title: "日本銀行交易紀錄調取請求書",
@@ -90,6 +90,53 @@
     },
   ];
 
+  const additionalDocumentCatalog = [
+    ["ca-email", "加拿大電子郵件證據保全請求書", "ML-2026-0816-03", "加拿大", "平台帳號", "完成", "2026-08-16", 16],
+    ["fr-beneficiary", "法國公司實質受益人資料請求書", "ML-2026-0814-07", "法國", "公司登記", "完成", "2026-08-14", 19],
+    ["us-reply", "美國司法部司法互助回覆函", "ML-2026-0813-02", "美國", "平台帳號", "待複核", "2026-08-13", 9],
+    ["jp-reply", "日本金融廳銀行資料回覆函", "ML-2026-0812-05", "日本", "銀行交易", "完成", "2026-08-12", 12],
+    ["sg-register", "新加坡公司登記資料附件", "ML-2026-0811-04", "新加坡", "公司登記", "完成", "2026-08-11", 28],
+    ["uk-transcript", "英國證人訊問筆錄與認證文件", "ML-2026-0810-06", "英國", "證人訊問", "待複核", "2026-08-10", 32],
+    ["hk-order", "香港資產凍結裁定回覆資料", "ML-2026-0809-03", "香港", "犯罪所得", "完成", "2026-08-09", 17],
+    ["de-telecom", "德國電信通聯紀錄調取請求書", "ML-2026-0808-09", "德國", "平台帳號", "需人工審核", "2026-08-08", 21],
+    ["au-crypto", "澳洲虛擬資產錢包交易紀錄", "ML-2026-0807-01", "澳洲", "銀行交易、平台帳號", "處理中", "2026-08-07", 14],
+    ["kr-entry", "韓國涉案人出入境資料請求書", "ML-2026-0806-08", "韓國", "身分紀錄", "完成", "2026-08-06", 10],
+    ["ca-bank", "加拿大銀行帳戶開戶資料請求書", "ML-2026-0805-04", "加拿大", "銀行交易", "完成", "2026-08-05", 18],
+    ["fr-platform", "法國社群平台帳號資料回覆函", "ML-2026-0804-06", "法國", "平台帳號", "待複核", "2026-08-04", 11],
+    ["nl-company", "荷蘭公司股權與董事名冊", "ML-2026-0803-05", "荷蘭", "公司登記", "完成", "2026-08-03", 26],
+    ["ch-funds", "瑞士涉案資金流向調查請求書", "ML-2026-0802-07", "瑞士", "犯罪所得、銀行交易", "需人工審核", "2026-08-02", 23],
+    ["th-witness", "泰國證人遠距訊問協助請求書", "ML-2026-0801-02", "泰國", "證人訊問", "完成", "2026-08-01", 15],
+    ["ph-telecom", "菲律賓電信基地台紀錄請求書", "ML-2026-0731-06", "菲律賓", "平台帳號", "處理中", "2026-07-31", 13],
+    ["my-company", "馬來西亞公司商業登記資料", "ML-2026-0730-04", "馬來西亞", "公司登記", "完成", "2026-07-30", 20],
+    ["vn-account", "越南銀行帳戶交易明細回覆函", "ML-2026-0729-08", "越南", "銀行交易", "完成", "2026-07-29", 25],
+    ["id-platform", "印尼電商平台帳號證據材料", "ML-2026-0728-03", "印尼", "平台帳號", "待複核", "2026-07-28", 22],
+    ["es-assets", "西班牙犯罪所得追查回覆資料", "ML-2026-0727-01", "西班牙", "犯罪所得", "完成", "2026-07-27", 18],
+    ["it-mail", "義大利電子郵件保存命令回覆函", "ML-2026-0726-07", "義大利", "平台帳號", "需人工審核", "2026-07-26", 12],
+    ["nz-witness", "紐西蘭證人證詞認證文件", "ML-2026-0725-05", "紐西蘭", "證人訊問", "完成", "2026-07-25", 16],
+    ["in-company", "印度公司董事與受益人資料", "ML-2026-0724-09", "印度", "公司登記", "處理中", "2026-07-24", 27],
+    ["be-bank", "比利時跨境匯款交易紀錄", "ML-2026-0723-02", "比利時", "銀行交易", "完成", "2026-07-23", 24],
+  ];
+
+  const additionalDocuments = additionalDocumentCatalog.map(function (entry) {
+    const [id, title, caseId, country, evidence, status, uploadedAt, pages] = entry;
+    return {
+      id: "doc-" + id,
+      title: title,
+      caseId: caseId,
+      country: country,
+      evidence: evidence,
+      status: status,
+      anomaly: status === "需人工審核" ? "anomaly" : "normal",
+      uploadedAt: uploadedAt,
+      pages: pages,
+      hasDeadline: title.includes("期限"),
+      snippet: "本文件包含「" + evidence + "」相關之跨境司法互助請求、回覆或證據資料。",
+      match: "文件國家為" + country + "，證據類型包含" + evidence + "。",
+    };
+  });
+
+  const documents = coreDocuments.concat(additionalDocuments);
+
   const statusClassNames = {
     完成: "result-status--done",
     待複核: "result-status--warning",
@@ -148,7 +195,12 @@
     const resultsBody = document.getElementById("resultsBody");
     const selectVisible = document.getElementById("selectVisibleResults");
     const selectedDocuments = document.getElementById("selectedDocuments");
+    const selectAllDocumentsButton = document.getElementById("selectAllDocuments");
     const clearSelectedButton = document.getElementById("clearSelectedDocuments");
+    const applySelectedDocumentsButton = document.getElementById("applySelectedDocuments");
+    const resetSelectedDocumentsButton = document.getElementById("resetSelectedDocuments");
+    const selectedResultCount = document.getElementById("selectedResultCount");
+    const searchReportControls = document.getElementById("searchReportControls");
     const selectedIds = new Set();
     const filterElements = {
       caseId: document.getElementById("filterCase"),
@@ -161,6 +213,7 @@
     const searchState = {
       natural: { hasSearched: false, query: "" },
       filter: { hasSearched: false, values: null },
+      selected: { hasSearched: false },
     };
     let activeTab = "natural";
     let visibleDocuments = [];
@@ -193,6 +246,11 @@
       if (mode === "filter" && searchState.filter.values) {
         return documents.filter(function (document) {
           return matchesFilters(document, searchState.filter.values);
+        });
+      }
+      if (mode === "selected") {
+        return documents.filter(function (document) {
+          return selectedIds.has(document.id);
         });
       }
       return [];
@@ -232,35 +290,35 @@
       });
       document.getElementById("searchSelectedCount").textContent = selected.length;
       document.getElementById("selectedTabCount").textContent = selected.length;
+      selectedResultCount.textContent = selected.length + " 份符合";
+      selectAllDocumentsButton.disabled = selected.length === documents.length;
       clearSelectedButton.disabled = selected.length === 0;
       document.querySelectorAll(".search-report-output").forEach(function (button) {
         button.disabled = selected.length === 0;
       });
 
-      if (!selected.length) {
-        selectedDocuments.innerHTML = '<div class="selection-empty"><i data-lucide="files"></i><strong>尚未選取文件</strong>' +
-          '<span>請先透過自然語言查詢或條件式篩選找到文件。</span><div class="selection-empty-actions">' +
-          '<button class="btn btn-sm btn-primary" data-open-search-tab="natural" type="button">前往自然語言查詢</button>' +
-          '<button class="btn btn-sm btn-outline-secondary" data-open-search-tab="filter" type="button">前往條件式篩選</button></div></div>';
-      } else {
-        selectedDocuments.innerHTML = selected.map(function (document) {
-          return '<div class="selected-document" data-document-id="' + document.id + '">' +
-            '<input class="form-check-input selected-workspace-check" type="checkbox" checked aria-label="取消選取 ' + escapeHtml(document.title) + '">' +
-            '<div class="selected-document-content"><strong><a href="#" class="doc-link open-selected-document">' + escapeHtml(document.title) + "</a></strong>" +
-            '<span>' + escapeHtml(document.caseId + "・" + document.country + "・" + document.pages + " 頁") + "</span>" +
-            '<div class="result-meta"><span class="result-meta-item">' + escapeHtml(document.evidence) + "</span>" +
-            '<span class="result-meta-item result-status ' + statusClassNames[document.status] + '">' + escapeHtml(document.status) + "</span></div></div>" +
-            '<button class="icon-btn remove-selected" type="button" aria-label="移除 ' + escapeHtml(document.title) + '"><i data-lucide="x"></i></button></div>';
-        }).join("");
+      const columns = [];
+      for (let index = 0; index < documents.length; index += 10) {
+        columns.push(documents.slice(index, index + 10));
       }
+      selectedDocuments.innerHTML = '<div class="document-selection-grid">' + columns.map(function (column) {
+        return '<div class="document-selection-column">' + column.map(function (document) {
+          const isSelected = selectedIds.has(document.id);
+          return '<label class="selectable-document' + (isSelected ? " is-selected" : "") + '" data-document-id="' + document.id + '">' +
+            '<input class="form-check-input catalog-document-check" type="checkbox" ' + (isSelected ? "checked" : "") +
+            ' aria-label="選取 ' + escapeHtml(document.title) + '">' +
+            '<i data-lucide="file-text" aria-hidden="true"></i>' +
+            '<span title="' + escapeHtml(document.title) + '">' + escapeHtml(document.title) + "</span></label>";
+        }).join("") + "</div>";
+      }).join("") + "</div>";
       App.renderIcons();
     }
 
     function renderResults() {
-      if (activeTab !== "natural" && activeTab !== "filter") return;
       const state = searchState[activeTab];
-      if (!state.hasSearched) {
+      if (!state || !state.hasSearched) {
         searchResults.hidden = true;
+        searchReportControls.hidden = true;
         visibleDocuments = [];
         return;
       }
@@ -270,7 +328,8 @@
       document.getElementById("searchResultCount").textContent = "找到 " + visibleDocuments.length + " 份文件";
       document.getElementById("searchModeSummary").textContent = activeTab === "natural"
         ? "自然語言：" + (searchState.natural.query || "全部已入庫文件")
-        : "依已套用的條件顯示";
+        : activeTab === "filter" ? "依已套用的條件顯示" : "依已勾選文件顯示";
+      searchReportControls.hidden = activeTab !== "selected";
       if (activeTab === "filter") {
         document.getElementById("filterResultCount").textContent = visibleDocuments.length + " 份符合";
       }
@@ -284,6 +343,7 @@
 
     function showSearchLoading(message) {
       searchResults.hidden = false;
+      searchReportControls.hidden = true;
       resultsBody.innerHTML = '<div class="search-loading"><span class="loading-inline"><span class="spinner-mini"></span>' + message + "</span></div>";
       document.getElementById("searchResultCount").textContent = "搜尋中";
       document.getElementById("searchModeSummary").textContent = "正在比對文件資料";
@@ -293,23 +353,36 @@
     function runSearch(mode) {
       global.clearTimeout(searchTimer);
       if (mode === "natural") searchState.natural.query = queryInput.value.trim();
-      else searchState.filter.values = readFilterValues();
+      if (mode === "filter") searchState.filter.values = readFilterValues();
       searchState[mode].hasSearched = false;
-      showSearchLoading(mode === "natural"
-        ? "正在理解問題並比對文件內容、欄位與摘要..."
-        : "正在套用條件並篩選已入庫文件...");
+      const loadingMessages = {
+        natural: "正在理解問題並比對文件內容、欄位與摘要...",
+        filter: "正在套用條件並篩選已入庫文件...",
+        selected: "正在整理已勾選文件並產生結果...",
+      };
+      showSearchLoading(loadingMessages[mode]);
 
       searchTimer = global.setTimeout(function () {
         searchState[mode].hasSearched = true;
         if (activeTab === mode) renderResults();
-        App.showToast(mode === "natural" ? "智慧搜尋完成。" : "條件篩選完成。");
+        const successMessages = {
+          natural: "智慧搜尋完成。",
+          filter: "條件篩選完成。",
+          selected: "已顯示勾選文件的搜尋結果。",
+        };
+        App.showToast(successMessages[mode]);
       }, 700);
     }
 
     function refreshSelection() {
+      searchState.selected.hasSearched = false;
       renderSelectedDocuments();
       if ((activeTab === "natural" || activeTab === "filter") && searchState[activeTab].hasSearched) {
         renderResults();
+      } else if (activeTab === "selected") {
+        searchResults.hidden = true;
+        searchReportControls.hidden = true;
+        visibleDocuments = [];
       }
     }
 
@@ -330,11 +403,9 @@
       });
 
       if (tabName === "selected") {
-        searchResults.hidden = true;
         renderSelectedDocuments();
-      } else {
-        renderResults();
       }
+      renderResults();
       App.renderIcons();
     }
 
@@ -402,23 +473,28 @@
     });
 
     selectedDocuments.addEventListener("change", function (event) {
-      if (!event.target.classList.contains("selected-workspace-check")) return;
-      selectedIds.delete(event.target.closest(".selected-document").dataset.documentId);
+      if (!event.target.classList.contains("catalog-document-check")) return;
+      const documentId = event.target.closest(".selectable-document").dataset.documentId;
+      if (event.target.checked) selectedIds.add(documentId);
+      else selectedIds.delete(documentId);
       refreshSelection();
     });
-    selectedDocuments.addEventListener("click", function (event) {
-      const tabLink = event.target.closest("[data-open-search-tab]");
-      const removeButton = event.target.closest(".remove-selected");
-      const documentLink = event.target.closest(".open-selected-document");
-      if (tabLink) setActiveTab(tabLink.dataset.openSearchTab, false);
-      if (removeButton) {
-        selectedIds.delete(removeButton.closest(".selected-document").dataset.documentId);
-        refreshSelection();
+    selectAllDocumentsButton.addEventListener("click", function () {
+      documents.forEach(function (document) { selectedIds.add(document.id); });
+      refreshSelection();
+      App.showToast("已勾選全部可查看文件。");
+    });
+    applySelectedDocumentsButton.addEventListener("click", function () {
+      if (selectedIds.size === 0) {
+        App.showToast("請至少勾選一份文件。", "warning");
+        return;
       }
-      if (documentLink) {
-        event.preventDefault();
-        App.goToPage("review");
-      }
+      runSearch("selected");
+    });
+    resetSelectedDocumentsButton.addEventListener("click", function () {
+      selectedIds.clear();
+      refreshSelection();
+      App.showToast("多文件篩選條件已清除。");
     });
     clearSelectedButton.addEventListener("click", function () {
       selectedIds.clear();
