@@ -464,6 +464,45 @@
     transition: width .35s ease;
 }
 
+.file-progress.is-uploading {
+    background-size: 200% 100%;
+    animation: uploadProgressFlow 1.2s linear infinite;
+}
+
+.file-progress.is-success {
+    background: var(--color-success-500);
+}
+
+.file-stage {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+}
+
+.file-stage.is-success {
+    color: var(--color-success-700);
+    font-weight: 700;
+}
+
+.file-stage svg {
+    width: 13px;
+    height: 13px;
+}
+
+@keyframes uploadProgressFlow {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .file-progress.is-uploading {
+        animation: none;
+    }
+}
+
 .process-card {
     display: none;
     margin-top: 18px;

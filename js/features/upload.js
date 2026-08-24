@@ -25,14 +25,98 @@
     const caseNumberInput = document.getElementById("uploadCaseNumber");
     const countryInput = document.getElementById("uploadCountry");
     let queue = [];
+    let nextUploadId = 1;
+    let isProcessing = false;
 
     function updateStartButton() {
       const hasCaseData = caseNumberInput.value.trim() && countryInput.value.trim();
-      startButton.disabled = !queue.length || !hasCaseData;
+      const allUploadsCompleted = queue.length && queue.every(function (file) {
+        return file.uploadStatus === "success";
+      });
+      startButton.disabled = isProcessing || !hasCaseData || !allUploadsCompleted;
     }
 
     function formatFileSize(size) {
       return size ? (size / 1024 / 1024).toFixed(1) + " MB" : "2.1 MB";
+    }
+
+    function escapeHtml(value) {
+      const entities = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
+      return String(value).replace(/[&<>"']/g, function (character) {
+        return entities[character];
+      });
+    }
+
+    function createQueueItems(files) {
+      const items = files.map(function (file) {
+        const isImmediatelySuccessful = Math.random() < 0.45;
+        return {
+          id: nextUploadId++,
+          name: file.name,
+          size: file.size,
+          uploadStatus: isImmediatelySuccessful ? "success" : "uploading",
+          uploadProgress: isImmediatelySuccessful ? 100 : Math.floor(Math.random() * 36) + 10,
+          uploadTimer: null,
+        };
+      });
+
+      // A multi-file demo always starts with both states visible.
+      if (items.length > 1 && items.every(function (file) { return file.uploadStatus === "success"; })) {
+        items[items.length - 1].uploadStatus = "uploading";
+        items[items.length - 1].uploadProgress = 18;
+      }
+      if (items.length > 1 && items.every(function (file) { return file.uploadStatus === "uploading"; })) {
+        items[0].uploadStatus = "success";
+        items[0].uploadProgress = 100;
+      }
+      return items;
+    }
+
+    function clearUploadTimer(file) {
+      if (!file.uploadTimer) return;
+      global.clearInterval(file.uploadTimer);
+      file.uploadTimer = null;
+    }
+
+    function updateUploadRow(file) {
+      const row = queueContainer.querySelector('[data-upload-id="' + file.id + '"]');
+      if (!row) return;
+
+      const progressBar = row.querySelector(".file-progress");
+      const progressGroup = row.querySelector("[role='progressbar']");
+      const stage = row.querySelector(".file-stage");
+      const isSuccess = file.uploadStatus === "success";
+
+      progressBar.style.width = file.uploadProgress + "%";
+      progressBar.classList.toggle("is-success", isSuccess);
+      progressBar.classList.toggle("is-uploading", !isSuccess);
+      progressGroup.setAttribute("aria-valuenow", String(file.uploadProgress));
+      stage.className = "file-stage" + (isSuccess ? " is-success" : " is-uploading");
+      stage.innerHTML = isSuccess
+        ? '<i data-lucide="circle-check-big"></i><span>上傳成功</span>'
+        : "上傳中 " + file.uploadProgress + "%";
+
+      if (isSuccess) App.renderIcons();
+      updateStartButton();
+    }
+
+    function startUploadSimulation(file) {
+      if (file.uploadStatus !== "uploading" || file.uploadTimer) return;
+
+      const tickTime = Math.floor(Math.random() * 300) + 420;
+      file.uploadTimer = global.setInterval(function () {
+        if (!queue.includes(file)) {
+          clearUploadTimer(file);
+          return;
+        }
+
+        file.uploadProgress = Math.min(100, file.uploadProgress + Math.floor(Math.random() * 13) + 5);
+        if (file.uploadProgress === 100) {
+          file.uploadStatus = "success";
+          clearUploadTimer(file);
+        }
+        updateUploadRow(file);
+      }, tickTime);
     }
 
     function renderQueue() {
@@ -44,11 +128,19 @@
 
       queueContainer.innerHTML = queue
         .map(function (file, index) {
+          const isSuccess = file.uploadStatus === "success";
+          const safeName = escapeHtml(file.name);
+          const safeSize = escapeHtml(file.size);
+          const stageContent = isSuccess
+            ? '<i data-lucide="circle-check-big"></i><span>上傳成功</span>'
+            : "上傳中 " + file.uploadProgress + "%";
           return (
-            '<div class="queue-row">' +
-            '<div class="file-name"><i data-lucide="file-text"></i><span>' + file.name + "</span></div>" +
-            '<span class="subtle">' + file.size + "</span>" +
-            '<div><div class="progress-thin"><span class="file-progress"></span></div><small class="subtle file-stage">等待處理</small></div>' +
+            '<div class="queue-row" data-upload-id="' + file.id + '">' +
+            '<div class="file-name"><i data-lucide="file-text"></i><span>' + safeName + "</span></div>" +
+            '<span class="subtle">' + safeSize + "</span>" +
+            '<div><div class="progress-thin" role="progressbar" aria-label="' + safeName + ' 上傳進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + file.uploadProgress + '">' +
+            '<span class="file-progress ' + (isSuccess ? "is-success" : "is-uploading") + '" style="width:' + file.uploadProgress + '%"></span></div>' +
+            '<small class="file-stage ' + (isSuccess ? "is-success" : "is-uploading") + '">' + stageContent + "</small></div>" +
             '<button class="icon-btn remove-file" data-index="' + index + '" type="button" aria-label="移除文件"><i data-lucide="x"></i></button>' +
             "</div>"
           );
@@ -57,19 +149,22 @@
 
       queueContainer.querySelectorAll(".remove-file").forEach(function (button) {
         button.addEventListener("click", function () {
+          clearUploadTimer(queue[Number(button.dataset.index)]);
           queue.splice(Number(button.dataset.index), 1);
           renderQueue();
         });
       });
 
+      queue.forEach(startUploadSimulation);
       updateStartButton();
       App.renderIcons();
     }
 
     function addFiles(fileList) {
-      Array.from(fileList).forEach(function (file) {
-        queue.push({ name: file.name, size: formatFileSize(file.size) });
+      const files = Array.from(fileList).map(function (file) {
+        return { name: file.name, size: formatFileSize(file.size) };
       });
+      queue = queue.concat(createQueueItems(files));
       renderQueue();
     }
 
@@ -90,10 +185,19 @@
       const total = queue.length;
       let stageIndex = 0;
 
+      isProcessing = true;
       startButton.disabled = true;
       processCard.classList.add("show");
       processCard.scrollIntoView({ behavior: "smooth", block: "center" });
       renderProcessingStages();
+      document.querySelectorAll(".file-progress").forEach(function (bar) {
+        bar.classList.remove("is-success");
+        bar.classList.add("is-uploading");
+      });
+      document.querySelectorAll(".file-stage").forEach(function (stage) {
+        stage.className = "file-stage is-uploading";
+        stage.textContent = "準備 AI 處理";
+      });
       document.getElementById("processCount").textContent = "0 / " + total;
       App.uploadStatus.upsertFiles(filesBeingProcessed, "processing", processingStages[0], 5);
 
@@ -152,9 +256,8 @@
       addFiles(fileInput.files);
     });
     document.getElementById("addSamples").addEventListener("click", function () {
-      queue = sampleFiles.map(function (file) {
-        return Object.assign({}, file);
-      });
+      queue.forEach(clearUploadTimer);
+      queue = createQueueItems(sampleFiles);
       renderQueue();
     });
     [caseNumberInput, countryInput].forEach(function (input) {
