@@ -605,3 +605,14 @@
     background: var(--color-primary);
     box-shadow: 0 0 0 5px var(--color-primary-ring);
 }
+
+.page-back-action {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 16px;
+}
+
+.page-back-action .btn {
+    min-height: 44px;
+    padding-inline: 18px;
+}
