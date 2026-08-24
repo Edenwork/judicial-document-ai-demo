@@ -104,16 +104,18 @@
                   id="fileFilter" aria-label="搜尋文件" placeholder="搜尋文件名稱或案號"></div><select
                 class="form-select form-select-sm" id="statusFilter" aria-label="篩選狀態" style="max-width:180px">
                 <option value="all">全部狀態</option>
-                <option value="normal">待承辦確認</option>
-                <option value="anomaly">需人工處理</option>
-                <option value="review">需人工審核</option>
-                <option value="done">審核完成</option>
-              </select><button class="btn btn-sm btn-outline-secondary ms-md-auto" type="button"><i
+                <option value="pending">待處理</option>
+                <option value="processing">處理中</option>
+                <option value="completed">完成</option>
+                <option value="failed">失敗</option>
+                <option value="manual">需人工處理</option>
+              </select>
+              <button class="btn btn-sm btn-outline-secondary ms-md-auto" type="button"><i
                   data-lucide="sliders-horizontal"></i>更多篩選</button>
             </div>
             <div class="selection-bar" id="selectionBar"><strong>已選取 <span id="selectedCount">0</span>
-                份正常文件</strong><span>僅可批次確認「待承辦確認」文件</span><button class="btn btn-sm btn-primary" id="batchConfirm"
-                type="button"><i data-lucide="check-check"></i>批次確認並送出</button></div>
+                份待處理文件</strong><span>僅可批次選取「待處理」文件</span><button class="btn btn-sm btn-primary" id="batchConfirm"
+                type="button"><i data-lucide="check-check"></i>批次開始處理</button></div>
             <div class="table-responsive">
               <table class="table data-table align-middle" id="filesTable">
                 <thead>
@@ -130,7 +132,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr data-status="normal" data-search="日本 銀行交易 ml-2026-0819-01">
+                  <tr data-status="pending" data-search="日本 銀行交易 ml-2026-0819-01">
                     <td><input class="form-check-input file-check" type="checkbox" aria-label="選取日本銀行交易紀錄調取請求書"></td>
                     <td><a href="#" class="doc-link open-review">日本銀行交易紀錄調取請求書</a><span
                         class="doc-sub">ML-2026-0819-01・18 頁</span></td>
@@ -138,11 +140,11 @@
                     <td><span class="confidence"><span class="confidence-bar"><i style="width:94%"></i></span>94%</span>
                     </td>
                     <td>0</td>
-                    <td><span class="badge-status status-info">待承辦確認</span></td>
-                    <td>今日 14:32</td>
+                    <td><span class="badge-status status-info">待處理</span></td>
+                    <td>2026/08/24 14:32</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
                   </tr>
-                  <tr data-status="anomaly" data-search="美國 平台帳號 ml-2026-0818-04">
+                  <tr data-status="manual" data-search="美國 平台帳號 ml-2026-0818-04">
                     <td><input class="form-check-input" type="checkbox" disabled aria-label="異常文件不可批次確認"></td>
                     <td><a href="#" class="doc-link open-review">美國平台帳號資料保全請求書</a><span
                         class="doc-sub">ML-2026-0818-04・12 頁</span></td>
@@ -151,22 +153,22 @@
                             style="width:71%"></i></span>71%</span></td>
                     <td><span class="text-warning fw-bold">2</span></td>
                     <td><span class="badge-status status-warn">需人工處理</span></td>
-                    <td>今日 13:54</td>
+                    <td>2026/08/24 13:54</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">處理</button></td>
                   </tr>
-                  <tr data-status="normal" data-search="新加坡 公司登記 ml-2026-0818-02">
-                    <td><input class="form-check-input file-check" type="checkbox" aria-label="選取新加坡公司登記資料請求書"></td>
+                  <tr data-status="processing" data-search="新加坡 公司登記 ml-2026-0818-02">
+                    <td><input class="form-check-input" type="checkbox" disabled aria-label="處理中文件不可批次選取"></td>
                     <td><a href="#" class="doc-link open-review">新加坡公司登記資料請求書</a><span class="doc-sub">ML-2026-0818-02・9
                         頁</span></td>
                     <td>新加坡</td>
                     <td><span class="confidence"><span class="confidence-bar"><i style="width:91%"></i></span>91%</span>
                     </td>
                     <td>0</td>
-                    <td><span class="badge-status status-info">待承辦確認</span></td>
-                    <td>今日 11:40</td>
+                    <td><span class="badge-status status-processing">處理中</span></td>
+                    <td>2026/08/24 11:40</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
                   </tr>
-                  <tr data-status="review" data-search="英國 證人訊問 ml-2026-0817-08">
+                  <tr data-status="completed" data-search="英國 證人訊問 ml-2026-0817-08">
                     <td><input class="form-check-input" type="checkbox" disabled></td>
                     <td><a href="#" class="doc-link open-review">英國證人訊問協助請求書</a><span class="doc-sub">ML-2026-0817-08・15
                         頁</span></td>
@@ -174,11 +176,11 @@
                     <td><span class="confidence"><span class="confidence-bar"><i style="width:88%"></i></span>88%</span>
                     </td>
                     <td>0</td>
-                    <td><span class="badge-status status-neutral">需人工審核</span></td>
-                    <td>昨日 17:21</td>
+                    <td><span class="badge-status status-ok">完成</span></td>
+                    <td>2026/08/23 17:21</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
                   </tr>
-                  <tr data-status="anomaly" data-search="德國 電信紀錄 ml-2026-0817-03">
+                  <tr data-status="failed" data-search="德國 電信紀錄 ml-2026-0817-03">
                     <td><input class="form-check-input" type="checkbox" disabled></td>
                     <td><a href="#" class="doc-link open-review">德國電信紀錄調取請求書</a><span class="doc-sub">ML-2026-0817-03・22
                         頁</span></td>
@@ -186,11 +188,11 @@
                     <td><span class="confidence"><span class="confidence-bar"><i class="is-warning"
                             style="width:64%"></i></span>64%</span></td>
                     <td><span class="text-warning fw-bold">1</span></td>
-                    <td><span class="badge-status status-warn">需人工處理</span></td>
-                    <td>昨日 16:08</td>
+                    <td><span class="badge-status status-danger">失敗</span></td>
+                    <td>2026/08/23 16:08</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">處理</button></td>
                   </tr>
-                  <tr data-status="done" data-search="香港 凍結資產 ml-2026-0815-06">
+                  <tr data-status="completed" data-search="香港 凍結資產 ml-2026-0815-06">
                     <td><input class="form-check-input" type="checkbox" disabled></td>
                     <td><a href="#" class="doc-link open-review">香港犯罪所得凍結協助請求書</a><span
                         class="doc-sub">ML-2026-0815-06・26 頁</span></td>
@@ -198,8 +200,8 @@
                     <td><span class="confidence"><span class="confidence-bar"><i style="width:96%"></i></span>96%</span>
                     </td>
                     <td>0</td>
-                    <td><span class="badge-status status-ok">審核完成</span></td>
-                    <td>8/18 10:25</td>
+                    <td><span class="badge-status status-ok">完成</span></td>
+                    <td>2026/08/18 10:25</td>
                     <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
                   </tr>
                 </tbody>
@@ -899,16 +901,16 @@
   <div class="overlay" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
     <div class="modal-card" style="max-width:480px">
       <div class="modal-head">
-        <h3 id="confirmTitle">批次確認正常文件</h3><button class="icon-btn close-overlay" type="button" aria-label="關閉"><i
+        <h3 id="confirmTitle">批次開始處理</h3><button class="icon-btn close-overlay" type="button" aria-label="關閉"><i
             data-lucide="x"></i></button>
       </div>
       <div class="modal-content-inner">
         <div class="alert alert-warning d-flex gap-2"><i
-            data-lucide="triangle-alert"></i><span>確認後，所選文件將送交需人工審核。異常文件不包含在本次操作中。</span></div>
-        <p class="mb-4">確定送出 <strong id="confirmCount">0</strong> 份文件嗎？</p>
+            data-lucide="triangle-alert"></i><span>確認後，所選待處理文件將進入 AI 處理流程。</span></div>
+        <p class="mb-4">確定開始處理 <strong id="confirmCount">0</strong> 份文件嗎？</p>
         <div class="d-flex justify-content-end gap-2"><button class="btn btn-outline-secondary close-overlay"
             type="button">取消</button><button class="btn btn-primary" id="confirmBatchAction"
-            type="button">確認並送出</button></div>
+            type="button">開始處理</button></div>
       </div>
     </div>
   </div>

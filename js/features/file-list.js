@@ -56,16 +56,16 @@
       selected.forEach(function (checkbox) {
         const row = checkbox.closest("tr");
         const badge = row.querySelector(".badge-status");
-        row.dataset.status = "review";
-        badge.className = "badge-status status-neutral";
-        badge.textContent = "需人工審核";
+        row.dataset.status = "processing";
+        badge.className = "badge-status status-processing";
+        badge.textContent = "處理中";
         checkbox.checked = false;
         checkbox.disabled = true;
       });
 
       App.hideOverlay(document.getElementById("confirmModal"));
       updateSelection();
-      App.showToast("已將 " + selected.length + " 份正常文件送交需人工審核。");
+      App.showToast("已開始處理 " + selected.length + " 份文件。");
     });
 
     document.getElementById("fileFilter").addEventListener("input", filterRows);
