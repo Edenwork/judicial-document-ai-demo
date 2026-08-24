@@ -7,7 +7,7 @@
     processing: { label: "處理中", badgeClass: "status-processing" },
     completed: { label: "完成", badgeClass: "status-ok" },
     failed: { label: "失敗", badgeClass: "status-danger" },
-    manual: { label: "需人工處置", badgeClass: "status-warn" },
+    manual: { label: "需人工審核", badgeClass: "status-warn" },
   };
 
   const initialRecords = [

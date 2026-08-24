@@ -49,7 +49,7 @@
       user: "黃建國",
       unit: "國兩司",
       module: "AI 覆核",
-      action: "主管複核核准",
+      action: "需人工審核核准",
       target: "日本銀行交易紀錄調取請求書",
       result: "成功",
     },

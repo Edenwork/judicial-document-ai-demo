@@ -58,14 +58,14 @@
         const badge = row.querySelector(".badge-status");
         row.dataset.status = "review";
         badge.className = "badge-status status-neutral";
-        badge.textContent = "待主管複核";
+        badge.textContent = "待需人工審核";
         checkbox.checked = false;
         checkbox.disabled = true;
       });
 
       App.hideOverlay(document.getElementById("confirmModal"));
       updateSelection();
-      App.showToast("已將 " + selected.length + " 份正常文件送交主管複核。");
+      App.showToast("已將 " + selected.length + " 份正常文件送交需人工審核。");
     });
 
     document.getElementById("fileFilter").addEventListener("input", filterRows);

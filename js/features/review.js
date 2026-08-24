@@ -75,7 +75,7 @@
         return;
       }
 
-      App.showToast("文件已送交主管複核。");
+      App.showToast("文件已送交需人工審核。");
       global.setTimeout(function () {
         App.goToPage("files");
       }, 800);

@@ -24,7 +24,7 @@
       caseId: "ML-2026-0818-04",
       country: "美國",
       evidence: "平台帳號",
-      status: "需人工處置",
+      status: "需人工審核",
       anomaly: "anomaly",
       uploadedAt: "2026-08-18",
       pages: 24,
@@ -93,7 +93,7 @@
   const statusClassNames = {
     完成: "result-status--done",
     待複核: "result-status--warning",
-    需人工處置: "result-status--danger",
+    需人工審核: "result-status--danger",
     處理中: "result-status--processing",
   };
 
