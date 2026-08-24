@@ -28,8 +28,9 @@
         <div class="brand-mark"><i data-lucide="landmark"></i></div>
         <div class="brand-copy"><strong>司法文件智慧平台</strong><small>Mutual Legal Assistance</small></div>
       </div>
-      <div class="nav-label">案件作業</div>
-      <nav class="side-nav">
+      <div class="sidebar-scroll">
+        <div class="nav-label">案件作業</div>
+        <nav class="side-nav">
         <button class="nav-item-btn active" data-page="files" type="button"><i
             data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count">12</span></button>
         <button class="nav-item-btn" data-page="upload" type="button"><i
@@ -40,17 +41,18 @@
             data-lucide="network"></i><span>關聯視覺化</span></button>
         <button class="nav-item-btn" data-page="reports" type="button"><i
             data-lucide="file-chart-column"></i><span>彙整報告</span></button>
-      </nav>
-      <div class="nav-label mt-4">審核作業</div>
-      <nav class="side-nav"><button class="nav-item-btn" data-page="supervisor" type="button"><i
+        </nav>
+        <div class="nav-label mt-4">審核作業</div>
+        <nav class="side-nav"><button class="nav-item-btn" data-page="supervisor" type="button"><i
             data-lucide="shield-check"></i><span>需人工審核</span><span class="nav-count">2</span></button></nav>
-      <div class="nav-label mt-4">系統設定</div>
-      <nav class="side-nav">
-        <button class="nav-item-btn" data-page="audit" type="button"><i
+        <div class="nav-label mt-4">系統設定</div>
+        <nav class="side-nav">
+          <button class="nav-item-btn" data-page="audit" type="button"><i
             data-lucide="scroll-text"></i><span>稽核日誌</span></button>
-        <button class="nav-item-btn" data-page="accounts" type="button"><i
+          <button class="nav-item-btn" data-page="accounts" type="button"><i
             data-lucide="users-round"></i><span>帳號與權限</span></button>
-      </nav>
+        </nav>
+      </div>
       <div class="side-footer">
         <div class="user-menu" id="userMenu" hidden>
           <div class="user-menu-head">
@@ -73,14 +75,14 @@
       </div>
     </aside>
     <div class="workspace">
-      <header class="topbar">
-        <button class="icon-btn mobile-menu" id="mobileMenu" type="button" aria-label="開啟導覽"><i
-            data-lucide="menu"></i></button>
+      <button class="icon-btn mobile-menu workspace-menu" id="mobileMenu" type="button" aria-label="開啟導覽"><i
+          data-lucide="menu"></i></button>
+      <!-- <header class="topbar">
         <div class="topbar-title">
           <h1 id="topTitle">案件管理</h1>
           <p id="topSubtitle">跨境司法互助案件工作台</p>
         </div>
-      </header>
+      </header> -->
       <main>
         <section class="page active" id="page-files" aria-labelledby="filesHeading">
           <div class="page-heading">
@@ -156,7 +158,7 @@
                     <td>0</td>
                     <td><span class="badge-status status-info">待處理</span></td>
                     <td>2026/08/24 14:32</td>
-                    <td><button class="btn btn-sm btn-primary open-review" type="button">處理</button></td>
+                    <td><button class="btn btn-sm btn-primary open-review" type="button">待處理</button></td>
                     <td><button class="badge-status status-info return-config-trigger" data-return-status="待回拋"
                         type="button">待回拋</button></td>
                     <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
@@ -172,7 +174,7 @@
                     <td><span class="text-warning fw-bold">2</span></td>
                     <td><span class="badge-status status-warn">需人工處理</span></td>
                     <td>2026/08/24 13:54</td>
-                    <td><button class="btn btn-sm btn-primary open-review" type="button">處理</button></td>
+                    <td><button class="btn btn-sm btn-primary open-review" type="button">待處理</button></td>
                     <td><button class="badge-status status-warn return-config-trigger" data-return-status="需人工處理"
                         type="button">需人工處理</button></td>
                     <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
@@ -220,7 +222,7 @@
                     <td><span class="text-warning fw-bold">1</span></td>
                     <td><span class="badge-status status-danger">失敗</span></td>
                     <td>2026/08/23 16:08</td>
-                    <td><button class="btn btn-sm btn-primary open-review" type="button">處理</button></td>
+                    <td><button class="btn btn-sm btn-primary open-review" type="button">待處理</button></td>
                     <td><button class="badge-status status-danger return-config-trigger" data-return-status="回拋失敗"
                         type="button">回拋失敗</button></td>
                     <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"

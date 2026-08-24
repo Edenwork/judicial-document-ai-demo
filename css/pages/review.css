@@ -6,7 +6,27 @@
     display: none;
 }
 
+.review-mode .app-shell {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+}
+
+.review-mode .workspace,
+.review-mode .workspace > main {
+    height: 100%;
+    min-height: 0;
+}
+
+.review-page.active {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .review-context {
+    flex: 0 0 auto;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
 }
@@ -91,8 +111,8 @@
 }
 
 .review-layout {
-    height: calc(100vh - 262px);
-    min-height: 560px;
+    min-height: 0;
+    flex: 1 1 auto;
     display: grid;
     grid-template-columns: minmax(430px, 1.08fr) minmax(420px, .92fr);
 }

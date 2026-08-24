@@ -34,10 +34,13 @@
       button.classList.toggle("active", button.dataset.page === pageName);
     });
 
-    document.getElementById("topTitle").textContent = pageMeta[0];
-    document.getElementById("topSubtitle").textContent = pageMeta[1];
+    const topTitle = document.getElementById("topTitle");
+    const topSubtitle = document.getElementById("topSubtitle");
+    if (topTitle) topTitle.textContent = pageMeta[0];
+    if (topSubtitle) topSubtitle.textContent = pageMeta[1];
     document.body.classList.toggle("review-mode", pageName === "review");
-    document.getElementById("sidebar").classList.remove("open");
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar) sidebar.classList.remove("open");
     global.scrollTo({ top: 0, behavior: "smooth" });
 
     try {
@@ -88,9 +91,13 @@
       });
     });
 
-    document.getElementById("mobileMenu").addEventListener("click", function () {
-      document.getElementById("sidebar").classList.toggle("open");
-    });
+    const mobileMenu = document.getElementById("mobileMenu");
+    const sidebar = document.getElementById("sidebar");
+    if (mobileMenu && sidebar) {
+      mobileMenu.addEventListener("click", function () {
+        sidebar.classList.toggle("open");
+      });
+    }
 
     document.querySelectorAll(".close-overlay").forEach(function (button) {
       button.addEventListener("click", function () {

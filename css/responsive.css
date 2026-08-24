@@ -135,6 +135,18 @@
     display: grid;
   }
 
+  .workspace-menu {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 45;
+    box-shadow: var(--shadow-floating);
+  }
+
+  .workspace > main {
+    padding-top: 56px;
+  }
+
   .topbar {
     height: 62px;
     padding: 0 14px;
@@ -168,6 +180,18 @@
 
   .review-page {
     padding: 0;
+  }
+
+  .review-mode .app-shell,
+  .review-mode .workspace,
+  .review-mode .workspace > main,
+  .review-page.active {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .review-page.active {
+    display: block;
   }
 
   .review-case-meta {
