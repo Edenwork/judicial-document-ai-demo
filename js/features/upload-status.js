@@ -81,6 +81,16 @@
     const tableBody = document.getElementById("uploadStatusTable");
     const emptyState = document.getElementById("uploadStatusEmpty");
     const refreshButton = document.getElementById("refreshUploadStatus");
+
+    // The processing-status panel is optional. Stop this feature cleanly when
+    // the page does not render it so the remaining app (including icons) can
+    // continue initializing.
+    if (!filterContainer || !tableBody || !emptyState || !refreshButton) {
+      App.uploadStatus = {
+        upsertFiles: function () {},
+      };
+      return;
+    }
     let records = initialRecords.map(function (record) {
       return Object.assign({}, record);
     });
