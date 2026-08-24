@@ -4,7 +4,7 @@
   const App = (global.JudicialApp = global.JudicialApp || {});
 
   App.pageMeta = {
-    files: ["文件管理", "跨境司法互助案件文件工作台"],
+    files: ["案件管理", "跨境司法互助案件工作台"],
     upload: ["批次上傳", "匯入並追蹤 AI 文件處理進度"],
     review: ["文件校對", "原始文件與 AI 結果對照確認"],
     search: ["智慧搜尋", "查找、勾選並彙整已入庫文件"],

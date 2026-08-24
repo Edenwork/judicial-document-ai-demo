@@ -8,16 +8,16 @@
     function downloadWordReport() {
       const content =
         '<html><head><meta charset="utf-8"></head><body>' +
-        "<h1>跨境司法互助案件彙整報告</h1>" +
-        "<p>涵蓋日本、美國、新加坡及香港等四個司法管轄區。</p>" +
-        "<h2>主要證據類型</h2>" +
-        "<ul><li>銀行交易與匯款資料</li><li>平台帳號與登入紀錄</li><li>公司登記與實質受益人</li><li>犯罪所得凍結資料</li></ul>" +
+        "<h1>美國平台帳號資料保全案彙整報告</h1>" +
+        "<p>案號：ML-2026-0818-04；彙整請求書、回覆函、證據材料與登入紀錄附件。</p>" +
+        "<h2>主要證據內容</h2>" +
+        "<ul><li>平台帳號註冊資訊</li><li>登入與 IP 紀錄</li><li>關聯電子郵件與裝置資訊</li></ul>" +
         "</body></html>";
       const blob = new Blob([content], { type: "application/msword;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const downloadLink = document.createElement("a");
       downloadLink.href = url;
-      downloadLink.download = "司法互助案件彙整報告.doc";
+      downloadLink.download = "美國平台帳號資料保全案彙整報告.doc";
       downloadLink.click();
       URL.revokeObjectURL(url);
       App.showToast("Word 報告已產生並開始下載。");
