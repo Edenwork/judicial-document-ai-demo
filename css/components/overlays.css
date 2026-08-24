@@ -189,6 +189,16 @@
     flex: 0 0 auto;
 }
 
+.app-toast--warning {
+    border-color: var(--color-warning-300);
+    color: var(--color-warning-700);
+    background: var(--color-warning-50);
+}
+
+.app-toast--warning svg {
+    color: var(--color-warning);
+}
+
 @keyframes toastIn {
     from {
         opacity: 0;

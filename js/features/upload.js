@@ -29,11 +29,34 @@
     let isProcessing = false;
 
     function updateStartButton() {
-      const hasCaseData = caseNumberInput.value.trim() && countryInput.value.trim();
       const allUploadsCompleted = queue.length && queue.every(function (file) {
         return file.uploadStatus === "success";
       });
-      startButton.disabled = isProcessing || !hasCaseData || !allUploadsCompleted;
+      startButton.disabled = isProcessing || !allUploadsCompleted;
+    }
+
+    function validateRequiredFields() {
+      const requiredInputs = [caseNumberInput, countryInput];
+      const missingInputs = requiredInputs.filter(function (input) {
+        return !input.value.trim();
+      });
+
+      requiredInputs.forEach(function (input) {
+        const isMissing = missingInputs.includes(input);
+        input.classList.toggle("is-invalid", isMissing);
+        input.setAttribute("aria-invalid", String(isMissing));
+      });
+
+      if (!missingInputs.length) return true;
+      App.showToast("請填寫必填欄位", "warning");
+      missingInputs[0].focus();
+      return false;
+    }
+
+    function confirmUpload() {
+      if (!validateRequiredFields()) return;
+      App.showToast("文件上傳成功，已開始 AI 處理。");
+      startProcessing();
     }
 
     function formatFileSize(size) {
@@ -261,7 +284,12 @@
       renderQueue();
     });
     [caseNumberInput, countryInput].forEach(function (input) {
-      input.addEventListener("input", updateStartButton);
+      input.addEventListener("input", function () {
+        if (input.value.trim()) {
+          input.classList.remove("is-invalid");
+          input.setAttribute("aria-invalid", "false");
+        }
+      });
     });
 
     ["dragenter", "dragover"].forEach(function (eventName) {
@@ -279,6 +307,6 @@
     dropzone.addEventListener("drop", function (event) {
       addFiles(event.dataTransfer.files);
     });
-    startButton.addEventListener("click", startProcessing);
+    startButton.addEventListener("click", confirmUpload);
   };
 })(window);

@@ -47,10 +47,17 @@
     }
   };
 
-  App.showToast = function (message) {
+  App.showToast = function (message, variant) {
     const toast = document.createElement("div");
-    toast.className = "app-toast";
-    toast.innerHTML = '<i data-lucide="circle-check-big"></i><span>' + message + "</span>";
+    const icon = document.createElement("i");
+    const text = document.createElement("span");
+    const isWarning = variant === "warning";
+
+    toast.className = "app-toast" + (isWarning ? " app-toast--warning" : "");
+    toast.setAttribute("role", isWarning ? "alert" : "status");
+    icon.setAttribute("data-lucide", isWarning ? "triangle-alert" : "circle-check-big");
+    text.textContent = message;
+    toast.append(icon, text);
     document.getElementById("toastStack").appendChild(toast);
     App.renderIcons();
     global.setTimeout(function () {
