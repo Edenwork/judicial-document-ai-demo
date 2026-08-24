@@ -52,10 +52,24 @@
             data-lucide="users-round"></i><span>帳號與權限</span></button>
       </nav>
       <div class="side-footer">
-        <div class="user-card">
+        <div class="user-menu" id="userMenu" hidden>
+          <div class="user-menu-head">
+            <strong>王小明</strong>
+            <span>wang.xm</span>
+          </div>
+          <button class="user-menu-item" id="changePassword" type="button">
+            <i data-lucide="key-round"></i><span>變更密碼</span>
+          </button>
+          <button class="user-menu-item user-menu-item--danger" id="logoutButton" type="button">
+            <i data-lucide="log-out"></i><span>登出</span>
+          </button>
+        </div>
+        <button class="user-card" id="userMenuTrigger" type="button" aria-haspopup="menu" aria-expanded="false"
+          aria-controls="userMenu">
           <div class="avatar">王</div>
           <div class="user-copy"><strong>王小明</strong><small>承辦人員・國際科</small></div>
-        </div>
+          <i class="user-menu-chevron" data-lucide="chevron-down" aria-hidden="true"></i>
+        </button>
       </div>
     </aside>
     <div class="workspace">
@@ -907,6 +921,7 @@
   <script src="js/features/relations.js" defer></script>
   <script src="js/features/reports.js" defer></script>
   <script src="js/features/admin.js" defer></script>
+  <script src="js/features/session.js" defer></script>
   <script src="js/bootstrap.js" defer></script>
 </body>
 
