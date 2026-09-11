@@ -50,7 +50,7 @@
 
 .admin-metric strong {
     color: var(--color-text-strong);
-    font-size: 22px;
+    font-size: var(--admin-metric-value-font-size);
     line-height: 1.1;
 }
 
@@ -131,7 +131,7 @@
 }
 
 .admin-empty svg {
-    width: 27px;
+    width: var(--admin-empty-icon-size);
     margin-bottom: 4px;
     color: var(--color-brand-400);
 }

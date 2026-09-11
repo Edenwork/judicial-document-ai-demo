@@ -156,7 +156,7 @@
     display: grid;
     place-items: center;
     margin-bottom: 12px;
-    border-radius: 13px;
+    border-radius: var(--relation-detail-icon-radius);
     color: var(--color-action-primary);
     background: var(--color-brand-100);
 }

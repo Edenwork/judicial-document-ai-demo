@@ -146,4 +146,24 @@
   --status-badge-container-radius: var(--radius-pill);
   --data-table-cell-padding-block: var(--spacing-14);
   --data-table-cell-padding-inline: var(--spacing-14);
+
+  /* Component · Batch 3 component-specific values */
+  --auth-brand-mark-radius: var(--radius-lg);
+  --dropzone-container-radius: var(--radius-lg);
+  --dropzone-icon-radius: var(--radius-xl);
+  --relation-detail-icon-radius: var(--radius-lg);
+  --auth-card-title-font-size: 20px;
+  --page-heading-gap: 18px;
+  --metric-card-padding: 18px;
+  --modal-container-padding: 22px;
+  --modal-content-padding: 22px;
+  --report-cover-margin-bottom: 22px;
+  --report-grid-margin-block: 18px;
+  --report-stat-value-font-size: 20px;
+  --toast-container-radius: var(--radius-md);
+  --search-tab-panel-margin-top: 18px;
+  --search-hero-title-font-size: 20px;
+  --search-box-margin-top: 18px;
+  --admin-metric-value-font-size: 22px;
+  --admin-empty-icon-size: 28px;
 }
