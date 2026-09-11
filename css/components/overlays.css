@@ -25,14 +25,14 @@
 .modal-head {
     display: flex;
     align-items: center;
-    padding: 17px 19px;
+    padding: var(--spacing-16) var(--spacing-20);
     border-bottom: 1px solid var(--color-border-default);
 }
 
 .modal-head h3 {
     margin: 0;
     font-size: 16px;
-    font-weight: 750;
+    font-weight: var(--font-weight-bold);
 }
 
 .modal-head .icon-btn {
@@ -95,7 +95,7 @@
     margin: 0;
     color: var(--color-text-strong);
     font-size: 14px;
-    font-weight: 750;
+    font-weight: var(--font-weight-bold);
 }
 
 .return-fieldset-head label,
@@ -267,7 +267,7 @@
 }
 
 .report-stat {
-    padding: 13px;
+    padding: var(--spacing-14);
     border-radius: 9px;
     background: var(--color-surface-page);
 }
@@ -292,7 +292,7 @@
     display: flex;
     align-items: start;
     gap: 10px;
-    padding: 13px 14px;
+    padding: var(--spacing-14) 14px;
     border: 1px solid var(--color-success-200);
     border-radius: 11px;
     color: var(--color-success-700);

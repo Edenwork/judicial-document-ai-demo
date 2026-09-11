@@ -52,7 +52,7 @@
 .page-heading h2 {
     margin: 0;
     font-size: 24px;
-    font-weight: 760;
+    font-weight: var(--font-weight-bold);
     letter-spacing: -.02em;
 }
 
@@ -70,7 +70,7 @@
     margin-bottom: 3px;
     color: var(--color-text-subtle);
     font-size: 10px;
-    font-weight: 750;
+    font-weight: var(--font-weight-bold);
     letter-spacing: .06em;
     text-transform: uppercase;
 }
@@ -86,23 +86,23 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 17px 19px;
+    padding: var(--spacing-16) var(--spacing-20);
     border-bottom: 1px solid var(--color-border-default);
 }
 
 .panel-header h3 {
     margin: 0;
     font-size: 15px;
-    font-weight: 720;
+    font-weight: var(--font-weight-bold);
 }
 
 .panel-body {
-    padding: 19px;
+    padding: var(--spacing-20);
 }
 
 .btn {
     border-radius: var(--button-container-radius);
-    font-weight: 650;
+    font-weight: var(--font-weight-semibold);
     padding: .55rem .85rem;
 }
 
@@ -260,9 +260,9 @@
 }
 
 .metric-value {
-    margin-top: 13px;
+    margin-top: var(--spacing-14);
     font-size: 27px;
-    font-weight: 780;
+    font-weight: var(--font-weight-bold);
     line-height: 1;
 }
 
@@ -471,7 +471,7 @@
     grid-template-columns: 1fr 120px 190px 36px;
     align-items: center;
     gap: 14px;
-    padding: 13px 0;
+    padding: var(--spacing-14) 0;
     border-bottom: 1px solid var(--color-border-subtle);
 }
 
@@ -483,7 +483,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    font-weight: 650;
+    font-weight: var(--font-weight-semibold);
     min-width: 0;
 }
 

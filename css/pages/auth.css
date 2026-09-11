@@ -102,7 +102,7 @@
     margin: 0;
     color: var(--color-on-dark);
     font-size: clamp(30px, 3.4vw, 48px);
-    font-weight: 760;
+    font-weight: var(--font-weight-bold);
     letter-spacing: -.035em;
     line-height: 1.22;
 }
@@ -203,7 +203,7 @@
 .auth-card h2 {
     margin: 0;
     font-size: 21px;
-    font-weight: 760;
+    font-weight: var(--font-weight-bold);
 }
 
 .auth-card-head p {

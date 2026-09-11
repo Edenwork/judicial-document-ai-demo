@@ -71,7 +71,7 @@
 .admin-filter-bar {
     display: grid;
     grid-template-columns: minmax(210px, 1fr) 150px 120px 150px;
-    padding: 13px 16px;
+    padding: var(--spacing-14) 16px;
     background: var(--color-neutral-50);
     border-bottom: 1px solid var(--color-border-default);
     gap: 8px;
@@ -192,7 +192,7 @@
 
 .admin-tab {
     min-height: 36px;
-    padding: 7px 13px;
+    padding: 7px var(--spacing-14);
     color: var(--color-text-muted);
     background: transparent;
     border: 0;
@@ -238,7 +238,7 @@
     background: var(--color-brand-100);
     border-radius: 50%;
     font-size: 11px;
-    font-weight: 750;
+    font-weight: var(--font-weight-bold);
     place-items: center;
 }
 
@@ -257,7 +257,7 @@
     display: flex;
     align-items: flex-start;
     margin-bottom: 14px;
-    padding: 13px 15px;
+    padding: var(--spacing-14) 15px;
     color: var(--color-brand-700);
     background: var(--color-brand-50);
     border: 1px solid var(--color-brand-200);
@@ -400,7 +400,7 @@
 .scope-preview-body {
     display: grid;
     padding: 18px;
-    gap: 17px;
+    gap: var(--spacing-16);
 }
 
 .scope-selected {
@@ -491,7 +491,7 @@
 
 .permission-matrix tbody td {
     color: var(--color-success-700);
-    font-weight: 750;
+    font-weight: var(--font-weight-bold);
 }
 
 .permission-denied {

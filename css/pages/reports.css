@@ -25,7 +25,7 @@
 
 .report-doc span {
     margin-right: auto;
-    font-weight: 650;
+    font-weight: var(--font-weight-semibold);
 }
 
 .output-card {
@@ -39,7 +39,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 13px;
+    padding: var(--spacing-14);
     margin-top: 9px;
     border: 1px solid var(--color-border-default);
     border-radius: 10px;
@@ -90,7 +90,7 @@
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 18px;
-    padding: 17px;
+    padding: var(--spacing-16);
     border-bottom: 1px solid var(--color-border-subtle);
 }
 
