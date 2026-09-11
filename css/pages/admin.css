@@ -18,8 +18,8 @@
     width: 38px;
     height: 38px;
     flex: 0 0 auto;
-    color: var(--color-primary-700);
-    background: var(--color-primary-100);
+    color: var(--color-brand-700);
+    background: var(--color-brand-100);
     border-radius: var(--radius-md);
     place-items: center;
 }
@@ -73,7 +73,7 @@
     grid-template-columns: minmax(210px, 1fr) 150px 120px 150px;
     padding: 13px 16px;
     background: var(--color-neutral-50);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
     gap: 8px;
 }
 
@@ -133,7 +133,7 @@
 .admin-empty svg {
     width: 27px;
     margin-bottom: 4px;
-    color: var(--color-primary-400);
+    color: var(--color-brand-400);
 }
 
 .admin-empty span {
@@ -146,8 +146,8 @@
     justify-content: space-between;
     min-height: 58px;
     padding: 11px 16px;
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-border);
+    background: var(--color-surface-primary);
+    border-top: 1px solid var(--color-border-default);
     gap: 12px;
 }
 
@@ -166,20 +166,20 @@
 .audit-page-button {
     min-width: 32px;
     color: var(--color-text-secondary);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-default);
 }
 
 .audit-page-button:hover {
-    color: var(--color-primary-700);
-    background: var(--color-primary-50);
-    border-color: var(--color-primary-300);
+    color: var(--color-brand-700);
+    background: var(--color-brand-50);
+    border-color: var(--color-brand-300);
 }
 
 .audit-page-button.active {
     color: var(--color-on-dark);
-    background: var(--color-primary);
-    border-color: var(--color-primary);
+    background: var(--color-action-primary);
+    border-color: var(--color-action-primary);
 }
 
 .admin-tabs {
@@ -208,13 +208,13 @@
 }
 
 .admin-tab:hover {
-    color: var(--color-primary-700);
-    background: var(--color-primary-50);
+    color: var(--color-brand-700);
+    background: var(--color-brand-50);
 }
 
 .admin-tab.active {
-    color: var(--color-primary-700);
-    background: var(--color-primary-100);
+    color: var(--color-brand-700);
+    background: var(--color-brand-100);
 }
 
 .admin-tab-panel {
@@ -234,8 +234,8 @@
     width: 32px;
     height: 32px;
     flex: 0 0 auto;
-    color: var(--color-primary-700);
-    background: var(--color-primary-100);
+    color: var(--color-brand-700);
+    background: var(--color-brand-100);
     border-radius: 50%;
     font-size: 11px;
     font-weight: 750;
@@ -258,9 +258,9 @@
     align-items: flex-start;
     margin-bottom: 14px;
     padding: 13px 15px;
-    color: var(--color-primary-700);
-    background: var(--color-primary-50);
-    border: 1px solid var(--color-primary-200);
+    color: var(--color-brand-700);
+    background: var(--color-brand-50);
+    border: 1px solid var(--color-brand-200);
     border-radius: var(--radius-lg);
     gap: 10px;
 }
@@ -376,7 +376,7 @@
     min-width: 76px;
     padding: 8px 10px;
     color: var(--color-text-secondary);
-    background: var(--color-surface);
+    background: var(--color-surface-primary);
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-panel);
@@ -386,15 +386,15 @@
 }
 
 .organization-node:hover {
-    color: var(--color-primary-700);
-    background: var(--color-primary-50);
-    border-color: var(--color-primary-400);
+    color: var(--color-brand-700);
+    background: var(--color-brand-50);
+    border-color: var(--color-brand-400);
 }
 
 .organization-node.active {
     color: var(--color-on-dark);
-    background: var(--color-primary);
-    border-color: var(--color-primary);
+    background: var(--color-action-primary);
+    border-color: var(--color-action-primary);
 }
 
 .scope-preview-body {
@@ -405,8 +405,8 @@
 
 .scope-selected {
     padding: 12px;
-    background: var(--color-primary-50);
-    border: 1px solid var(--color-primary-200);
+    background: var(--color-brand-50);
+    border: 1px solid var(--color-brand-200);
     border-radius: var(--radius-md);
 }
 
@@ -424,7 +424,7 @@
 
 .scope-selected strong {
     margin: 4px 0;
-    color: var(--color-primary-700);
+    color: var(--color-brand-700);
     font-size: 15px;
 }
 

@@ -9,10 +9,10 @@ body {
 
 body {
     margin: 0;
-    background: var(--color-background);
+    background: var(--color-surface-page);
     color: var(--color-text-strong);
-    font-family: Inter, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
-    font-size: 14px;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-md);
 }
 
 button,

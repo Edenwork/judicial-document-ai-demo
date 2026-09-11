@@ -41,15 +41,15 @@
     gap: 12px;
     padding: 13px;
     margin-top: 9px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: 10px;
-    background: var(--color-surface);
+    background: var(--color-surface-primary);
     text-align: left;
 }
 
 .output-option:hover {
-    border-color: var(--color-primary-300);
-    background: var(--color-primary-50);
+    border-color: var(--color-brand-300);
+    background: var(--color-brand-50);
 }
 
 .output-option .output-icon {
@@ -58,8 +58,8 @@
     display: grid;
     place-items: center;
     border-radius: 10px;
-    color: var(--color-primary);
-    background: var(--color-primary-100);
+    color: var(--color-action-primary);
+    background: var(--color-brand-100);
 }
 
 .output-option svg {
@@ -76,7 +76,7 @@
 }
 
 .output-icon--pdf {
-    color: var(--color-danger);
+    color: var(--color-status-danger);
     background: var(--color-danger-100);
 }
 

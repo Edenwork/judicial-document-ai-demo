@@ -13,9 +13,9 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    padding: 20px 14px;
-    color: var(--color-on-dark-76);
-    background: radial-gradient(circle at 20% 0%, var(--color-sidebar-glow), transparent 28%), linear-gradient(180deg, var(--color-primary-900), var(--color-primary-850) 70%, var(--color-primary-950));
+    padding: var(--spacing-20) var(--spacing-14);
+    color: var(--color-on-dark-opacity-76);
+    background: radial-gradient(circle at 20% 0%, var(--color-sidebar-glow), transparent 28%), linear-gradient(180deg, var(--color-brand-900), var(--color-brand-850) 70%, var(--color-brand-950));
     z-index: 40;
 }
 
@@ -25,7 +25,7 @@
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
-    scrollbar-color: var(--color-on-dark-10) transparent;
+    scrollbar-color: var(--color-on-dark-opacity-10) transparent;
 }
 
 .brand {
@@ -36,32 +36,32 @@
 }
 
 .brand-mark {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
+    width: var(--control-height-md);
+    height: var(--control-height-md);
+    border-radius: var(--brand-mark-container-radius);
     display: grid;
     place-items: center;
-    background: linear-gradient(145deg, var(--color-success-300), var(--color-primary-600));
+    background: linear-gradient(145deg, var(--color-success-300), var(--color-brand-600));
     color: var(--color-on-dark);
-    box-shadow: inset 0 1px 0 var(--color-on-dark-46);
+    box-shadow: inset 0 1px 0 var(--color-on-dark-opacity-46);
 }
 
 .brand strong {
-    color: var(--color-surface);
+    color: var(--color-surface-primary);
     display: block;
     font-size: 15px;
     letter-spacing: .03em;
 }
 
 .brand small {
-    color: var(--color-on-dark-52);
+    color: var(--color-on-dark-opacity-52);
     font-size: 11px;
 }
 
 .nav-label {
-    padding: 0 12px;
+    padding: 0 var(--spacing-12);
     margin: 6px 0 8px;
-    color: var(--color-on-dark-38);
+    color: var(--color-on-dark-opacity-38);
     font-size: 11px;
     letter-spacing: .12em;
 }
@@ -77,8 +77,8 @@
     display: flex;
     align-items: center;
     gap: 11px;
-    padding: 10px 12px;
-    border-radius: 10px;
+    padding: var(--spacing-10) var(--spacing-12);
+    border-radius: var(--radius-md);
     background: transparent;
     color: inherit;
     text-align: left;
@@ -86,19 +86,19 @@
 }
 
 .nav-item-btn:hover {
-    color: var(--color-surface);
-    background: var(--color-on-dark-08);
+    color: var(--color-surface-primary);
+    background: var(--color-on-dark-opacity-8);
 }
 
 .nav-item-btn.active {
-    color: var(--color-surface);
+    color: var(--color-surface-primary);
     background: var(--color-sidebar-active);
     box-shadow: inset 3px 0 0 var(--color-success-300);
 }
 
 .nav-item-btn svg {
-    width: 18px;
-    height: 18px;
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
 }
 
 .nav-item-btn--child {
@@ -124,16 +124,16 @@
 .side-footer {
     position: relative;
     flex: 0 0 auto;
-    margin-top: 12px;
-    padding-top: 14px;
-    border-top: 1px solid var(--color-on-dark-10);
+    margin-top: var(--spacing-12);
+    padding-top: var(--spacing-14);
+    border-top: 1px solid var(--color-on-dark-opacity-10);
 }
 
 .user-card {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--spacing-10);
     padding: 9px 8px;
     color: inherit;
     background: transparent;
@@ -144,31 +144,31 @@
 
 .user-card:hover,
 .user-card[aria-expanded="true"] {
-    color: var(--color-surface);
-    background: var(--color-on-dark-08);
+    color: var(--color-surface-primary);
+    background: var(--color-on-dark-opacity-8);
 }
 
 .avatar {
-    width: 34px;
-    height: 34px;
+    width: var(--avatar-size-md);
+    height: var(--avatar-size-md);
     display: grid;
     place-items: center;
     flex: 0 0 auto;
     border-radius: 50%;
     color: var(--color-on-dark);
     background: var(--color-avatar);
-    font-size: 12px;
+    font-size: var(--font-size-sm);
     font-weight: 700;
 }
 
 .user-card strong {
-    color: var(--color-surface);
+    color: var(--color-surface-primary);
     display: block;
     font-size: 13px;
 }
 
 .user-card small {
-    color: var(--color-on-dark-46);
+    color: var(--color-on-dark-opacity-46);
 }
 
 .user-menu-chevron {
@@ -188,9 +188,9 @@
     left: 0;
     overflow: hidden;
     padding: 5px;
-    color: var(--color-text);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    background: var(--color-surface-primary);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-floating);
     z-index: 50;
@@ -208,7 +208,7 @@
 
 .user-menu-head strong {
     color: var(--color-text-strong);
-    font-size: 12px;
+    font-size: var(--font-size-sm);
 }
 
 .user-menu-head span {
@@ -227,15 +227,15 @@
     background: transparent;
     border: 0;
     border-radius: var(--radius-sm);
-    gap: 8px;
+    gap: var(--spacing-8);
     font-size: 11px;
     font-weight: 650;
     text-align: left;
 }
 
 .user-menu-item:hover {
-    color: var(--color-primary-700);
-    background: var(--color-primary-50);
+    color: var(--color-brand-700);
+    background: var(--color-brand-50);
 }
 
 .user-menu-item--danger {
@@ -275,11 +275,11 @@
     z-index: 30;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: var(--spacing-14);
     padding: 0 28px;
     background: var(--color-surface-glass);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
 }
 
 .topbar-title {
@@ -295,5 +295,5 @@
 .topbar-title p {
     margin: 2px 0 0;
     color: var(--color-text-muted);
-    font-size: 12px;
+    font-size: var(--font-size-sm);
 }

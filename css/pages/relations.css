@@ -31,7 +31,7 @@
     display: flex;
     gap: 14px;
     padding: 9px 11px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: 9px;
     background: var(--color-surface-glass);
     color: var(--color-text-muted);
@@ -43,12 +43,12 @@
     width: 10px;
     height: 10px;
     margin-right: 5px;
-    background: var(--color-primary);
+    background: var(--color-action-primary);
 }
 
 .legend-shape.circle {
     border-radius: 50%;
-    background: var(--color-success);
+    background: var(--color-status-success);
 }
 
 .relation-svg {
@@ -57,7 +57,7 @@
 }
 
 .relation-svg .edge {
-    stroke: var(--color-primary-300);
+    stroke: var(--color-brand-300);
     stroke-width: 1.5;
 }
 
@@ -87,7 +87,7 @@
 
 .node text {
     pointer-events: none;
-    fill: var(--color-text);
+    fill: var(--color-text-primary);
     font-size: 11px;
     font-weight: 700;
 }
@@ -111,7 +111,7 @@
 }
 
 .node-shape--case {
-    fill: var(--color-success);
+    fill: var(--color-status-success);
 }
 
 .node-halo--document {
@@ -119,8 +119,8 @@
 }
 
 .node-shape--document {
-    fill: var(--color-primary-100);
-    stroke: var(--color-primary);
+    fill: var(--color-brand-100);
+    stroke: var(--color-action-primary);
 }
 
 .node-halo--similar {
@@ -129,17 +129,17 @@
 
 .node-shape--similar {
     fill: var(--color-graph-similar);
-    stroke: var(--color-warning);
+    stroke: var(--color-status-warning);
 }
 
 .legend-ai {
-    color: var(--color-warning);
+    color: var(--color-status-warning);
 }
 
 .node-detail {
     padding: 19px;
-    border-left: 1px solid var(--color-border);
-    background: var(--color-surface);
+    border-left: 1px solid var(--color-border-default);
+    background: var(--color-surface-primary);
 }
 
 .node-detail-empty {
@@ -157,8 +157,8 @@
     place-items: center;
     margin-bottom: 12px;
     border-radius: 13px;
-    color: var(--color-primary);
-    background: var(--color-primary-100);
+    color: var(--color-action-primary);
+    background: var(--color-brand-100);
 }
 
 .detail-icon svg {

@@ -13,7 +13,7 @@
     inset: 0;
     display: block !important;
     padding: 0;
-    background: var(--color-surface);
+    background: var(--color-surface-primary);
   }
 
   #reportPreview .modal-card {
@@ -226,7 +226,7 @@
   .document-pane {
     height: 60vh;
     border-right: 0;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
   }
 
   .fields-pane {
@@ -262,7 +262,7 @@
 
   .node-detail {
     border-left: 0;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
     min-height: 260px;
   }
 

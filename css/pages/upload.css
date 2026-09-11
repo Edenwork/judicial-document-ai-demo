@@ -20,17 +20,17 @@
 }
 
 .status-overview-card {
-  --status-color: var(--color-primary);
-  --status-tone: var(--color-primary-100);
+  --status-color: var(--color-action-primary);
+  --status-tone: var(--color-brand-100);
   min-width: 0;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 13px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-md);
-  color: var(--color-text);
-  background: var(--color-surface);
+  color: var(--color-text-primary);
+  background: var(--color-surface-primary);
   text-align: left;
   transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
 }
@@ -56,22 +56,22 @@
 }
 
 .status-overview-card[data-status-filter="processing"] {
-  --status-color: var(--color-processing);
+  --status-color: var(--color-status-processing);
   --status-tone: var(--color-processing-100);
 }
 
 .status-overview-card[data-status-filter="completed"] {
-  --status-color: var(--color-success);
+  --status-color: var(--color-status-success);
   --status-tone: var(--color-success-100);
 }
 
 .status-overview-card[data-status-filter="failed"] {
-  --status-color: var(--color-danger);
+  --status-color: var(--color-status-danger);
   --status-tone: var(--color-danger-100);
 }
 
 .status-overview-card[data-status-filter="manual"] {
-  --status-color: var(--color-warning);
+  --status-color: var(--color-status-warning);
   --status-tone: var(--color-warning-100);
 }
 
@@ -125,7 +125,7 @@
   padding: 11px 13px;
   color: var(--color-text-muted);
   background: var(--color-neutral-50);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-default);
   font-size: 11px;
   font-weight: 700;
 }
