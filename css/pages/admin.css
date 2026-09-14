@@ -57,7 +57,7 @@
 .admin-metric div>span {
     margin-top: 5px;
     color: var(--color-text-muted);
-    font-size: 11px;
+    font-size: var(--font-size-md);
 }
 
 .audit-list-panel,
@@ -95,7 +95,7 @@
 .audit-user strong,
 .account-identity strong {
     display: block;
-    font-size: 12px;
+    font-size: var(--font-size-md);
 }
 
 .audit-user span,
@@ -108,7 +108,7 @@
 
 .audit-action {
     display: block;
-    font-size: 12px;
+    font-size: var(--font-size-md);
     font-weight: 700;
 }
 

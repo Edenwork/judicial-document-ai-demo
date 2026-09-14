@@ -158,7 +158,7 @@
     gap: var(--spacing-6);
     border-radius: var(--status-badge-container-radius);
     padding: 5px 9px;
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
 }
 

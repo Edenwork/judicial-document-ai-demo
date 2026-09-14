@@ -572,3 +572,57 @@ Batch 5B — Approved Visual Normalization
 
 先確認 Batch 4 的 Human Decision Checklist，再進 5B。
 
+
+---
+
+# Batch 5 — Approved Typography Normalization
+
+## Scope
+
+依人工確認調整三組 UI typography。此批包含實際字級變更，因此需要 Visual QA。
+
+## Approved Changes
+
+| Selector | Before | After | Token / Result | Risk |
+|---|---:|---:|---|---|
+| `.audit-user strong`, `.account-identity strong` | `12px` | `14px` | `var(--font-size-md)` | Visual QA |
+| `.admin-metric div > span` | `11px` | `14px` | `var(--font-size-md)` | Visual QA |
+| `.badge-status` | `var(--font-size-xs)` = `11px` | `var(--font-size-sm)` = `12px` | Existing Primitive token | Visual QA |
+
+## Decision Notes
+
+- 不新增 `13px` global typography token。
+- Audit / Account identity primary text 統一使用既有 `--font-size-md`（14px）。
+- Admin metric secondary label 亦統一使用 `--font-size-md`（14px）。
+- Status badge 從 `--font-size-xs` 升級為既有 `--font-size-sm`（12px）。
+- 本批沒有修改 `--font-size-sm` 或 `--font-size-md` 本身，因此不會連動其他使用相同 Token 的元件。
+
+## Files Changed
+
+```text
+css/pages/admin.css
+css/components.css
+DESIGN_TOKEN_MIGRATION.md
+```
+
+## Validation
+
+- CSS custom property references：需全部有定義
+- Brace integrity：需通過
+- Intended CSS diff：僅上述三個 typography declaration
+- Visual QA：Required
+
+## Visual QA Focus
+
+請特別確認：
+
+- Admin Audit user / Account identity 是否因 12 → 14px 產生換行或 row height 明顯變化
+- Admin metric secondary label 是否因 11 → 14px 造成 card 擁擠
+- Status badge 文字放大至 12px 後，badge padding / height / wrapping 是否正常
+
+## Batch 5 Commit
+
+```text
+refactor(design-tokens): 統一管理介面與狀態標籤字級
+```
+
