@@ -26,7 +26,7 @@
 
 .page {
     display: none;
-    padding: 26px 28px 42px;
+    padding: 26px var(--spacing-28) 42px;
     animation: pageIn .22s ease;
 }
 
@@ -46,19 +46,16 @@
     align-items: end;
     justify-content: space-between;
     gap: var(--page-heading-gap);
-    margin-bottom: 20px;
-}
+    margin-bottom: var(--spacing-20);}
 
 .page-heading h2 {
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-2xl);    font-weight: var(--font-weight-bold);
     letter-spacing: -.02em;
 }
 
 .page-heading p {
-    margin: 6px 0 0;
-    color: var(--color-text-muted);
+    margin: var(--spacing-6) 0 0;    color: var(--color-text-muted);
 }
 
 .subtle {
@@ -69,7 +66,7 @@
     display: block;
     margin-bottom: 3px;
     color: var(--color-text-subtle);
-    font-size: 0.625rem;
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold);
     letter-spacing: .06em;
     text-transform: uppercase;
@@ -85,8 +82,7 @@
 .panel-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: var(--spacing-16) var(--spacing-20);
+    gap: var(--spacing-12);    padding: var(--spacing-16) var(--spacing-20);
     border-bottom: 1px solid var(--color-border-default);
 }
 
@@ -203,8 +199,7 @@
 .metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    margin-bottom: 18px;
+    gap: var(--spacing-14);    margin-bottom: 18px;
 }
 
 .metric-card {
@@ -275,9 +270,7 @@
 .filters {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--color-border-default);
+    gap: var(--spacing-10);    padding: var(--spacing-14) var(--spacing-16);    border-bottom: 1px solid var(--color-border-default);
 }
 
 .search-mini {
@@ -300,9 +293,7 @@
 .selection-bar {
     display: none;
     align-items: center;
-    gap: 12px;
-    padding: 11px 16px;
-    color: var(--color-brand-700);
+    gap: var(--spacing-12);    padding: 11px var(--spacing-16);    color: var(--color-brand-700);
     background: var(--color-brand-50);
     border-bottom: 1px solid var(--color-brand-200);
 }
@@ -356,8 +347,7 @@
     margin-top: 2px;
     color: var(--color-text-faint);
     font-size: 0.5625rem;
-    font-weight: 600;
-    white-space: nowrap;
+    font-weight: var(--font-weight-semibold);    white-space: nowrap;
 }
 
 .case-return-switch .form-check-input {
@@ -392,8 +382,7 @@
 
 .doc-link {
     color: var(--color-brand-700);
-    font-weight: 700;
-    text-decoration: none;
+    font-weight: var(--font-weight-bold);    text-decoration: none;
 }
 
 .doc-link:hover {
@@ -404,8 +393,7 @@
     display: block;
     margin-top: 3px;
     color: var(--color-text-faint);
-    font-size: 0.6875rem;
-}
+    font-size: var(--font-size-xs);}
 
 .confidence {
     display: inline-flex;
@@ -435,8 +423,7 @@
 }
 
 .dropzone {
-    padding: 40px 24px;
-    text-align: center;
+    padding: 40px var(--spacing-24);    text-align: center;
     border: 1.5px dashed var(--color-brand-300);
     border-radius: var(--dropzone-container-radius);
     background: linear-gradient(180deg, var(--color-surface-subtle), var(--color-brand-50));
@@ -455,8 +442,7 @@
     height: 50px;
     display: grid;
     place-items: center;
-    margin: 0 auto 12px;
-    border-radius: var(--dropzone-icon-radius);
+    margin: 0 auto var(--spacing-12);    border-radius: var(--dropzone-icon-radius);
     color: var(--color-action-primary);
     background: var(--color-surface-primary);
     box-shadow: var(--shadow-floating);
@@ -470,8 +456,7 @@
     display: grid;
     grid-template-columns: 1fr 120px 190px 36px;
     align-items: center;
-    gap: 14px;
-    padding: var(--spacing-14) 0;
+    gap: var(--spacing-14);    padding: var(--spacing-14) 0;
     border-bottom: 1px solid var(--color-border-subtle);
 }
 
@@ -482,8 +467,7 @@
 .file-name {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: var(--font-weight-semibold);
+    gap: var(--spacing-10);    font-weight: var(--font-weight-semibold);
     min-width: 0;
 }
 
@@ -530,13 +514,11 @@
     gap: 5px;
     margin-top: 5px;
     color: var(--color-text-muted);
-    font-size: 0.6875rem;
-}
+    font-size: var(--font-size-xs);}
 
 .file-stage.is-success {
     color: var(--color-success-700);
-    font-weight: 700;
-}
+    font-weight: var(--font-weight-bold);}
 
 .file-stage svg {
     width: 13px;
@@ -556,7 +538,7 @@
 
 .process-card {
     display: none;
-    margin-top: 18px;
+    margin-top: var(--spacing-18);
 }
 
 .process-card.show {
@@ -565,15 +547,12 @@
 
 .stage-list {
     display: grid;
-    gap: 8px;
-    margin-top: 16px;
-}
+    gap: var(--spacing-8);    margin-top: var(--spacing-16);}
 
 .stage-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: var(--color-text-faint);
+    gap: var(--spacing-10);    color: var(--color-text-faint);
 }
 
 .stage-item .stage-dot {
@@ -583,7 +562,7 @@
     place-items: center;
     border-radius: 50%;
     background: var(--color-neutral-100);
-    font-size: 0.625rem;
+    font-size: var(--font-size-xs);
 }
 
 .stage-item.done {
@@ -597,8 +576,7 @@
 
 .stage-item.active {
     color: var(--color-brand-700);
-    font-weight: 700;
-}
+    font-weight: var(--font-weight-bold);}
 
 .stage-item.active .stage-dot {
     color: var(--color-surface-primary);
@@ -609,10 +587,9 @@
 .page-back-action {
     display: flex;
     justify-content: flex-start;
-    margin-top: 16px;
-}
+    margin-top: var(--spacing-16);}
 
 .page-back-action .btn {
     min-height: var(--control-height-lg);
-    padding-inline: 18px;
+    padding-inline: var(--spacing-18);
 }

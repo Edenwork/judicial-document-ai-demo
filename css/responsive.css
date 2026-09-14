@@ -33,8 +33,7 @@
   }
 
   .sidebar {
-    padding-inline: 10px;
-  }
+    padding-inline: var(--spacing-10);  }
 
   .brand {
     justify-content: center;
@@ -57,19 +56,16 @@
 
   .nav-item-btn {
     justify-content: center;
-    padding-inline: 8px;
-  }
+    padding-inline: var(--spacing-8);  }
 
   .nav-item-btn--child {
-    padding-inline: 8px;
-  }
+    padding-inline: var(--spacing-8);  }
 
   .nav-count {
     position: absolute;
     margin: -25px 0 0 22px;
     min-width: 18px;
-    padding: 1px 4px;
-  }
+    padding: 1px var(--spacing-4);  }
 
   .metrics {
     grid-template-columns: repeat(2, 1fr);
@@ -81,7 +77,7 @@
 
   .review-case-meta,
   .review-document-bar {
-    padding-inline: 28px;
+    padding-inline: var(--spacing-28);
   }
 
   .report-layout {
@@ -108,8 +104,7 @@
 
   .brand {
     justify-content: flex-start;
-    padding-inline: 8px;
-  }
+    padding-inline: var(--spacing-8);  }
 
   .brand-copy,
   .nav-item-btn span:not(.nav-count),
@@ -127,8 +122,7 @@
 
   .nav-item-btn {
     justify-content: flex-start;
-    padding-inline: 12px;
-  }
+    padding-inline: var(--spacing-12);  }
 
   .nav-item-btn--child {
     padding-left: 54px;
@@ -157,16 +151,14 @@
 
   .topbar {
     height: 62px;
-    padding: 0 14px;
-  }
+    padding: 0 var(--spacing-14);  }
 
   .topbar-title p {
     display: none;
   }
 
   .page {
-    padding: 18px 14px 32px;
-  }
+    padding: var(--spacing-18) var(--spacing-14) var(--spacing-32);
 
   .page-heading {
     align-items: start;
@@ -204,9 +196,7 @@
 
   .review-case-meta {
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    padding: 16px 18px 22px;
-  }
+    gap: var(--spacing-14);    padding: var(--spacing-16) 18px 22px;  }
 
   .review-update-button {
     width: fit-content;
@@ -215,7 +205,7 @@
   .review-document-bar {
     align-items: end;
     flex-wrap: wrap;
-    padding: 18px;
+    padding: var(--spacing-18);
   }
 
   .review-layout {
@@ -234,7 +224,7 @@
   }
 
   .paper {
-    padding: 34px 28px;
+    padding: 34px var(--spacing-28);
     min-height: 760px;
   }
 

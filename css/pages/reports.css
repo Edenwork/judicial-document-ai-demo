@@ -1,22 +1,18 @@
 .report-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 330px;
-    gap: 18px;
+    gap: var(--spacing-18);
 }
 
 .report-doc-list {
     display: grid;
-    gap: 8px;
-}
+    gap: var(--spacing-8);}
 
 .report-doc {
     display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 12px;
-    border: 1px solid var(--color-border-soft);
-    border-radius: 10px;
-}
+    gap: var(--spacing-10);    align-items: center;
+    padding: var(--spacing-12);    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-md);}
 
 .report-doc svg {
     width: 18px;
@@ -29,7 +25,7 @@
 }
 
 .output-card {
-    padding: 18px;
+    padding: var(--spacing-18);
     position: sticky;
     top: 88px;
 }
@@ -38,12 +34,10 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: var(--spacing-14);
+    gap: var(--spacing-12);    padding: var(--spacing-14);
     margin-top: 9px;
     border: 1px solid var(--color-border-default);
-    border-radius: 10px;
-    background: var(--color-surface-primary);
+    border-radius: var(--radius-md);    background: var(--color-surface-primary);
     text-align: left;
 }
 
@@ -57,8 +51,7 @@
     height: 36px;
     display: grid;
     place-items: center;
-    border-radius: 10px;
-    color: var(--color-action-primary);
+    border-radius: var(--radius-md);    color: var(--color-action-primary);
     background: var(--color-brand-100);
 }
 
@@ -89,7 +82,7 @@
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 18px;
+    gap: var(--spacing-18);
     padding: var(--spacing-16);
     border-bottom: 1px solid var(--color-border-subtle);
 }
@@ -101,8 +94,4 @@
 .change-count {
     color: var(--color-warning-700);
     background: var(--color-warning-100);
-    border-radius: 999px;
-    padding: 4px 8px;
-    font-size: 0.6875rem;
-    font-weight: 700;
-}
+    border-radius: var(--radius-pill);    padding: var(--spacing-4) var(--spacing-8);    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}

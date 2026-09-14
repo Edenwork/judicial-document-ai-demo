@@ -1,5 +1,5 @@
 .upload-status-panel {
-  margin-top: 18px;
+  margin-top: var(--spacing-18);
 }
 
 .upload-status-header {
@@ -7,16 +7,13 @@
 }
 
 .upload-status-header p {
-  margin: 4px 0 0;
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
-}
+  margin: var(--spacing-4) 0 0;  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);}
 
 .status-overview {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 18px;
+  gap: var(--spacing-10);  margin-bottom: 18px;
 }
 
 .status-overview-card {
@@ -25,8 +22,7 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: var(--spacing-14);
+  gap: var(--spacing-10);  padding: var(--spacing-14);
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
@@ -99,16 +95,14 @@
 .status-overview-card small {
   overflow: hidden;
   color: var(--color-text-muted);
-  font-size: 0.6875rem;
-  text-overflow: ellipsis;
+  font-size: var(--font-size-xs);  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .status-overview-card strong {
   margin-top: 2px;
   color: var(--status-color);
-  font-size: 1.25rem;
-  line-height: 1;
+  font-size: var(--font-size-xl);  line-height: 1;
 }
 
 .status-table-wrap {
@@ -126,9 +120,7 @@
   color: var(--color-text-muted);
   background: var(--color-neutral-50);
   border-bottom: 1px solid var(--color-border-default);
-  font-size: 0.6875rem;
-  font-weight: 700;
-}
+  font-size: var(--font-size-xs);  font-weight: var(--font-weight-bold);}
 
 .status-table td {
   padding: var(--spacing-14);
@@ -143,8 +135,7 @@
 .status-document {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-width: 230px;
+  gap: var(--spacing-10);  min-width: 230px;
 }
 
 .status-document-icon {
@@ -168,8 +159,7 @@
   max-width: 290px;
   overflow: hidden;
   color: var(--color-text-strong);
-  font-size: 0.75rem;
-  text-overflow: ellipsis;
+  font-size: var(--font-size-sm);  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -177,8 +167,7 @@
 .status-stage,
 .status-updated {
   color: var(--color-text-muted);
-  font-size: 0.6875rem;
-}
+  font-size: var(--font-size-xs);}
 
 .status-progress {
   min-width: 130px;
@@ -187,10 +176,9 @@
 .status-progress-meta {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 5px;
+  gap: var(--spacing-8);  margin-bottom: 5px;
   color: var(--color-text-muted);
-  font-size: 0.625rem;
+  font-size: var(--font-size-xs);
 }
 
 .status-progress .progress-thin {
@@ -202,8 +190,7 @@
   display: grid;
   place-items: center;
   align-content: center;
-  gap: 8px;
-  color: var(--color-text-muted);
+  gap: var(--spacing-8);  color: var(--color-text-muted);
 }
 
 .status-empty svg {

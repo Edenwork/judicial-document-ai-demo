@@ -32,8 +32,7 @@
     display: flex;
     gap: 11px;
     align-items: center;
-    padding: 3px 8px 24px;
-}
+    padding: 3px var(--spacing-8) var(--spacing-24);}
 
 .brand-mark {
     width: var(--control-height-md);
@@ -55,15 +54,12 @@
 
 .brand small {
     color: var(--color-on-dark-opacity-52);
-    font-size: 0.6875rem;
-}
+    font-size: var(--font-size-xs);}
 
 .nav-label {
     padding: 0 var(--spacing-12);
-    margin: 6px 0 8px;
-    color: var(--color-on-dark-opacity-38);
-    font-size: 0.6875rem;
-    letter-spacing: .12em;
+    margin: var(--spacing-6) 0 var(--spacing-8);    color: var(--color-on-dark-opacity-38);
+    font-size: var(--font-size-xs);    letter-spacing: .12em;
 }
 
 .side-nav {
@@ -113,12 +109,10 @@
 .nav-count {
     margin-left: auto;
     min-width: 22px;
-    padding: 2px 6px;
-    border-radius: var(--radius-pill);
+    padding: 2px var(--spacing-6);    border-radius: var(--radius-pill);
     color: var(--color-sidebar-count-text);
     background: var(--color-sidebar-count);
-    font-size: 0.6875rem;
-    text-align: center;
+    font-size: var(--font-size-xs);    text-align: center;
 }
 
 .side-footer {
@@ -134,8 +128,7 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-10);
-    padding: 9px 8px;
-    color: inherit;
+    padding: 9px var(--spacing-8);    color: inherit;
     background: transparent;
     border: 0;
     border-radius: var(--radius-md);
@@ -158,8 +151,7 @@
     color: var(--color-on-dark);
     background: var(--color-avatar);
     font-size: var(--font-size-sm);
-    font-weight: 700;
-}
+    font-weight: var(--font-weight-bold);}
 
 .user-card strong {
     color: var(--color-surface-primary);
@@ -197,8 +189,7 @@
 }
 
 .user-menu-head {
-    padding: 8px 9px 10px;
-    border-bottom: 1px solid var(--color-border-subtle);
+    padding: var(--spacing-8) 9px var(--spacing-10);    border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .user-menu-head strong,
@@ -214,22 +205,19 @@
 .user-menu-head span {
     margin-top: 2px;
     color: var(--color-text-faint);
-    font-size: 0.625rem;
+    font-size: var(--font-size-xs);
 }
 
 .user-menu-item {
     width: 100%;
     display: flex;
     align-items: center;
-    margin-top: 4px;
-    padding: 8px 9px;
-    color: var(--color-text-secondary);
+    margin-top: var(--spacing-4);    padding: var(--spacing-8) 9px;    color: var(--color-text-secondary);
     background: transparent;
     border: 0;
     border-radius: var(--radius-sm);
     gap: var(--spacing-8);
-    font-size: 0.6875rem;
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xs);    font-weight: var(--font-weight-semibold);
     text-align: left;
 }
 
@@ -276,7 +264,7 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-14);
-    padding: 0 28px;
+    padding: 0 var(--spacing-28);
     background: var(--color-surface-glass);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-border-default);

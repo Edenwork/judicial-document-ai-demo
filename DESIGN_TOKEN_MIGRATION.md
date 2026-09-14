@@ -706,3 +706,123 @@ html {
 refactor(design-tokens): 將字級單位統一為 rem
 ```
 
+---
+
+## Batch 7 — Safe Token Cleanup + Final Audit
+
+### Status
+Applied — no intended visual change. Final Visual QA required.
+
+### Safe replacements
+
+```text
+Existing font-size token replacements: 61
+Existing font-weight token replacements: 31
+Existing spacing token replacements: 184
+Existing radius token replacements: 6
+Total: 282
+```
+
+本批只將 raw values 替換成**相同數值**的既有 Token；沒有新增 spacing scale、沒有 normalize 非標準值，也沒有改 Layout。
+
+### Final Audit validation
+
+```text
+Undefined variables: 0
+CSS brace errors: 0
+Hard-coded colors outside tokens.css: 0
+Remaining exact existing-token font-size hard-codes: 0
+Remaining numeric standard font-weight hard-codes: 0
+Remaining exact existing-token spacing hard-codes: 0
+Remaining exact existing-token radius hard-codes: 0
+```
+
+### Remaining V1.0 decisions
+
+```text
+10px typography → whether to add --font-size-2xs
+18px spacing    → whether to add --spacing-18
+28px spacing    → whether to add --spacing-28
+```
+
+完整結果見 `FINAL_DESIGN_TOKEN_AUDIT.md`。
+
+### Commit
+
+```text
+refactor(design-tokens): 清理既有 Token 對應值並完成最終稽核
+```
+
+---
+
+## Batch 8 — Promote High-frequency Values to Formal Tokens
+
+### Status
+Applied — Safe tokenization, no visual value changes.
+
+### Goal
+將 Final Audit 確認為高頻且跨元件重用的值正式納入 Token Scale：
+
+```css
+--font-size-2xs: 0.625rem; /* 10px */
+--spacing-18: 18px;
+--spacing-28: 28px;
+```
+
+### Why these were promoted
+
+- `10px` font-size：高頻且跨多個 components / pages 重複使用
+- `18px` spacing：高頻 spacing value，已形成穩定重用
+- `28px` spacing：跨 layout / components / responsive 使用，具備正式 scale 價值
+
+### Applied replacements
+
+```text
+font-size 0.625rem → var(--font-size-2xs): 20
+18px spacing      → var(--spacing-18): 18
+28px spacing      → var(--spacing-28): 9
+```
+
+### Rule
+本批次只做「同值 Tokenize」，不改變任何實際視覺數值。
+
+### Commit
+
+```text
+refactor(design-tokens): 納入高頻字級與間距 Token
+```
+
+---
+
+## Batch 8 Revision — Remove 10px Typography Token
+
+### Decision
+`10px / 0.625rem` 在實際 UI 中可讀性不足，因此不再建立 `--font-size-2xs`。
+
+原本使用：
+
+```css
+font-size: var(--font-size-2xs); /* 10px */
+```
+
+統一調整為：
+
+```css
+font-size: var(--font-size-xs); /* 11px */
+```
+
+### Result
+- 移除 `--font-size-2xs: 0.625rem`
+- `var(--font-size-2xs)` → `var(--font-size-xs)`：20 處
+- `--spacing-18` 保留
+- `--spacing-28` 保留
+
+### Rationale
+Design Token 應反映可實際使用的設計規則；若 10px 在產品中可讀性不足，不應只因高頻出現就升格為正式 Typography Token。
+
+### Commit
+
+```text
+refactor(design-tokens): 將過小字級統一提升至 xs
+```
+

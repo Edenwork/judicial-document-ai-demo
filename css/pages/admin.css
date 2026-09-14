@@ -1,17 +1,13 @@
 .admin-metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-bottom: 16px;
-    gap: 12px;
-}
+    margin-bottom: var(--spacing-16);    gap: var(--spacing-12);}
 
 .admin-metric {
     display: flex;
     align-items: center;
     min-height: 88px;
-    padding: 16px;
-    gap: 12px;
-}
+    padding: var(--spacing-16);    gap: var(--spacing-12);}
 
 .admin-metric-icon {
     display: grid;
@@ -71,11 +67,9 @@
 .admin-filter-bar {
     display: grid;
     grid-template-columns: minmax(210px, 1fr) 150px 120px 150px;
-    padding: var(--spacing-14) 16px;
-    background: var(--color-neutral-50);
+    padding: var(--spacing-14) var(--spacing-16);    background: var(--color-neutral-50);
     border-bottom: 1px solid var(--color-border-default);
-    gap: 8px;
-}
+    gap: var(--spacing-8);}
 
 .admin-filter-bar .search-mini {
     min-width: 0;
@@ -103,26 +97,25 @@
     display: block;
     margin-top: 2px;
     color: var(--color-text-faint);
-    font-size: 0.625rem;
+    font-size: var(--font-size-xs);
 }
 
 .audit-action {
     display: block;
     font-size: var(--font-size-md);
-    font-weight: 700;
-}
+    font-weight: var(--font-weight-bold);}
 
 .audit-module {
     display: block;
     margin-top: 2px;
     color: var(--color-text-faint);
-    font-size: 0.625rem;
+    font-size: var(--font-size-xs);
 }
 
 .admin-empty {
     display: grid;
     min-height: 240px;
-    padding: 28px;
+    padding: var(--spacing-28);
     color: var(--color-text-muted);
     text-align: center;
     align-content: center;
@@ -132,36 +125,30 @@
 
 .admin-empty svg {
     width: var(--admin-empty-icon-size);
-    margin-bottom: 4px;
-    color: var(--color-brand-400);
+    margin-bottom: var(--spacing-4);    color: var(--color-brand-400);
 }
 
 .admin-empty span {
-    font-size: 0.6875rem;
-}
+    font-size: var(--font-size-xs);}
 
 .admin-pagination {
     display: flex;
     align-items: center;
     justify-content: space-between;
     min-height: 58px;
-    padding: 11px 16px;
-    background: var(--color-surface-primary);
+    padding: 11px var(--spacing-16);    background: var(--color-surface-primary);
     border-top: 1px solid var(--color-border-default);
-    gap: 12px;
-}
+    gap: var(--spacing-12);}
 
 .admin-pagination-summary {
     color: var(--color-text-muted);
-    font-size: 0.6875rem;
-}
+    font-size: var(--font-size-xs);}
 
 .admin-pagination-controls,
 .admin-page-numbers {
     display: flex;
     align-items: center;
-    gap: 6px;
-}
+    gap: var(--spacing-6);}
 
 .audit-page-button {
     min-width: 32px;
@@ -185,10 +172,7 @@
 .admin-tabs {
     display: flex;
     width: fit-content;
-    margin-bottom: 16px;
-    padding: 4px;
-    gap: 4px;
-}
+    margin-bottom: var(--spacing-16);    padding: var(--spacing-4);    gap: var(--spacing-4);}
 
 .admin-tab {
     min-height: 36px;
@@ -197,14 +181,11 @@
     background: transparent;
     border: 0;
     border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    font-weight: 700;
-}
+    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);}
 
 .admin-tab svg {
     width: 15px;
-    margin-right: 6px;
-    vertical-align: -3px;
+    margin-right: var(--spacing-6);    vertical-align: -3px;
 }
 
 .admin-tab:hover {
@@ -237,8 +218,7 @@
     color: var(--color-brand-700);
     background: var(--color-brand-100);
     border-radius: 50%;
-    font-size: 0.6875rem;
-    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);
     place-items: center;
 }
 
@@ -250,20 +230,17 @@
 
 .account-actions {
     display: flex;
-    gap: 6px;
-}
+    gap: var(--spacing-6);}
 
 .permission-rule-callout {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 14px;
-    padding: var(--spacing-14) 15px;
+    margin-bottom: var(--spacing-14);    padding: var(--spacing-14) 15px;
     color: var(--color-brand-700);
     background: var(--color-brand-50);
     border: 1px solid var(--color-brand-200);
     border-radius: var(--radius-lg);
-    gap: 10px;
-}
+    gap: var(--spacing-10);}
 
 .permission-rule-callout>svg {
     width: 17px;
@@ -278,21 +255,17 @@
 
 .permission-rule-callout strong {
     margin-bottom: 3px;
-    font-size: 0.75rem;
-}
+    font-size: var(--font-size-sm);}
 
 .permission-rule-callout span {
     color: var(--color-text-secondary);
-    font-size: 0.6875rem;
-}
+    font-size: var(--font-size-xs);}
 
 .permission-layout {
     display: grid;
     grid-template-columns: minmax(0, 1.4fr) minmax(300px, .8fr);
     align-items: stretch;
-    margin-bottom: 14px;
-    gap: 14px;
-}
+    margin-bottom: var(--spacing-14);    gap: var(--spacing-14);}
 
 .organization-tree {
     min-height: 420px;
@@ -305,8 +278,7 @@
     display: flex;
     justify-content: center;
     margin: 0;
-    padding: 24px 0 0;
-    list-style: none;
+    padding: var(--spacing-24) 0 0;    list-style: none;
 }
 
 .organization-tree>ul {
@@ -315,8 +287,7 @@
 
 .organization-tree li {
     position: relative;
-    padding: 24px 6px 0;
-    text-align: center;
+    padding: var(--spacing-24) var(--spacing-6) 0;    text-align: center;
 }
 
 .organization-tree>ul>li {
@@ -374,15 +345,12 @@
 
 .organization-node {
     min-width: 76px;
-    padding: 8px 10px;
-    color: var(--color-text-secondary);
+    padding: var(--spacing-8) var(--spacing-10);    color: var(--color-text-secondary);
     background: var(--color-surface-primary);
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-panel);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    white-space: nowrap;
+    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);    white-space: nowrap;
 }
 
 .organization-node:hover {
@@ -399,13 +367,12 @@
 
 .scope-preview-body {
     display: grid;
-    padding: 18px;
+    padding: var(--spacing-18);
     gap: var(--spacing-16);
 }
 
 .scope-selected {
-    padding: 12px;
-    background: var(--color-brand-50);
+    padding: var(--spacing-12);    background: var(--color-brand-50);
     border: 1px solid var(--color-brand-200);
     border-radius: var(--radius-md);
 }
@@ -419,28 +386,23 @@
 .scope-selected small {
     color: var(--color-text-subtle);
     font-size: 0.5625rem;
-    font-weight: 700;
-}
+    font-weight: var(--font-weight-bold);}
 
 .scope-selected strong {
-    margin: 4px 0;
-    color: var(--color-brand-700);
+    margin: var(--spacing-4) 0;    color: var(--color-brand-700);
     font-size: 0.9375rem;
 }
 
 .scope-selected span {
     color: var(--color-text-muted);
-    font-size: 0.625rem;
+    font-size: var(--font-size-xs);
 }
 
 .scope-group h4 {
     display: flex;
     align-items: center;
-    margin: 0 0 8px;
-    color: var(--color-text-secondary);
-    font-size: 0.6875rem;
-    gap: 6px;
-}
+    margin: 0 0 var(--spacing-8);    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);    gap: var(--spacing-6);}
 
 .scope-group h4 svg {
     width: 14px;
@@ -449,17 +411,14 @@
 .scope-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-}
+    gap: var(--spacing-6);}
 
 .scope-chip {
-    padding: 5px 8px;
-    color: var(--color-success-700);
+    padding: 5px var(--spacing-8);    color: var(--color-success-700);
     background: var(--color-success-100);
     border-radius: var(--radius-pill);
-    font-size: 0.625rem;
-    font-weight: 700;
-}
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);}
 
 .scope-chip--blocked {
     color: var(--color-text-muted);
@@ -472,17 +431,15 @@
 
 .permission-matrix th,
 .permission-matrix td {
-    padding: 12px 14px;
-    border-color: var(--color-border-subtle);
+    padding: var(--spacing-12) var(--spacing-14);    border-color: var(--color-border-subtle);
     text-align: center;
     vertical-align: middle;
-    font-size: 0.6875rem;
-}
+    font-size: var(--font-size-xs);}
 
 .permission-matrix thead th {
     color: var(--color-text-muted);
     background: var(--color-neutral-50);
-    font-size: 0.625rem;
+    font-size: var(--font-size-xs);
 }
 
 .permission-matrix th:first-child {
@@ -529,8 +486,7 @@
     }
 
     .organization-tree {
-        padding: 18px 10px;
-    }
+        padding: var(--spacing-18) var(--spacing-10);
 
     .admin-pagination {
         align-items: flex-start;

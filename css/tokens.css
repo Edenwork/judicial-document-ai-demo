@@ -107,7 +107,7 @@
 
   /* Primitive · Typography */
   --font-family-sans: Inter, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
-  --font-size-xs: 0.6875rem;
+    --font-size-xs: 0.6875rem;
   --font-size-sm: 0.75rem;
   --font-size-md: 0.875rem;
   --font-size-lg: 1rem;
@@ -126,8 +126,10 @@
   --spacing-12: 12px;
   --spacing-14: 14px;
   --spacing-16: 16px;
+    --spacing-18: 18px;
   --spacing-20: 20px;
   --spacing-24: 24px;
+    --spacing-28: 28px;
   --spacing-32: 32px;
 
   /* Primitive · Reusable sizes */
