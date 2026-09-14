@@ -12,7 +12,8 @@
 |---|---|---|
 | Batch 1 | Token Naming Migration | ✅ Completed |
 | Batch 2 | Weight / Spacing Normalization | ✅ Completed / Visual QA Passed |
-| Batch 3 | Component-specific Normalization | ✅ Implemented / Pending final QA |
+| Batch 3 | Component-specific Normalization | ✅ Completed / Visual QA Passed |
+| Batch 4 | Remaining Values Audit | ✅ Audit Completed / Pending Decisions |
 
 整體流程：
 
@@ -362,7 +363,11 @@ Admin empty state SVG icon：
 
 ## Batch 3 Visual QA
 
-建議確認：
+Status: ✅ Passed
+
+已確認：未發現跑版或需回退的異常。
+
+檢查範圍：
 
 - Login：卡片標題、brand mark
 - Upload：dropzone 外框與 icon
@@ -434,3 +439,136 @@ Keep as intentional exception
 ```
 
 完成後再進入 Token V1.0 cleanup / documentation。
+
+---
+
+# Batch 4 — Remaining Values Audit
+
+## 目標
+
+在 Batch 1–3 完成後，盤點剩餘 hard-code / irregular values，區分：
+
+```text
+A. Safe Tokenize — 不改值
+B. Normalize Candidate — 會改視覺，需確認
+C. Component Token — 有明確元件語意
+D. Local / Feature Exception — 合理保留 local CSS
+```
+
+本批為 **Audit-only**，沒有修改 CSS 視覺值。
+
+完整盤點見：
+
+```text
+BATCH4_REMAINING_VALUES_AUDIT.md
+```
+
+## 主要發現
+
+### 1. 已有 Token 但仍 hard-code 的值很多
+
+Typography exact-match raw occurrences：
+
+```text
+11px × 38
+12px × 17
+14px × 4
+16px × 2
+20px × 1
+24px × 2
+```
+
+這些可在下一批直接接既有 typography token，不改畫面。
+
+Spacing 也仍有大量 `4/6/8/10/12/14/16/20/24/32px` raw values，可做 Safe Token Cleanup。
+
+### 2. 10px Typography 應補正式 Token
+
+`10px` 跨元件出現 20 次，已具有重用性。
+
+建議：
+
+```css
+--font-size-2xs: 10px;
+```
+
+### 3. 18px / 28px Spacing 值得納入 Primitive 候選
+
+Spacing property 中：
+
+```text
+18px × 22
+28px × 9
+```
+
+建議優先考慮：
+
+```css
+--spacing-18: 18px;
+--spacing-28: 28px;
+```
+
+理由：使用頻率高，直接 Tokenize 可零視覺變更；不需為了維持理想化 scale 強迫大量 UI 改成 16/20 或 24/32。
+
+### 4. Remaining Normalize Candidates
+
+需要 Human Decision：
+
+```text
+13px general UI typography → 14px
+15px typography → 16px
+Topbar 17px → 16px
+Report cover 25px → 24px
+9px radius → 10px ?
+Review controls 42→44 / 34→32 / 36→38 ?
+17px icons → 16 / 18（依用途分類）
+Mobile Auth 25px 21px → 24px 20px ?
+```
+
+其中 Review `.paper-kicker` 的 13px 建議保留為 document-specific typography。
+
+### 5. Intentional Exceptions
+
+建議保留 Local / Feature-specific：
+
+- Relations / Graph geometry
+- Graph 9px sub-label
+- Review document / paper layout
+- Inline document mark 3px radius
+- Auth decorative circles / offsets
+- Responsive-only composition values
+- Print-like report/document geometry
+
+## Batch 4 Validation
+
+- Audit baseline：Batch 3 V3
+- CSS files inspected：13（含 `tokens.css`）
+- `tokens.css` 與 12 個 consumer CSS 已盤點
+- 本批 CSS value changes：0
+- 本批 visual regression risk：None（Audit-only）
+
+## Batch 4 Commit
+
+若將 Audit 文件納入 repository：
+
+```text
+docs(design-tokens): 盤點剩餘設計值與收斂候選
+```
+
+---
+
+# Next — Batch 5
+
+建議拆成兩段：
+
+```text
+Batch 5A — Safe Token Cleanup
+→ 只做等值 Tokenize，不改視覺
+
+Batch 5B — Approved Visual Normalization
+→ 只處理已確認的 near-scale values
+→ Visual QA required
+```
+
+先確認 Batch 4 的 Human Decision Checklist，再進 5B。
+
