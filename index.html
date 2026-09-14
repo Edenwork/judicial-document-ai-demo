@@ -523,8 +523,12 @@
                 <p class="selection-scope-note">以下列出目前帳號可查看的全部文件，請勾選要納入彙整報告的資料。</p>
                 <div class="selected-documents" id="selectedDocuments" aria-label="可勾選文件清單"></div>
                 <div class="search-filter-actions search-selected-actions">
+                  <!--
+                  暫時停用「清除條件」按鈕。
+                  對應 JS 已加上 null guard，因此按鈕不存在時不會觸發錯誤。
                   <button class="btn btn-outline-secondary"
                     id="resetSelectedDocuments" type="button"><i data-lucide="rotate-ccw"></i>清除條件</button>
+                  -->
                     <div
                     class="d-flex align-items-center gap-3"><span id="selectedResultCount" aria-live="polite">0 份符合</span><button
                       class="btn btn-primary" id="applySelectedDocuments" type="button"><i

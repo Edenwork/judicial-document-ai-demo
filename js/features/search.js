@@ -491,11 +491,13 @@
       }
       runSearch("selected");
     });
-    resetSelectedDocumentsButton.addEventListener("click", function () {
-      selectedIds.clear();
-      refreshSelection();
-      App.showToast("多文件篩選條件已清除。");
-    });
+    if (resetSelectedDocumentsButton) {
+      resetSelectedDocumentsButton.addEventListener("click", function () {
+        selectedIds.clear();
+        refreshSelection();
+        App.showToast("多文件篩選條件已清除。");
+      });
+    }
     clearSelectedButton.addEventListener("click", function () {
       selectedIds.clear();
       refreshSelection();
