@@ -209,6 +209,7 @@
     flex: 1;
     overflow: auto;
     padding: var(--spacing-12) var(--spacing-18);
+}
 
 .field-group-title {
     display: flex;

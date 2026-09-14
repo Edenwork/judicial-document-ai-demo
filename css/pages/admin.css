@@ -487,6 +487,7 @@
 
     .organization-tree {
         padding: var(--spacing-18) var(--spacing-10);
+    }
 
     .admin-pagination {
         align-items: flex-start;

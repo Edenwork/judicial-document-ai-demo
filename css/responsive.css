@@ -159,6 +159,7 @@
 
   .page {
     padding: var(--spacing-18) var(--spacing-14) var(--spacing-32);
+  }
 
   .page-heading {
     align-items: start;

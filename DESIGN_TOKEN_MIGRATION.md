@@ -826,3 +826,35 @@ Design Token 應反映可實際使用的設計規則；若 10px 在產品中可�
 refactor(design-tokens): 將過小字級統一提升至 xs
 ```
 
+---
+
+## Batch 8 Hotfix — CSS Syntax Repair
+
+### Status
+Fixed and validated.
+
+### Issue
+Batch 8 spacing token replacement encountered declarations whose closing `}` was on the same physical line. During automated rewrite, three closing braces were accidentally dropped.
+
+### Fixed files
+
+```text
+css/responsive.css
+  .page
+
+css/pages/review.css
+  .fields-list
+
+css/pages/admin.css
+  .organization-tree
+```
+
+### Scope
+This hotfix restores only the missing closing braces. It does not change Design Token values or visual design decisions.
+
+### Validation
+- Raw brace balance: passed for all CSS files
+- CSS parsing with `tinycss2`: no parse errors
+- Undefined CSS variables: 0
+
+
