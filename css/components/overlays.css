@@ -31,7 +31,7 @@
 
 .modal-head h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: var(--font-weight-bold);
 }
 
@@ -69,12 +69,12 @@
 .return-config-summary span {
     margin-bottom: 4px;
     color: var(--color-text-muted);
-    font-size: 10px;
+    font-size: 0.625rem;
 }
 
 .return-config-summary strong {
     color: var(--color-text-strong);
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .return-fieldset {
@@ -94,7 +94,7 @@
     width: auto;
     margin: 0;
     color: var(--color-text-strong);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: var(--font-weight-bold);
 }
 
@@ -108,7 +108,7 @@
 
 .return-fieldset-head label {
     color: var(--color-brand-700);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
@@ -125,7 +125,7 @@
     border-radius: var(--radius-sm);
     color: var(--color-text-secondary);
     background: var(--color-surface-subtle);
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .return-api-option {
@@ -147,7 +147,7 @@
 .return-api-option span {
     margin-top: 3px;
     color: var(--color-text-muted);
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 .return-api-option .form-check-input {
@@ -210,7 +210,7 @@
     flex: 0 0 auto;
     border-radius: 50%;
     background: var(--color-neutral-100);
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 .report-stage.active {
@@ -256,7 +256,7 @@
 
 .report-cover h2 {
     margin: 8px 0 5px;
-    font-size: 25px;
+    font-size: 1.5625rem;
 }
 
 .report-grid {

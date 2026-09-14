@@ -15,7 +15,7 @@
     color: var(--color-text-muted);
     background: transparent;
     gap: 8px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
     transition: color .18s ease, background-color .18s ease, box-shadow .18s ease;
 }
@@ -49,7 +49,7 @@
     color: var(--color-brand-700);
     background: var(--color-surface-primary);
     border-radius: var(--radius-pill);
-    font-size: 10px;
+    font-size: 0.625rem;
     place-items: center;
 }
 
@@ -129,7 +129,7 @@
     background: var(--color-on-dark-opacity-8);
     border: 1px solid var(--color-on-dark-opacity-24);
     border-radius: var(--radius-pill);
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 .query-chip:hover {
@@ -166,7 +166,7 @@
 
 .filter-field label {
     color: var(--color-text-secondary);
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 700;
 }
 
@@ -178,7 +178,7 @@
     padding-top: 16px;
     border-top: 1px solid var(--color-border-subtle);
     color: var(--color-text-muted);
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 .search-results {
@@ -196,7 +196,7 @@
     color: var(--color-brand-700);
     background: var(--color-brand-100);
     border-radius: var(--radius-pill);
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: var(--font-weight-bold);
 }
 
@@ -213,7 +213,7 @@
     background: var(--color-neutral-50);
     border-bottom: 1px solid var(--color-border-default);
     gap: 12px;
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 .search-selection-toolbar label {
@@ -264,7 +264,7 @@
 .result-content h4 {
     margin: 0 0 5px;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 0.875rem;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -282,7 +282,7 @@
     color: var(--color-text-muted);
     background: var(--color-neutral-100);
     border-radius: var(--radius-pill);
-    font-size: 10px;
+    font-size: 0.625rem;
 }
 
 .result-status {
@@ -314,7 +314,7 @@
     margin: 0;
     overflow: hidden;
     color: var(--color-text-secondary);
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.55;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -326,7 +326,7 @@
     margin-top: 8px;
     color: var(--color-brand-700);
     gap: 5px;
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 .result-match svg {
@@ -359,7 +359,7 @@
     color: var(--color-text-muted);
     background: var(--color-neutral-50);
     border-bottom: 1px solid var(--color-border-default);
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 .selected-documents {
@@ -414,7 +414,7 @@
     min-width: 0;
     overflow: hidden;
     color: var(--color-text-secondary);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: var(--font-weight-semibold);
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -442,14 +442,14 @@
     grid-column: 1 / -1;
     margin: 0;
     color: var(--color-text-strong);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: var(--font-weight-bold);
 }
 
 .search-report-hint {
     grid-column: 1 / -1;
     color: var(--color-text-muted);
-    font-size: 10px;
+    font-size: 0.625rem;
 }
 
 .search-report-actions {
@@ -466,7 +466,7 @@
 
 .search-report-actions .btn {
     padding-inline: 8px;
-    font-size: 11px;
+    font-size: 0.6875rem;
 }
 
 @media (max-width: 900px) {

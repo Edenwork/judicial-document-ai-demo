@@ -626,3 +626,83 @@ DESIGN_TOKEN_MIGRATION.md
 refactor(design-tokens): 統一管理介面與狀態標籤字級
 ```
 
+---
+
+## Batch 6 — Typography Unit Migration
+
+### Status
+Applied — Visual QA required.
+
+### Goal
+將網站的 `font-size` 單位由 `px` 等值轉換為 `rem`，並明確設定 root typography baseline：
+
+```css
+html {
+    font-size: 16px;
+}
+```
+
+本批次只處理 Typography font size，不修改 spacing、radius、icon size、control height、breakpoint 或 layout geometry。
+
+### Conversion rule
+
+以 `16px = 1rem` 為基準：
+
+```text
+9px  → 0.5625rem
+10px → 0.625rem
+11px → 0.6875rem
+12px → 0.75rem
+13px → 0.8125rem
+14px → 0.875rem
+15px → 0.9375rem
+16px → 1rem
+17px → 1.0625rem
+20px → 1.25rem
+22px → 1.375rem
+24px → 1.5rem
+27px → 1.6875rem
+```
+
+`clamp()` 內屬於 font-size 的 px 值亦做等值換算；原有 `vw` 保留。
+
+### Scope
+- `tokens.css` 的 font-size Primitive Tokens
+- Component font-size Tokens
+- 各 CSS 檔案的 hard-coded `font-size`
+- `base.css` 新增 `html { font-size: 16px; }`
+
+### Explicit exclusions
+本批次不修改：
+- spacing
+- margin / padding / gap
+- radius
+- width / height
+- icon size
+- avatar size
+- control height
+- breakpoint
+- absolute positioning
+
+### Validation
+- px → rem font-size conversions: 108
+- CSS files changed: 12
+- Root `html { font-size: 16px; }`: added
+- Remaining `font-size` declarations containing px: 0
+- Spacing / layout conversion: 0
+
+### Visual QA
+請至少確認：
+- Login / Auth
+- Admin
+- Search
+- Reports
+- Status badges
+- Desktop / Tablet / Mobile wrapping
+
+### Commit
+
+```text
+refactor(design-tokens): 將字級單位統一為 rem
+```
+
