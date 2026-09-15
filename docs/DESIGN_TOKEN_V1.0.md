@@ -5,9 +5,10 @@ Date: 2026-09-14
 ## Files
 
 ```text
-tokens.json          ← canonical machine-readable source of truth
-build-tokens.js      ← zero-dependency Node.js generator
-css/tokens.css       ← generated Web/CSS output
+design-tokens/
+├── tokens.json          ← canonical machine-readable source of truth
+├── build-tokens.js      ← zero-dependency Node.js generator
+└── tokens.css           ← generated Web/CSS output
 ```
 
 ## Architecture
@@ -45,16 +46,16 @@ This prevents the generator from guessing CSS variable names from token paths.
 The project now uses:
 
 ```text
-tokens.json
+design-tokens/tokens.json
     ↓
-build-tokens.js
+design-tokens/build-tokens.js
     ↓
-css/tokens.css
+design-tokens/tokens.css
     ↓
 application CSS
 ```
 
-From this point forward, `tokens.json` is the canonical Design Token source. `css/tokens.css` is generated output and should not be independently maintained.
+From this point forward, `design-tokens/tokens.json` is the canonical Design Token source. `design-tokens/tokens.css` is generated output and should not be independently maintained.
 
 ## Requirements
 
@@ -75,19 +76,19 @@ The website itself does not need Node.js at runtime. Node.js is only used during
 From the project root:
 
 ```bash
-node build-tokens.js
+node design-tokens/build-tokens.js
 ```
 
 This reads:
 
 ```text
-tokens.json
+design-tokens/tokens.json
 ```
 
 and writes:
 
 ```text
-css/tokens.css
+design-tokens/tokens.css
 ```
 
 The generated CSS contains an auto-generated warning header and should not be edited manually.
@@ -97,16 +98,16 @@ The generated CSS contains an auto-generated warning header and should not be ed
 Run:
 
 ```bash
-node build-tokens.js --check
+node design-tokens/build-tokens.js --check
 ```
 
 If JSON and CSS match:
 
 ```text
-[design-tokens] OK — 148 tokens validated; css/tokens.css is in sync.
+[design-tokens] OK — 148 tokens validated; design-tokens/tokens.css is in sync.
 ```
 
-If `css/tokens.css` was manually changed or is stale, validation exits with an error and instructs the developer to regenerate it.
+If `design-tokens/tokens.css` was manually changed or is stale, validation exits with an error and instructs the developer to regenerate it.
 
 This command is suitable for future CI integration.
 
@@ -175,18 +176,18 @@ From now on:
 
 ```text
 DO:
-edit tokens.json
-→ node build-tokens.js
-→ node build-tokens.js --check
-→ commit tokens.json + generated css/tokens.css
+edit design-tokens/tokens.json
+→ node design-tokens/build-tokens.js
+→ node design-tokens/build-tokens.js --check
+→ commit design-tokens/tokens.json + generated design-tokens/tokens.css
 ```
 
 Avoid:
 
 ```text
-edit tokens.json
+edit design-tokens/tokens.json
 +
-independently edit css/tokens.css
+independently edit design-tokens/tokens.css
 ```
 
 If a new token cannot be represented by the generator yet, extend the generator intentionally rather than silently hand-maintaining two conflicting sources.
@@ -195,7 +196,7 @@ If a new token cannot be represented by the generator yet, extend the generator 
 
 This pipeline is not tied to the website framework.
 
-`css/tokens.css` is normal CSS and can be consumed by:
+`design-tokens/tokens.css` is normal CSS and can be consumed by:
 
 ```text
 Plain HTML/CSS/JS

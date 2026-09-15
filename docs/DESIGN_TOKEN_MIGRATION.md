@@ -857,4 +857,68 @@ This hotfix restores only the missing closing braces. It does not change Design 
 - CSS parsing with `tinycss2`: no parse errors
 - Undefined CSS variables: 0
 
+---
 
+## Token Pipeline Structure Update — `design-tokens/`
+
+### Status
+Applied — path / documentation cleanup; no intended visual change.
+
+### Decision
+將 Design Token 的來源、產生工具與 Web output 集中於同一資料夾：
+
+```text
+design-tokens/
+├── tokens.json
+├── build-tokens.js
+└── tokens.css
+```
+
+取代先前將 generated CSS 放在 `css/tokens.css` 的結構。
+
+### Runtime references
+
+`index.html` 與 `login.html` 改為載入：
+
+```html
+<link rel="stylesheet" href="design-tokens/tokens.css">
+```
+
+### Build / validation commands
+
+從專案根目錄執行：
+
+```bash
+node design-tokens/build-tokens.js
+node design-tokens/build-tokens.js --check
+```
+
+### Source of Truth
+
+```text
+design-tokens/tokens.json
+→ design-tokens/build-tokens.js
+→ design-tokens/tokens.css
+```
+
+`design-tokens/tokens.css` 為 generated output，不應獨立手動維護。一般 Component / Page CSS 仍位於 `css/`，可正常修改並引用 Token。
+
+### Files updated
+
+```text
+index.html
+login.html
+README.txt
+design-tokens/tokens.json
+design-tokens/build-tokens.js
+design-tokens/tokens.css
+docs/DESIGN_TOKEN_V1.0.md
+docs/DESIGN_TOKEN_GUIDE_VENDOR.md
+docs/DESIGN_TOKEN_MIGRATION.md
+```
+
+### Suggested commit
+
+```text
+refactor(design-tokens): 統一 Token 檔案至 design-tokens 目錄
+```

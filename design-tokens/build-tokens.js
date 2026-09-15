@@ -5,11 +5,11 @@
  * Judicial Design Tokens — JSON -> CSS generator
  *
  * Source of truth: ./tokens.json
- * Generated output: ./css/tokens.css
+ * Generated output: ./tokens.css
  *
  * Usage:
- *   node build-tokens.js
- *   node build-tokens.js --check
+ *   node design-tokens/build-tokens.js
+ *   node design-tokens/build-tokens.js --check
  *
  * No npm packages required.
  */
@@ -19,7 +19,7 @@ const path = require('node:path');
 
 const ROOT = __dirname;
 const INPUT = path.join(ROOT, 'tokens.json');
-const OUTPUT = path.join(ROOT, 'css', 'tokens.css');
+const OUTPUT = path.join(ROOT, 'tokens.css');
 const CHECK_MODE = process.argv.includes('--check');
 
 const CSS_EXTENSION = 'com.comma-design.css';
@@ -222,8 +222,8 @@ function generateCss(tokens) {
     '/*',
     ' * AUTO-GENERATED FILE — DO NOT EDIT DIRECTLY.',
     ' * Source: tokens.json',
-    ' * Generate: node build-tokens.js',
-    ' * Validate: node build-tokens.js --check',
+    ' * Generate: node design-tokens/build-tokens.js',
+    ' * Validate: node design-tokens/build-tokens.js --check',
     ' */',
     '',
     ':root {',
@@ -266,20 +266,20 @@ function main() {
   const css = generateCss(tokens);
 
   if (CHECK_MODE) {
-    if (!fs.existsSync(OUTPUT)) fail('css/tokens.css does not exist. Run `node build-tokens.js` first.');
+    if (!fs.existsSync(OUTPUT)) fail('design-tokens/tokens.css does not exist. Run `node design-tokens/build-tokens.js` first.');
     const current = fs.readFileSync(OUTPUT, 'utf8').replace(/\r\n/g, '\n');
     if (current !== css) {
-      console.error('\n[design-tokens] OUT OF SYNC: css/tokens.css differs from tokens.json.');
-      console.error('[design-tokens] Run: node build-tokens.js\n');
+      console.error('\n[design-tokens] OUT OF SYNC: design-tokens/tokens.css differs from tokens.json.');
+      console.error('[design-tokens] Run: node design-tokens/build-tokens.js\n');
       process.exit(2);
     }
-    console.log(`[design-tokens] OK — ${tokens.length} tokens validated; css/tokens.css is in sync.`);
+    console.log(`[design-tokens] OK — ${tokens.length} tokens validated; design-tokens/tokens.css is in sync.`);
     return;
   }
 
   fs.mkdirSync(path.dirname(OUTPUT), { recursive: true });
   fs.writeFileSync(OUTPUT, css, 'utf8');
-  console.log(`[design-tokens] Generated css/tokens.css from ${tokens.length} tokens.`);
+  console.log(`[design-tokens] Generated design-tokens/tokens.css from ${tokens.length} tokens.`);
   console.log('[design-tokens] Source of truth: tokens.json');
 }
 

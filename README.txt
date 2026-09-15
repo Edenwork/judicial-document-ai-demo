@@ -9,7 +9,10 @@
 專案結構
 - index.html：系統主介面與各功能區塊。
 - login.html：獨立登入介面。
-- css/tokens.css：全站色彩、陰影及圓角設計變數。
+- design-tokens/：Design Token 原始規格、產生工具與 Web CSS Variables。
+  - design-tokens/tokens.json：Design Token Source of Truth。
+  - design-tokens/build-tokens.js：JSON → CSS 產生與同步檢查工具。
+  - design-tokens/tokens.css：自動產生的 CSS Variables，請勿直接手動維護。
 - css/base.css：全站基礎樣式。
 - css/layout.css：Sidebar、Topbar 與頁面框架。
 - css/components.css：按鈕、狀態、表格、上傳及進度元件。
@@ -22,16 +25,21 @@
 - js/bootstrap.js：初始化各功能模組。
 
 色彩調整
-全站顏色都集中於 css/tokens.css 的 :root，例如：
+全站 Design Token 由 design-tokens/tokens.json 管理，並產生至 design-tokens/tokens.css，例如：
 
 :root {
-  --color-primary: #2475c5;
-  --color-success: #16877f;
-  --color-warning: #b7791f;
-  --color-danger: #bd3d4d;
+  --color-action-primary: #2475c5;
+  --color-status-success: #16877f;
+  --color-status-warning: #b7791f;
+  --color-status-danger: #bd3d4d;
 }
 
-若要調整主色，優先修改 tokens.css，不需逐頁搜尋色碼。
+若要調整 Token，請修改 design-tokens/tokens.json，再於專案根目錄執行：
+
+node design-tokens/build-tokens.js
+node design-tokens/build-tokens.js --check
+
+一般頁面／元件排版仍直接修改 css/ 下對應檔案；不要直接修改 generated design-tokens/tokens.css。
 
 可操作功能
 - 批次上傳示例文件、AI 處理階段動畫與處理狀態篩選

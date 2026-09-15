@@ -1,8 +1,8 @@
 /*
  * AUTO-GENERATED FILE — DO NOT EDIT DIRECTLY.
  * Source: tokens.json
- * Generate: node build-tokens.js
- * Validate: node build-tokens.js --check
+ * Generate: node design-tokens/build-tokens.js
+ * Validate: node design-tokens/build-tokens.js --check
  */
 
 :root {
