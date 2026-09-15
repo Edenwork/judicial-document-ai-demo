@@ -1,11 +1,14 @@
-# Design Tokens V1.0 — JSON Finalization
+# Design Tokens V1.0 — JSON Source of Truth + CSS Generator
 
 Date: 2026-09-14
 
 ## Files
 
-- `tokens.json` — canonical machine-readable token definition
-- `tokens.css` — Web/CSS token snapshot corresponding to this JSON
+```text
+tokens.json          ← canonical machine-readable source of truth
+build-tokens.js      ← zero-dependency Node.js generator
+css/tokens.css       ← generated Web/CSS output
+```
 
 ## Architecture
 
@@ -17,45 +20,196 @@ component
 
 ## Format
 
-`tokens.json` uses the DTCG 2025.10 format and schema.
+`tokens.json` uses the DTCG 2025.10 token structure with `$type`, `$value`, and aliases/references.
+
+CSS variable names are stored explicitly in each token's extension:
+
+```text
+$extensions.com.comma-design.css.variable
+```
+
+This prevents the generator from guessing CSS variable names from token paths.
 
 ## Current approved decisions
 
 - Typography font-size tokens use `rem`.
-- Project root baseline remains `16px` for the current Judicial Demo implementation.
+- Judicial Demo currently uses a `16px` root baseline in the application CSS.
 - There is no `10px / font-size-2xs` token.
 - Former `10px / 0.625rem` UI typography was approved to use `--font-size-xs` (`0.6875rem`, 11px at the current root baseline).
 - Spacing scale includes `18px` and `28px`.
 - Primitive / Semantic / Component layers are preserved.
-- Local Graph / Document / Print geometry is intentionally not promoted into the global token file unless it is already represented by a token.
+- Local Graph / Document / Print geometry remains local unless it represents a reusable design rule.
 
-## Validation
+## Token pipeline
 
-```text
-CSS custom properties represented: 148
-JSON token leaves: 148
-DTCG aliases: 8
-Unmapped CSS tokens: 0
-Broken aliases: 0
-JSON parse: Passed
-```
-
-## Source-of-truth direction
-
-For future maintenance, prefer:
+The project now uses:
 
 ```text
 tokens.json
-  ↓ generate / sync
-tokens.css
-  ↓ consume
+    ↓
+build-tokens.js
+    ↓
+css/tokens.css
+    ↓
 application CSS
 ```
 
-Avoid manually maintaining JSON and CSS independently once generation is introduced.
+From this point forward, `tokens.json` is the canonical Design Token source. `css/tokens.css` is generated output and should not be independently maintained.
+
+## Requirements
+
+The generator is plain JavaScript executed by Node.js.
+
+It has **no npm package dependencies** and does not require `npm install`.
+
+Recommended:
+
+```text
+Node.js 18+
+```
+
+The website itself does not need Node.js at runtime. Node.js is only used during development/build/validation.
+
+## Generate CSS
+
+From the project root:
+
+```bash
+node build-tokens.js
+```
+
+This reads:
+
+```text
+tokens.json
+```
+
+and writes:
+
+```text
+css/tokens.css
+```
+
+The generated CSS contains an auto-generated warning header and should not be edited manually.
+
+## Validate synchronization
+
+Run:
+
+```bash
+node build-tokens.js --check
+```
+
+If JSON and CSS match:
+
+```text
+[design-tokens] OK — 148 tokens validated; css/tokens.css is in sync.
+```
+
+If `css/tokens.css` was manually changed or is stale, validation exits with an error and instructs the developer to regenerate it.
+
+This command is suitable for future CI integration.
+
+## Generator validation
+
+The generator validates:
+
+- JSON parsing;
+- token discovery;
+- token `$type` presence/inheritance;
+- CSS variable metadata;
+- duplicate CSS variable names;
+- broken aliases;
+- alias type mismatch;
+- supported token serialization;
+- generated CSS synchronization in `--check` mode.
+
+Supported token types in the current Judicial token set:
+
+```text
+color
+dimension
+fontFamily
+fontWeight
+shadow
+number / simple scalar fallback
+```
+
+Aliases are emitted as CSS variables instead of duplicated values.
+
+Example:
+
+```json
+{
+  "$type": "dimension",
+  "$value": "{primitive.radius.pill}"
+}
+```
+
+becomes:
+
+```css
+--status-badge-container-radius: var(--radius-pill);
+```
+
+## Validation result
+
+Current V1.0 pipeline was verified against the approved CSS token snapshot:
+
+```text
+JSON token leaves: 148
+Generated CSS variables: 148
+Missing CSS variables: 0
+Extra CSS variables: 0
+Value differences: 0
+Broken aliases: 0
+Generator --check: Passed
+JavaScript syntax check: Passed
+```
+
+The generated file may organize comments/order differently from the previous manually maintained CSS, but all 148 CSS variable names and values are preserved exactly.
+
+## Maintenance rule
+
+From now on:
+
+```text
+DO:
+edit tokens.json
+→ node build-tokens.js
+→ node build-tokens.js --check
+→ commit tokens.json + generated css/tokens.css
+```
+
+Avoid:
+
+```text
+edit tokens.json
++
+independently edit css/tokens.css
+```
+
+If a new token cannot be represented by the generator yet, extend the generator intentionally rather than silently hand-maintaining two conflicting sources.
+
+## Framework compatibility
+
+This pipeline is not tied to the website framework.
+
+`css/tokens.css` is normal CSS and can be consumed by:
+
+```text
+Plain HTML/CSS/JS
+React / Next.js
+Angular
+Vue / Nuxt
+Django / Flask / FastAPI templates
+other web stacks
+```
+
+The current generator uses Node.js because it is a small, portable build utility. A Python project could later replace it with an equivalent Python generator without changing the token architecture.
 
 ## Suggested commit
 
 ```text
-feat(design-tokens): 建立 Design Token JSON V1.0
+feat(design-tokens): 建立 JSON 至 CSS Token 產生流程
 ```
