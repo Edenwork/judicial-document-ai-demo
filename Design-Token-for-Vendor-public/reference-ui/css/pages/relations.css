@@ -1,0 +1,177 @@
+.relation-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    min-height: 620px;
+    overflow: hidden;
+}
+
+.graph-area {
+    position: relative;
+    min-height: 620px;
+    overflow: hidden;
+    background-color: var(--color-surface-muted);
+    background-image: radial-gradient(var(--color-border-strong) 1px, transparent 1px);
+    background-size: 22px 22px;
+}
+
+.graph-toolbar {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    display: flex;
+    gap: 7px;
+}
+
+.graph-legend {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    z-index: 2;
+    display: flex;
+    gap: var(--spacing-14);    padding: 9px 11px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 9px;
+    background: var(--color-surface-glass);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);}
+
+.legend-shape {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    background: var(--color-action-primary);
+}
+
+.legend-shape.circle {
+    border-radius: 50%;
+    background: var(--color-status-success);
+}
+
+.relation-svg {
+    width: 100%;
+    height: 620px;
+}
+
+.relation-svg .edge {
+    stroke: var(--color-brand-300);
+    stroke-width: 1.5;
+}
+
+.relation-svg .edge.dashed {
+    stroke-dasharray: 5 5;
+    stroke: var(--color-warning-500);
+}
+
+.relation-svg .edge-label {
+    fill: var(--color-text-subtle);
+    font-size: var(--font-size-xs);
+}
+
+.node {
+    cursor: pointer;
+}
+
+.node .halo {
+    opacity: 0;
+    transition: .2s;
+}
+
+.node:hover .halo,
+.node.active .halo {
+    opacity: 1;
+}
+
+.node text {
+    pointer-events: none;
+    fill: var(--color-text-primary);
+    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}
+
+.node .sub {
+    fill: var(--color-text-subtle);
+    font-size: 0.5625rem;
+    font-weight: var(--font-weight-regular);}
+
+.node .node-label-on-dark {
+    fill: var(--color-on-dark);
+}
+
+.node .node-sub-on-dark {
+    fill: var(--color-node-on-dark-muted);
+}
+
+.node-halo--case {
+    fill: var(--color-graph-case-halo);
+}
+
+.node-shape--case {
+    fill: var(--color-status-success);
+}
+
+.node-halo--document {
+    fill: var(--color-graph-document-halo);
+}
+
+.node-shape--document {
+    fill: var(--color-brand-100);
+    stroke: var(--color-action-primary);
+}
+
+.node-halo--similar {
+    fill: var(--color-graph-similar-halo);
+}
+
+.node-shape--similar {
+    fill: var(--color-graph-similar);
+    stroke: var(--color-status-warning);
+}
+
+.legend-ai {
+    color: var(--color-status-warning);
+}
+
+.node-detail {
+    padding: var(--spacing-20);
+    border-left: 1px solid var(--color-border-default);
+    background: var(--color-surface-primary);
+}
+
+.node-detail-empty {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: var(--color-text-muted);
+}
+
+.detail-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    margin-bottom: var(--spacing-12);    border-radius: var(--relation-detail-icon-radius);
+    color: var(--color-action-primary);
+    background: var(--color-brand-100);
+}
+
+.detail-icon svg {
+    width: 20px;
+}
+
+.detail-meta {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 9px;
+    padding: var(--spacing-14) 0;
+    border-top: 1px solid var(--color-border-soft);
+    font-size: var(--font-size-sm);}
+
+.detail-meta dt {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);}
+
+.detail-meta dd {
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+}

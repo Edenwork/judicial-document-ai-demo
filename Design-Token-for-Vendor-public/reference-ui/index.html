@@ -1,0 +1,1058 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="跨境司法互助文件智慧處理系統操作介面 Demo">
+  <title>司法互助文件智慧處理系統</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../design-tokens/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/upload.css">
+  <link rel="stylesheet" href="css/pages/review.css">
+  <link rel="stylesheet" href="css/pages/search.css">
+  <link rel="stylesheet" href="css/pages/relations.css">
+  <link rel="stylesheet" href="css/pages/reports.css">
+  <link rel="stylesheet" href="css/pages/admin.css">
+  <link rel="stylesheet" href="css/components/overlays.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <!--
+    VENDOR REFERENCE UI
+    This HTML is provided only as a visual/structural reference for the current Judicial UI.
+    Application behavior, routing, API logic, and functional JavaScript are intentionally excluded.
+    Do not treat this file as production application code.
+  -->
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="主要導覽">
+      <div class="brand">
+        <div class="brand-mark"><i data-lucide="landmark"></i></div>
+        <div class="brand-copy"><strong>司法文件智慧平台</strong><small>Mutual Legal Assistance</small></div>
+      </div>
+      <div class="sidebar-scroll">
+        <div class="nav-label">案件作業</div>
+        <nav class="side-nav">
+          <button class="nav-item-btn active" data-page="files" type="button"><i
+              data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count">12</span></button>
+          <button class="nav-item-btn nav-item-btn--child" data-page="relations" type="button"><i
+              data-lucide="network"></i><span>關聯視覺化</span></button>
+          <button class="nav-item-btn nav-item-btn--child" data-page="reports" type="button"><i
+              data-lucide="file-chart-column"></i><span>彙整報告</span></button>
+          <button class="nav-item-btn" data-page="upload" type="button"><i
+              data-lucide="cloud-upload"></i><span>批次上傳</span></button>
+          <button class="nav-item-btn" data-page="search" type="button"><i
+              data-lucide="sparkles"></i><span>智慧搜尋</span></button>
+        </nav>
+        <div class="nav-label mt-4">審核作業</div>
+        <nav class="side-nav"><button class="nav-item-btn" data-page="supervisor" type="button"><i
+            data-lucide="shield-check"></i><span>需人工審核</span><span class="nav-count">2</span></button></nav>
+        <div class="nav-label mt-4">系統設定</div>
+        <nav class="side-nav">
+          <button class="nav-item-btn" data-page="audit" type="button"><i
+            data-lucide="scroll-text"></i><span>稽核日誌</span></button>
+          <button class="nav-item-btn" data-page="accounts" type="button"><i
+            data-lucide="users-round"></i><span>帳號與權限</span></button>
+        </nav>
+      </div>
+      <div class="side-footer">
+        <div class="user-menu" id="userMenu" hidden>
+          <div class="user-menu-head">
+            <strong>王小明</strong>
+            <span>wang.xm</span>
+          </div>
+          <button class="user-menu-item" id="changePassword" type="button">
+            <i data-lucide="key-round"></i><span>變更密碼</span>
+          </button>
+          <button class="user-menu-item user-menu-item--danger" id="logoutButton" type="button">
+            <i data-lucide="log-out"></i><span>登出</span>
+          </button>
+        </div>
+        <button class="user-card" id="userMenuTrigger" type="button" aria-haspopup="menu" aria-expanded="false"
+          aria-controls="userMenu">
+          <div class="avatar">王</div>
+          <div class="user-copy"><strong>王小明</strong><small>承辦人員・國際科</small></div>
+          <i class="user-menu-chevron" data-lucide="chevron-down" aria-hidden="true"></i>
+        </button>
+      </div>
+    </aside>
+    <div class="workspace">
+      <button class="icon-btn mobile-menu workspace-menu" id="mobileMenu" type="button" aria-label="開啟導覽"><i
+          data-lucide="menu"></i></button>
+      <!-- <header class="topbar">
+        <div class="topbar-title">
+          <h1 id="topTitle">案件管理</h1>
+          <p id="topSubtitle">跨境司法互助案件工作台</p>
+        </div>
+      </header> -->
+      <main>
+        <section class="page active" id="page-files" aria-labelledby="filesHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="filesHeading">案件管理</h2>
+              <p>依案件掌握文件處理、人工確認及需人工審核狀態。</p>
+            </div><button class="btn btn-primary" data-go="upload" type="button"><i
+                data-lucide="upload"></i>批次上傳文件</button>
+          </div>
+          <div class="metrics">
+            <article class="panel metric-card metric-card--primary">
+              <div class="metric-icon"><i data-lucide="inbox"></i></div>
+              <div class="metric-value">12</div>
+              <div class="metric-label">本週新增案件</div>
+            </article>
+            <article class="panel metric-card metric-card--processing">
+              <div class="metric-icon"><i data-lucide="loader-circle"></i></div>
+              <div class="metric-value">3</div>
+              <div class="metric-label">AI 處理中</div>
+            </article>
+            <article class="panel metric-card metric-card--warning">
+              <div class="metric-icon"><i data-lucide="triangle-alert"></i></div>
+              <div class="metric-value">2</div>
+              <div class="metric-label">需人工處理</div>
+            </article>
+            <article class="panel metric-card metric-card--success">
+              <div class="metric-icon"><i data-lucide="badge-check"></i></div>
+              <div class="metric-value" id="confirmedMetric">28</div>
+              <div class="metric-label">本月歸檔完成</div>
+            </article>
+          </div>
+          <div class="panel overflow-hidden">
+            <div class="filters">
+              <div class="search-mini"><i data-lucide="search"></i><input class="form-control form-control-sm"
+                  id="caseFilter" aria-label="搜尋案件" placeholder="搜尋案件名稱或案號"></div><select
+                class="form-select form-select-sm" id="statusFilter" aria-label="篩選狀態" style="max-width:180px">
+                <option value="all">全部狀態</option>
+                <option value="pending">待處理</option>
+                <option value="processing">處理中</option>
+                <option value="completed">完成</option>
+                <option value="failed">失敗</option>
+                <option value="manual">需人工處理</option>
+              </select>
+
+            </div>
+            <div class="selection-bar" id="selectionBar"><strong>已選取 <span id="selectedCount">0</span>
+                個待處理案件</strong><span>僅可批次選取「待處理」案件</span><button class="btn btn-sm btn-primary" id="batchConfirm"
+                type="button"><i data-lucide="check-check"></i>批次開始處理</button></div>
+            <div class="table-responsive">
+              <table class="table data-table align-middle" id="casesTable">
+                <thead>
+                  <tr>
+                    <th style="width:42px"><input class="form-check-input" id="selectAllNormal" type="checkbox"
+                        aria-label="選取本頁待處理案件"></th>
+                    <th>案件名稱</th>
+                    <th>請求國家</th>
+                    <th>文件數</th>
+                    <th>異常</th>
+                    <th>案件狀態</th>
+                    <th>更新時間</th>
+                    <th>操作</th>
+                    <th>回拋狀態</th>
+                    <th><span class="return-target-head">是否回拋<small>司互案管系統</small></span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-status="pending" data-search="日本 銀行交易 ml-2026-0819-01">
+                    <td><input class="form-check-input case-check" type="checkbox" aria-label="選取日本銀行交易紀錄調取案"></td>
+                    <td><a href="#" class="doc-link open-review">日本銀行交易紀錄調取案</a><span
+                        class="doc-sub">ML-2026-0819-01</span></td>
+                    <td>日本</td>
+                    <td>3 份</td>
+                    <td>0</td>
+                    <td><span class="badge-status status-info">待處理</span></td>
+                    <td>2026/08/24 14:32</td>
+                    <td><button class="btn btn-sm btn-primary open-review" type="button">待處理</button></td>
+                    <td><button class="badge-status status-info return-config-trigger" data-return-status="待回拋"
+                        type="button">待回拋</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseJapan" type="checkbox" role="switch"><label class="visually-hidden"
+                          for="returnCaseJapan">日本銀行交易紀錄調取案是否回拋</label></div></td>
+                  </tr>
+                  <tr data-status="manual" data-search="美國 平台帳號 ml-2026-0818-04">
+                    <td><input class="form-check-input" type="checkbox" disabled aria-label="需人工處理案件不可批次選取"></td>
+                    <td><a href="#" class="doc-link open-review">美國平台帳號資料保全案</a><span
+                        class="doc-sub">ML-2026-0818-04</span></td>
+                    <td>美國</td>
+                    <td>4 份</td>
+                    <td><span class="text-warning fw-bold">2</span></td>
+                    <td><span class="badge-status status-warn">需人工處理</span></td>
+                    <td>2026/08/24 13:54</td>
+                    <td><button class="btn btn-sm btn-primary open-review" type="button">待處理</button></td>
+                    <td><button class="badge-status status-warn return-config-trigger" data-return-status="需人工處理"
+                        type="button">需人工處理</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseUsa" type="checkbox" role="switch"><label class="visually-hidden"
+                          for="returnCaseUsa">美國平台帳號資料保全案是否回拋</label></div></td>
+                  </tr>
+                  <tr data-status="processing" data-search="新加坡 公司登記 ml-2026-0818-02">
+                    <td><input class="form-check-input" type="checkbox" disabled aria-label="處理中案件不可批次選取"></td>
+                    <td><a href="#" class="doc-link open-review">新加坡公司登記資料協查案</a><span
+                        class="doc-sub">ML-2026-0818-02</span></td>
+                    <td>新加坡</td>
+                    <td>2 份</td>
+                    <td>0</td>
+                    <td><span class="badge-status status-processing">處理中</span></td>
+                    <td>2026/08/24 11:40</td>
+                    <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
+                    <td><button class="badge-status status-info return-config-trigger" data-return-status="待回拋"
+                        type="button">待回拋</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseSingapore" type="checkbox" role="switch" checked><label class="visually-hidden"
+                          for="returnCaseSingapore">新加坡公司登記資料協查案是否回拋</label></div></td>
+                  </tr>
+                  <tr data-status="completed" data-search="英國 證人訊問 ml-2026-0817-08">
+                    <td><input class="form-check-input" type="checkbox" disabled aria-label="已完成案件不可批次選取"></td>
+                    <td><a href="#" class="doc-link open-review">英國證人訊問協助案</a><span
+                        class="doc-sub">ML-2026-0817-08</span></td>
+                    <td>英國</td>
+                    <td>3 份</td>
+                    <td>0</td>
+                    <td><span class="badge-status status-ok">完成</span></td>
+                    <td>2026/08/23 17:21</td>
+                    <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
+                    <td><button class="badge-status status-ok return-config-trigger" data-return-status="已回拋"
+                        type="button">已回拋</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseUk" type="checkbox" role="switch" checked><label class="visually-hidden"
+                          for="returnCaseUk">英國證人訊問協助案是否回拋</label></div></td>
+                  </tr>
+                  <tr data-status="failed" data-search="德國 電信紀錄 ml-2026-0817-03">
+                    <td><input class="form-check-input" type="checkbox" disabled aria-label="處理失敗案件不可批次選取"></td>
+                    <td><a href="#" class="doc-link open-review">德國電信紀錄調取案</a><span
+                        class="doc-sub">ML-2026-0817-03</span></td>
+                    <td>德國</td>
+                    <td>5 份</td>
+                    <td><span class="text-warning fw-bold">1</span></td>
+                    <td><span class="badge-status status-danger">失敗</span></td>
+                    <td>2026/08/23 16:08</td>
+                    <td><button class="btn btn-sm btn-primary open-review" type="button">待處理</button></td>
+                    <td><button class="badge-status status-danger return-config-trigger" data-return-status="回拋失敗"
+                        type="button">回拋失敗</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseGermany" type="checkbox" role="switch"><label class="visually-hidden"
+                          for="returnCaseGermany">德國電信紀錄調取案是否回拋</label></div></td>
+                  </tr>
+                  <tr data-status="completed" data-search="香港 凍結資產 ml-2026-0815-06">
+                    <td><input class="form-check-input" type="checkbox" disabled aria-label="已完成案件不可批次選取"></td>
+                    <td><a href="#" class="doc-link open-review">香港犯罪所得凍結協助案</a><span
+                        class="doc-sub">ML-2026-0815-06</span></td>
+                    <td>香港</td>
+                    <td>4 份</td>
+                    <td>0</td>
+                    <td><span class="badge-status status-ok">完成</span></td>
+                    <td>2026/08/18 10:25</td>
+                    <td><button class="btn btn-sm btn-outline-secondary open-review" type="button">查看</button></td>
+                    <td><button class="badge-status status-ok return-config-trigger" data-return-status="已回拋"
+                        type="button">已回拋</button></td>
+                    <td><div class="form-check form-switch case-return-switch"><input class="form-check-input"
+                          id="returnCaseHongKong" type="checkbox" role="switch" checked><label class="visually-hidden"
+                          for="returnCaseHongKong">香港犯罪所得凍結協助案是否回拋</label></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="page-upload" aria-labelledby="uploadHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="uploadHeading">批次上傳文件</h2>
+              <p>匯入司法互助請求書，系統將依序執行 OCR、欄位擷取與關聯分析。</p>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-12">
+              <div class="panel">
+                <div class="panel-body">
+                  <div class="row g-3 mb-4" aria-label="案件基本資料">
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold" for="uploadCaseNumber">案號</label>
+                      <input class="form-control" id="uploadCaseNumber" type="text" placeholder="例如：ML-2026-0824-01"
+                        autocomplete="off" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold" for="uploadCountry">國家</label>
+                      <input class="form-control" id="uploadCountry" type="text" placeholder="例如：日本"
+                        autocomplete="off" required>
+                    </div>
+                  </div>
+                  <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg" multiple hidden>
+                  <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="選擇上傳文件">
+                    <!-- <div class="drop-icon"><i data-lucide="files-up"></i></div> -->
+                    <h3 class="h6 fw-bold">拖曳文件至此，或點擊選擇檔案</h3>
+                    <p class="subtle mb-2">支援 PDF、PNG、JPG，可一次選擇多份文件</p><button class="btn btn-sm btn-outline-primary"
+                      id="chooseFiles" type="button">選擇文件</button>
+                  </div>
+                  <div class="d-flex align-items-center mt-4 mb-2"><strong>待處理文件</strong><button
+                      class="btn btn-sm btn-link ms-auto text-decoration-none" id="addSamples"
+                      type="button">加入範例文件</button></div>
+                  <div id="uploadQueue">
+                    <div class="empty-state" id="queueEmpty">尚未選擇文件</div>
+                  </div>
+                </div>
+                <div class="panel-header justify-content-end"><button class="btn btn-primary" id="startProcess"
+                    type="button" disabled><i data-lucide="upload"></i>確認上傳</button></div>
+              </div>
+              <div class="panel process-card" id="processCard">
+                <div class="panel-header">
+                  <div>
+                    <h3>AI 文件處理中</h3><span class="subtle" id="processCaption">準備文件...</span>
+                  </div><span class="badge-status status-info ms-auto" id="processCount">0 / 0</span>
+                </div>
+                <div class="panel-body">
+                  <div class="progress-thin"><span id="overallProgress"></span></div>
+                  <div class="stage-list" id="stageList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+        <section class="page review-page" id="page-review" aria-label="文件校對">
+          <div class="review-context">
+            <div class="review-toolbar">
+              <div class="review-title"><strong>美國平台帳號資料保全案</strong><span
+                  id="reviewCaseSummary">ML-2026-0818-04・需人工處理</span></div>
+            </div>
+            <div class="review-case-meta" aria-label="案件基本資料">
+              <div class="review-meta-field">
+                <label for="reviewCaseNumber">案號</label>
+                <input class="form-control" id="reviewCaseNumber" type="text" value="ML-2026-0818-04" required>
+              </div>
+              <div class="review-meta-field">
+                <label for="reviewCaseCountry">國家</label>
+                <input class="form-control" id="reviewCaseCountry" type="text" value="美國" required>
+              </div>
+              <button class="btn btn-outline-primary review-update-button" id="updateCaseInfo" type="button"><i
+                  data-lucide="pencil"></i>修改</button>
+            </div>
+            <div class="review-document-bar">
+              <div class="review-toolbar-field review-document-picker">
+                <label for="caseDocumentSelect">此案件相關文件</label>
+                <select class="form-select form-select-sm" id="caseDocumentSelect">
+                  <option value="request">美國平台帳號資料保全請求書</option>
+                  <option value="reply">美國司法部回覆函</option>
+                  <option value="evidence">平台帳號證據材料</option>
+                  <option value="attachment">登入與 IP 紀錄附件</option>
+                </select>
+              </div>
+              <button class="btn btn-sm btn-outline-secondary" id="previousDoc" type="button"><i
+                  data-lucide="chevron-left"></i>上一份</button><button class="btn btn-sm btn-outline-secondary" id="nextDoc"
+                type="button">下一份<i data-lucide="chevron-right"></i></button>
+              <div class="review-toolbar-field review-version-picker">
+                <label for="versionSelect">版本</label>
+                <select class="form-select form-select-sm" id="versionSelect" data-current-version="v2">
+                  <option value="v2">v2</option>
+                  <option value="v1">v1</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="review-layout">
+            <section class="document-pane" aria-label="原始文件">
+              <div class="document-scroll">
+                <article class="paper">
+                <div class="paper-kicker">中華民國司法互助請求</div>
+                <h3 id="reviewPaperTitle">司法互助請求書</h3>
+                <div class="paper-ref" id="reviewPaperCaseNumber">案號：ML-2026-0818-04</div>
+                <p>受請求機關：<mark data-source="country">美利堅合眾國司法部</mark></p>
+                <p>請求機關：臺灣臺北地方檢察署</p>
+                <div class="paper-section">一、案件概要</div>
+                <p>本署偵辦被告林○○等人涉嫌違反洗錢防制法及詐欺犯罪危害防制條例案件。被告涉嫌透過境外網路平台帳號接收犯罪所得，並將款項轉入多個境外帳戶。</p>
+                <div class="paper-section">二、請求協助事項</div>
+                <p>請協助保全並提供帳號識別碼 <mark data-source="account">US-ACCT-88421</mark> 於 <mark data-source="range">2025 年 1 月
+                    1 日至 2025 年 12 月 31 日</mark> 期間之註冊資訊、登入紀錄、IP 位址、裝置資訊及相關電子郵件往來內容。</p>
+                <p>另請提供該帳號與 <mark data-source="related">user.contact@example.com</mark> 之關聯紀錄，以及相關資料之真實性證明。</p>
+                <div class="paper-section">三、法律依據及必要性</div>
+                <p>前揭資料為確認犯罪所得流向、帳號實際使用人及其與本案被告關聯性之必要證據。若未即時保全，相關電子紀錄可能因保存期間屆滿而滅失。</p>
+                <div class="paper-section">四、希望回覆期限</div>
+                <p>考量本案偵查期程，敬請於 <mark data-source="deadline">2026 年 10 月 30 日</mark> 前提供前述資料。</p>
+                <p class="mt-5">此致<br>美利堅合眾國司法部</p>
+                  <p class="text-end mt-5">請求機關：臺灣臺北地方檢察署<br>中華民國 2026 年 8 月 18 日</p>
+                </article>
+              </div>
+              <div class="document-footer"><button class="btn btn-outline-primary" data-go="files" type="button"><i
+                    data-lucide="arrow-left"></i>返回案件管理</button></div>
+            </section>
+            <section class="fields-pane" aria-label="AI 擷取欄位">
+              <div class="fields-sticky">
+                <div class="fields-summary"><strong>AI 擷取結果</strong><span class="badge-status status-warn">2
+                    項異常</span><button class="btn btn-sm btn-soft" id="selectNormalFields" type="button"><i
+                      data-lucide="check-check"></i>批次確認正常欄位</button></div>
+              </div>
+              <div class="fields-list" id="fieldsList">
+                <div class="field-group-title">案件基本資料</div>
+                <div class="field-row" data-source-target="country">
+                  <div class="field-head"><input class="form-check-input field-check"
+                      type="checkbox"><label>受請求國家／機關</label><span class="field-meta">信心度 97%</span></div><input
+                    class="form-control form-control-sm" value="美利堅合眾國司法部">
+                </div>
+                <div class="field-row">
+                  <div class="field-head"><input class="form-check-input field-check"
+                      type="checkbox"><label>請求機關</label><span class="field-meta">信心度 98%</span></div><input
+                    class="form-control form-control-sm" value="臺灣臺北地方檢察署">
+                </div>
+                <div class="field-row">
+                  <div class="field-head"><input class="form-check-input field-check"
+                      type="checkbox"><label>案件類型</label><span class="field-meta">信心度 91%</span></div><select
+                    class="form-select form-select-sm">
+                    <option>洗錢及詐欺</option>
+                    <option>資恐</option>
+                    <option>其他刑事案件</option>
+                  </select>
+                </div>
+                <div class="field-group-title">請求證據與範圍</div>
+                <div class="field-row" data-source-target="account">
+                  <div class="field-head"><input class="form-check-input field-check"
+                      type="checkbox"><label>平台帳號識別碼</label><span class="field-meta">信心度 94%</span></div><input
+                    class="form-control form-control-sm" value="US-ACCT-88421">
+                </div>
+                <div class="field-row anomaly" data-source-target="range">
+                  <div class="field-head"><input class="form-check-input field-check anomaly-check"
+                      type="checkbox"><label>資料時間範圍</label><span class="field-meta"><span class="low">信心度
+                        62%</span></span></div><input class="form-control form-control-sm"
+                    value="2025/01/01 — 2025/12/31">
+                  <div class="field-note"><i data-lucide="triangle-alert"></i><span>日期格式與系統欄位格式不一致，請確認後再勾選。</span></div>
+                </div>
+                <div class="field-row" data-source-target="related">
+                  <div class="field-head"><input class="form-check-input field-check"
+                      type="checkbox"><label>關聯電子郵件</label><span class="field-meta">信心度 89%</span></div><input
+                    class="form-control form-control-sm" value="user.contact@example.com">
+                </div>
+                <div class="field-row anomaly" data-source-target="deadline">
+                  <div class="field-head"><input class="form-check-input field-check anomaly-check"
+                      type="checkbox"><label>希望回覆期限</label><span class="field-meta"><span class="low">信心度
+                        58%</span></span></div><input class="form-control form-control-sm" value="2026/10/30">
+                  <div class="field-note"><i data-lucide="triangle-alert"></i><span>AI 偵測到期限欄位，請確認是否為正式期限。</span></div>
+                </div>
+                <div class="field-group-title">AI 摘要與標籤</div>
+                <div class="field-row">
+                  <div class="field-head"><input class="form-check-input field-check"
+                      type="checkbox"><label>證據類型標籤</label><span class="field-meta">信心度 92%</span></div><input
+                    class="form-control form-control-sm" value="平台帳號、登入紀錄、IP 位址、電子郵件">
+                </div>
+                <div class="field-row">
+                  <div class="field-head"><input class="form-check-input field-check"
+                      type="checkbox"><label>案件摘要</label><span class="field-meta">信心度 87%</span></div><textarea
+                    class="form-control form-control-sm" rows="3">調查涉嫌洗錢及詐欺案件，請求美國協助保全並提供境外平台帳號之註冊與登入相關電子紀錄。</textarea>
+                </div>
+              </div>
+              <div class="review-footer"><span class="footer-hint" id="fieldProgress">已確認 0 / 9 個欄位</span><button
+                  class="btn btn-outline-secondary" data-go="relations" type="button"><i
+                    data-lucide="network"></i>關聯視覺化</button><button class="btn btn-primary" id="generateCaseReport"
+                  data-go="reports" type="button"><i data-lucide="file-chart-column"></i>彙整報告</button>
+              </div>
+            </section>
+          </div>
+        </section>
+        <section class="page" id="page-search" aria-labelledby="searchHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="searchHeading">智慧搜尋</h2>
+              <p>以自然語言或條件查找文件，勾選後產生跨文件彙整報告。</p>
+            </div>
+          </div>
+          <div class="panel search-tabs" role="tablist" aria-label="智慧搜尋方式">
+            <button class="search-tab active" id="searchTabNatural" data-search-tab="natural" type="button"
+              role="tab" aria-selected="true" aria-controls="searchPanelNatural"><i
+                data-lucide="message-circle-question"></i><span>自然語言查詢</span></button>
+            <button class="search-tab" id="searchTabFilter" data-search-tab="filter" type="button" role="tab"
+              aria-selected="false" aria-controls="searchPanelFilter" tabindex="-1"><i
+                data-lucide="list-filter"></i><span>條件式篩選</span></button>
+            <button class="search-tab" id="searchTabSelected" data-search-tab="selected" type="button" role="tab"
+              aria-selected="false" aria-controls="searchPanelSelected" tabindex="-1"><i
+                data-lucide="list-checks"></i><span>多文件勾選</span><span class="search-tab-count"
+                id="selectedTabCount">0</span></button>
+          </div>
+
+          <div class="search-tab-panel" id="searchPanelNatural" role="tabpanel" aria-labelledby="searchTabNatural">
+            <div class="panel search-hero">
+              <span class="section-eyebrow">自然語言查詢</span>
+              <h3>想查找哪一類案件或證據？</h3>
+              <p class="mb-0 opacity-75">系統會根據文件內容、AI 欄位與摘要找出相關文件，並標示符合原因。</p>
+              <div class="search-box"><i data-lucide="search"></i><input class="form-control" id="smartQuery"
+                  value="找出向日本請求銀行交易紀錄的案件" aria-label="自然語言查詢"
+                  aria-describedby="searchQueryHelp"><button class="btn btn-light px-4" id="smartSearch"
+                  type="button"><i data-lucide="sparkles"></i>開始搜尋</button></div>
+              <span class="visually-hidden" id="searchQueryHelp">可輸入國家、證據類型、案件狀態或期限等自然語言問題</span>
+              <div class="example-queries"><button class="query-chip" type="button">哪些案件要求凍結犯罪所得？</button><button
+                  class="query-chip" type="button">找出回覆期限在十月底前的文件</button><button class="query-chip"
+                  type="button">哪些文件涉及平台帳號資料？</button></div>
+            </div>
+          </div>
+
+          <div class="search-tab-panel" id="searchPanelFilter" role="tabpanel" aria-labelledby="searchTabFilter" hidden>
+            <section class="panel search-filter-panel" aria-labelledby="filterHeading">
+              <div class="panel-header search-section-head">
+                <div><span class="section-eyebrow">條件式篩選</span><h3 id="filterHeading">設定文件篩選條件</h3></div>
+                <span class="subtle">可單獨或組合使用多個條件</span>
+              </div>
+              <form class="search-filter-body" id="filterBody">
+                <div class="search-filter-grid">
+                  <div class="filter-field"><label for="filterCase">案號</label><input class="form-control"
+                      id="filterCase" type="search" placeholder="例如 ML-2026"></div>
+                  <div class="filter-field"><label for="filterCountry">請求國家／地區</label><select
+                      class="form-select" id="filterCountry"><option value="">全部國家／地區</option><option>日本</option><option>美國</option><option>新加坡</option><option>英國</option><option>香港</option></select></div>
+                  <div class="filter-field"><label for="filterEvidence">證據類型</label><select
+                      class="form-select" id="filterEvidence"><option value="">全部證據類型</option><option value="銀行交易">銀行帳戶／交易紀錄</option><option value="平台帳號">電信／平台電子證據</option><option value="公司登記">公司登記／受益人</option><option value="證人訊問">證人訊問／證詞</option><option value="犯罪所得">犯罪所得／凍結</option></select></div>
+                  <div class="filter-field"><label for="filterStatus">處理狀態</label><select
+                      class="form-select" id="filterStatus"><option value="">全部狀態</option><option value="完成">完成</option><option value="處理中">處理中</option><option value="待複核">待複核</option><option value="需人工審核">需人工審核</option></select></div>
+                  <div class="filter-field"><label for="filterAnomaly">AI 判定</label><select
+                      class="form-select" id="filterAnomaly"><option value="">全部判定</option><option value="normal">正常</option><option value="anomaly">異常</option></select></div>
+                  <div class="filter-field"><label for="filterDate">上傳日期</label><select
+                      class="form-select" id="filterDate"><option value="">不限日期</option><option value="7">最近 7 天</option><option value="30">最近 30 天</option><option value="90">最近 90 天</option></select></div>
+                </div>
+                <div class="search-filter-actions"><button class="btn btn-outline-secondary" id="resetFilters"
+                    type="button"><i data-lucide="rotate-ccw"></i>清除條件</button><div class="d-flex align-items-center gap-3"><span
+                      id="filterResultCount" aria-live="polite"></span><button class="btn btn-primary" id="applyFilters"
+                      type="submit"><i data-lucide="search"></i>套用篩選</button></div></div>
+              </form>
+            </section>
+          </div>
+
+          <div class="search-tab-panel" id="searchPanelSelected" role="tabpanel" aria-labelledby="searchTabSelected" hidden>
+            <section class="panel search-selection-workspace" aria-labelledby="selectedHeading">
+              <div class="panel-header search-selected-head">
+                <div><span class="section-eyebrow">多文件勾選</span><h3 id="selectedHeading">已選文件</h3></div>
+                <div class="d-flex align-items-center gap-2"><button class="btn btn-sm btn-outline-primary"
+                    id="selectAllDocuments" type="button">全部勾選</button><span class="selected-count"
+                    id="searchSelectedCount" aria-live="polite">0</span>
+                    <button
+                    class="btn btn-sm btn-outline-secondary" id="clearSelectedDocuments" type="button" disabled><i
+                      data-lucide="trash-2"></i>清除全部</button>
+                    </div>
+              </div>
+              <div class="search-selected-layout">
+                <p class="selection-scope-note">以下列出目前帳號可查看的全部文件，請勾選要納入彙整報告的資料。</p>
+                <div class="selected-documents" id="selectedDocuments" aria-label="可勾選文件清單"></div>
+                <div class="search-filter-actions search-selected-actions">
+                  <!--
+                  暫時停用「清除條件」按鈕。
+                  對應 JS 已加上 null guard，因此按鈕不存在時不會觸發錯誤。
+                  <button class="btn btn-outline-secondary"
+                    id="resetSelectedDocuments" type="button"><i data-lucide="rotate-ccw"></i>清除條件</button>
+                  -->
+                    <div
+                    class="d-flex align-items-center gap-3"><span id="selectedResultCount" aria-live="polite">0 份符合</span><button
+                      class="btn btn-primary" id="applySelectedDocuments" type="button"><i
+                        data-lucide="search"></i>套用篩選</button></div></div>
+              </div>
+            </section>
+          </div>
+
+          <section class="panel search-results" id="searchResults" aria-labelledby="resultsHeading" hidden>
+            <div class="panel-header search-results-head">
+              <div><span class="section-eyebrow">搜尋結果</span><h3 id="resultsHeading">相關文件</h3></div>
+              <span class="search-result-count" id="searchResultCount"></span>
+            </div>
+            <div class="search-selection-toolbar">
+              <label><input class="form-check-input" id="selectVisibleResults" type="checkbox">選取本頁全部文件</label>
+              <span class="subtle" id="searchModeSummary"></span>
+            </div>
+            <div id="resultsBody" aria-live="polite"></div>
+            <div class="search-report-controls" id="searchReportControls" hidden>
+              <h4>彙整報告設定</h4>
+              <div class="filter-field"><label for="searchReportName">報告名稱</label><input class="form-control"
+                  id="searchReportName" value="司法互助案件彙整報告"></div>
+              <div class="filter-field"><label for="searchReportType">報告用途</label><select
+                  class="form-select" id="searchReportType"><option>案件摘要</option><option>證據彙整</option><option>異常文件清單</option><option>需人工審核報告</option></select></div>
+              <div class="filter-field"><label for="searchReportInstruction">補充要求</label><textarea
+                  class="form-control" id="searchReportInstruction" rows="3"
+                  placeholder="例如：依國家整理證據類型"></textarea></div>
+              <span class="search-report-hint">AI 將只讀取已勾選的文件內容。</span>
+              <div class="search-report-actions"><button class="btn btn-primary report-output search-report-output"
+                  data-output="web" type="button" disabled><i data-lucide="panels-top-left"></i>網頁報告</button><button
+                  class="btn btn-outline-secondary report-output search-report-output" data-output="pdf" type="button"
+                  disabled><i data-lucide="file-down"></i>PDF</button><button
+                  class="btn btn-outline-secondary report-output search-report-output" data-output="word" type="button"
+                  disabled><i data-lucide="file-type-2"></i>Word</button></div>
+            </div>
+          </section>
+        </section>
+        <section class="page" id="page-relations" aria-labelledby="relationsHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="relationsHeading">關聯視覺化</h2>
+              <p>探索案件、所屬文件、引用關係與 AI 建議的相似案件。</p>
+            </div>
+          </div>
+          <div class="panel relation-layout">
+            <div class="graph-area">
+              <div class="graph-toolbar"><button class="icon-btn" type="button" aria-label="放大"><i
+                    data-lucide="zoom-in"></i></button><button class="icon-btn" type="button" aria-label="縮小"><i
+                    data-lucide="zoom-out"></i></button><button class="icon-btn" type="button" aria-label="置中"><i
+                    data-lucide="focus"></i></button></div>
+              <svg class="relation-svg" viewBox="0 0 800 620" role="img" aria-label="案件與文件關聯圖">
+                <line class="edge" x1="390" y1="295" x2="210" y2="150"></line>
+                <line class="edge" x1="390" y1="295" x2="585" y2="145"></line>
+                <line class="edge" x1="390" y1="295" x2="205" y2="440"></line>
+                <line class="edge" x1="390" y1="295" x2="595" y2="445"></line>
+                <line class="edge dashed" x1="390" y1="295" x2="690" y2="300"></line><text class="edge-label" x="274"
+                  y="208">包含文件</text><text class="edge-label" x="493" y="205">包含文件</text><text class="edge-label"
+                  x="274" y="376">引用</text><text class="edge-label" x="492" y="380">包含文件</text><text class="edge-label"
+                  x="565" y="286">相似案件 86%</text>
+                <g class="node" tabindex="0" data-node="case-main">
+                  <circle class="halo node-halo--case" cx="390" cy="295" r="65"></circle>
+                  <circle class="node-shape--case" cx="390" cy="295" r="52"></circle><text class="node-label-on-dark"
+                    x="390" y="291" text-anchor="middle">ML-2026-0818</text><text class="sub node-sub-on-dark" x="390"
+                    y="309" text-anchor="middle">跨境詐欺案</text>
+                </g>
+                <g class="node" tabindex="0" data-node="doc-us">
+                  <rect class="halo node-halo--document" x="150" y="105" width="120" height="90" rx="15"></rect>
+                  <rect class="node-shape--document" x="160" y="115" width="100" height="70" rx="10" stroke-width="2">
+                  </rect><text x="210" y="145" text-anchor="middle">美國請求書</text><text class="sub" x="210" y="162"
+                    text-anchor="middle">平台帳號資料</text>
+                </g>
+                <g class="node" tabindex="0" data-node="doc-jp">
+                  <rect class="halo node-halo--document" x="525" y="100" width="120" height="90" rx="15"></rect>
+                  <rect class="node-shape--document" x="535" y="110" width="100" height="70" rx="10" stroke-width="2">
+                  </rect><text x="585" y="140" text-anchor="middle">日本請求書</text><text class="sub" x="585" y="157"
+                    text-anchor="middle">銀行交易紀錄</text>
+                </g>
+                <g class="node" tabindex="0" data-node="doc-evidence">
+                  <rect class="halo node-halo--document" x="145" y="395" width="120" height="90" rx="15"></rect>
+                  <rect class="node-shape--document" x="155" y="405" width="100" height="70" rx="10" stroke-width="2">
+                  </rect><text x="205" y="435" text-anchor="middle">證據附件</text><text class="sub" x="205" y="452"
+                    text-anchor="middle">金流彙整表</text>
+                </g>
+                <g class="node" tabindex="0" data-node="doc-reply">
+                  <rect class="halo node-halo--document" x="535" y="400" width="120" height="90" rx="15"></rect>
+                  <rect class="node-shape--document" x="545" y="410" width="100" height="70" rx="10" stroke-width="2">
+                  </rect><text x="595" y="440" text-anchor="middle">補充說明書</text><text class="sub" x="595" y="457"
+                    text-anchor="middle">法律依據</text>
+                </g>
+                <g class="node" tabindex="0" data-node="case-similar">
+                  <circle class="halo node-halo--similar" cx="690" cy="300" r="58"></circle>
+                  <circle class="node-shape--similar" cx="690" cy="300" r="45" stroke-width="2"></circle><text x="690"
+                    y="296" text-anchor="middle">ML-2025-1120</text><text class="sub" x="690" y="313"
+                    text-anchor="middle">相似洗錢案</text>
+                </g>
+              </svg>
+              <div class="graph-legend"><span><i class="legend-shape circle"></i>案件</span><span><i
+                    class="legend-shape"></i>文件</span><span>── 所屬／引用</span><span class="legend-ai">┄ AI 相似建議</span>
+              </div>
+            </div>
+            <aside class="node-detail" id="nodeDetail">
+              <div class="node-detail-empty">
+                <div>
+                  <div class="detail-icon mx-auto"><i data-lucide="mouse-pointer-click"></i></div>
+                  <strong>選擇一個節點</strong>
+                  <p class="mt-2 mb-0">點擊案件或文件節點查看詳細資訊。</p>
+                </div>
+              </div>
+            </aside>
+          </div>
+          <div class="page-back-action">
+            <button class="btn btn-outline-primary" data-go="review" type="button"><i
+                data-lucide="arrow-left"></i>返回案件</button>
+          </div>
+        </section>
+        <section class="page" id="page-reports" aria-labelledby="reportsHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="reportsHeading">彙整報告</h2>
+              <p>彙整同一案件內的請求書、回覆函與證據材料，產生案件報告。</p>
+            </div>
+          </div>
+          <div class="report-layout">
+            <div class="panel">
+              <div class="panel-header"><input class="form-check-input" type="checkbox" checked aria-label="全選報告文件">
+                <h3>美國平台帳號資料保全案・已選取 4 份文件</h3><button class="btn btn-sm btn-outline-secondary ms-auto" type="button"><i
+                    data-lucide="filter"></i>篩選</button>
+              </div>
+              <div class="panel-body report-doc-list"><label class="report-doc"><input class="form-check-input"
+                    type="checkbox" checked><i data-lucide="file-text"></i><span>美國平台帳號資料保全請求書</span><small
+                    class="subtle">請求文件</small></label><label class="report-doc"><input class="form-check-input"
+                    type="checkbox" checked><i data-lucide="file-text"></i><span>美國司法部回覆函</span><small
+                    class="subtle">回覆文件</small></label><label class="report-doc"><input class="form-check-input"
+                    type="checkbox" checked><i data-lucide="file-text"></i><span>平台帳號證據材料</span><small
+                    class="subtle">證據材料</small></label><label class="report-doc"><input class="form-check-input"
+                    type="checkbox" checked><i data-lucide="file-text"></i><span>登入與 IP 紀錄附件</span><small
+                    class="subtle">附件</small></label></div>
+              <div class="panel-header"><label class="form-label mb-0 me-2 fw-bold"
+                  for="reportInstruction">報告要求</label><input class="form-control" id="reportInstruction"
+                  value="彙整本案請求內容、回覆結果、證據材料與待辦事項"></div>
+            </div>
+            <aside class="panel output-card">
+              <h3 class="h6 fw-bold">選擇輸出格式</h3>
+              <p class="subtle small">AI 會先完成報告內容，再依所選格式輸出。</p><button class="output-option report-output"
+                data-output="web" type="button"><span class="output-icon"><i
+                    data-lucide="panels-top-left"></i></span><span><strong>網頁報告</strong><small>直接在系統內瀏覽</small></span></button><button
+                class="output-option report-output" data-output="pdf" type="button"><span
+                  class="output-icon output-icon--pdf"><i
+                    data-lucide="file-down"></i></span><span><strong>PDF</strong><small>適合保存及正式列印</small></span></button><button
+                class="output-option report-output" data-output="word" type="button"><span
+                  class="output-icon output-icon--word"><i
+                    data-lucide="file-type-2"></i></span><span><strong>Word</strong><small>可繼續編輯報告內容</small></span></button>
+            </aside>
+          </div>
+          <div class="page-back-action">
+            <button class="btn btn-outline-primary" data-go="review" type="button"><i
+                data-lucide="arrow-left"></i>返回案件</button>
+          </div>
+        </section>
+        <section class="page" id="page-supervisor" aria-labelledby="supervisorHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="supervisorHeading">需人工審核</h2>
+              <p>檢視承辦人修正內容，核准文件或退回補正。</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <h3>待複核文件</h3><span class="badge-status status-neutral ms-auto">2 份</span>
+            </div>
+            <article class="supervisor-card">
+              <div>
+                <div class="d-flex align-items-center gap-2"><a href="#"
+                    class="doc-link open-review">英國證人訊問協助請求書</a><span class="change-count">修改 3 個欄位</span></div><span
+                  class="doc-sub">ML-2026-0817-08・承辦人：陳怡君・昨日 17:21 送出</span>
+              </div>
+              <div class="d-flex gap-2"><button class="btn btn-sm btn-outline-danger return-review"
+                  type="button">退回</button><button class="btn btn-sm btn-primary approve-review"
+                  type="button">核准</button></div>
+            </article>
+            <article class="supervisor-card">
+              <div>
+                <div class="d-flex align-items-center gap-2"><a href="#"
+                    class="doc-link open-review">澳洲虛擬資產交易紀錄請求書</a><span class="change-count">修改 1 個欄位</span></div><span
+                  class="doc-sub">ML-2026-0816-11・承辦人：王小明・8/18 15:02 送出</span>
+              </div>
+              <div class="d-flex gap-2"><button class="btn btn-sm btn-outline-danger return-review"
+                  type="button">退回</button><button class="btn btn-sm btn-primary approve-review"
+                  type="button">核准</button></div>
+            </article>
+          </div>
+        </section>
+        <section class="page" id="page-audit" aria-labelledby="auditHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="auditHeading">稽核日誌</h2>
+              <p>檢索登入、帳號異動、文件查詢修改及 AI 結果覆核軌跡。</p>
+            </div>
+            <button class="btn btn-outline-secondary" id="exportAuditLog" type="button"><i
+                data-lucide="download"></i>匯出稽核紀錄</button>
+          </div>
+          <div class="admin-metrics">
+            <article class="panel admin-metric">
+              <span class="admin-metric-icon admin-metric-icon--primary"><i data-lucide="activity"></i></span>
+              <div><strong>128</strong><span>今日操作</span></div>
+            </article>
+            <article class="panel admin-metric">
+              <span class="admin-metric-icon admin-metric-icon--danger"><i data-lucide="log-in"></i></span>
+              <div><strong>3</strong><span>登入失敗</span></div>
+            </article>
+            <article class="panel admin-metric">
+              <span class="admin-metric-icon admin-metric-icon--warning"><i data-lucide="user-cog"></i></span>
+              <div><strong>5</strong><span>帳號異動</span></div>
+            </article>
+            <article class="panel admin-metric">
+              <span class="admin-metric-icon admin-metric-icon--success"><i data-lucide="brain-circuit"></i></span>
+              <div><strong>17</strong><span>AI 覆核紀錄</span></div>
+            </article>
+          </div>
+          <div class="audit-layout">
+            <section class="panel audit-list-panel" aria-labelledby="auditListHeading">
+              <div class="panel-header">
+                <h3 id="auditListHeading">操作紀錄</h3>
+                <span class="subtle ms-auto" id="auditResultCount">7 筆紀錄</span>
+              </div>
+              <!-- 稽核日誌篩選功能暫不顯示，保留結構供後續啟用。
+              <div class="admin-filter-bar">
+                <div class="search-mini"><i data-lucide="search"></i><input class="form-control form-control-sm"
+                    id="auditSearch" type="search" aria-label="搜尋操作紀錄" placeholder="搜尋人員、文件或案號"></div>
+                <select class="form-select form-select-sm" id="auditModule" aria-label="篩選功能模組">
+                  <option value="">全部模組</option>
+                  <option value="登入驗證">登入驗證</option>
+                  <option value="帳號管理">帳號管理</option>
+                  <option value="案件管理">案件管理</option>
+                  <option value="AI 覆核">AI 覆核</option>
+                </select>
+                <select class="form-select form-select-sm" id="auditResult" aria-label="篩選執行結果">
+                  <option value="">全部結果</option>
+                  <option value="成功">成功</option>
+                  <option value="失敗">失敗</option>
+                </select>
+                <input class="form-control form-control-sm" id="auditDate" type="date" value="2026-08-20"
+                  aria-label="篩選日期">
+              </div>
+              -->
+              <div class="table-responsive">
+                <table class="table data-table admin-table mb-0">
+                  <thead>
+                    <tr>
+                      <th>時間</th>
+                      <th>操作者／單位</th>
+                      <th>操作</th>
+                      <th>操作對象</th>
+                      <th>結果</th>
+                      <th><span class="visually-hidden">查看明細</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="auditTableBody"></tbody>
+                </table>
+              </div>
+              <div class="admin-empty" id="auditEmpty" hidden><i data-lucide="search-x"></i><span>查無符合的稽核紀錄</span></div>
+              <nav class="admin-pagination" id="auditPagination" aria-label="稽核日誌分頁">
+                <span class="admin-pagination-summary" id="auditPageSummary" aria-live="polite"></span>
+                <div class="admin-pagination-controls">
+                  <button class="btn btn-sm btn-outline-secondary" id="auditPrevPage" type="button"><i
+                      data-lucide="chevron-left"></i>上一頁</button>
+                  <div class="admin-page-numbers" id="auditPageNumbers" aria-label="頁碼"></div>
+                  <button class="btn btn-sm btn-outline-secondary" id="auditNextPage" type="button">下一頁<i
+                      data-lucide="chevron-right"></i></button>
+                </div>
+              </nav>
+            </section>
+            <aside class="panel audit-detail" id="auditDetail" aria-live="polite">
+              <div class="audit-detail-empty">
+                <i data-lucide="mouse-pointer-click"></i>
+                <strong>選擇一筆操作紀錄</strong>
+                <span>查看來源、執行結果與異動前後內容。</span>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="page" id="page-accounts" aria-labelledby="accountsHeading">
+          <div class="page-heading">
+            <div>
+              <h2 id="accountsHeading">帳號與權限</h2>
+              <p>管理使用者狀態、角色權限及依組織階層繼承的資料查看範圍。</p>
+            </div>
+            <button class="btn btn-primary" id="addAccount" type="button"><i data-lucide="user-plus"></i>新增帳號</button>
+          </div>
+          <div class="panel admin-tabs" role="tablist" aria-label="帳號與權限管理">
+            <button class="admin-tab active" id="accountListTab" data-admin-tab="account-list" type="button"
+              role="tab" aria-selected="true" aria-controls="admin-account-list"><i data-lucide="users"></i>帳號管理</button>
+            <button class="admin-tab" id="permissionRulesTab" data-admin-tab="permission-rules" type="button"
+              role="tab" aria-selected="false" aria-controls="admin-permission-rules"><i
+                data-lucide="shield-check"></i>組織與角色權限</button>
+          </div>
+
+          <div class="admin-tab-panel active" id="admin-account-list" role="tabpanel" aria-labelledby="accountListTab">
+            <div class="admin-metrics account-metrics">
+              <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--primary"><i
+                    data-lucide="users"></i></span><div><strong>36</strong><span>全部帳號</span></div></article>
+              <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--success"><i
+                    data-lucide="user-check"></i></span><div><strong>32</strong><span>啟用中</span></div></article>
+              <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--danger"><i
+                    data-lucide="lock-keyhole"></i></span><div><strong>2</strong><span>已鎖定</span></div></article>
+              <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--warning"><i
+                    data-lucide="user-x"></i></span><div><strong>2</strong><span>已停用</span></div></article>
+            </div>
+            <section class="panel account-list-panel" aria-labelledby="accountListHeading">
+              <div class="panel-header">
+                <h3 id="accountListHeading">使用者帳號</h3>
+                <span class="subtle ms-auto" id="accountResultCount">6 筆示例帳號</span>
+              </div>
+              <div class="admin-filter-bar account-filter-bar">
+                <div class="search-mini"><i data-lucide="search"></i><input class="form-control form-control-sm"
+                    id="accountSearch" type="search" aria-label="搜尋使用者帳號" placeholder="搜尋姓名、帳號或單位"></div>
+                <select class="form-select form-select-sm" id="accountStatus" aria-label="篩選帳號狀態">
+                  <option value="">全部狀態</option>
+                  <option value="啟用">啟用</option>
+                  <option value="鎖定">鎖定</option>
+                  <option value="停用">停用</option>
+                </select>
+              </div>
+              <div class="table-responsive">
+                <table class="table data-table admin-table account-table mb-0">
+                  <thead>
+                    <tr>
+                      <th>使用者</th>
+                      <th>組織節點</th>
+                      <th>角色</th>
+                      <th>最後登入</th>
+                      <th>狀態</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="accountTableBody"></tbody>
+                </table>
+              </div>
+              <div class="admin-empty" id="accountEmpty" hidden><i data-lucide="user-search"></i><span>查無符合的使用者帳號</span></div>
+            </section>
+          </div>
+
+          <div class="admin-tab-panel" id="admin-permission-rules" role="tabpanel"
+            aria-labelledby="permissionRulesTab" hidden>
+            <div class="permission-rule-callout">
+              <i data-lucide="info"></i>
+              <div><strong>組織資料範圍採向下繼承</strong><span>使用者可查看所屬節點及全部下層資料；不可查看上層節點、同層其他分支或其下層資料。</span></div>
+            </div>
+            <div class="permission-layout">
+              <section class="panel organization-panel" aria-labelledby="organizationHeading">
+                <div class="panel-header">
+                  <div><span class="section-eyebrow">資料範圍</span><h3 id="organizationHeading">組織階層</h3></div>
+                  <span class="subtle ms-auto">點擊節點預覽</span>
+                </div>
+                <div class="organization-tree" id="organizationTree"></div>
+              </section>
+              <aside class="panel scope-preview" aria-labelledby="scopePreviewHeading">
+                <div class="panel-header"><div><span class="section-eyebrow">權限預覽</span><h3
+                      id="scopePreviewHeading">可查看資料範圍</h3></div></div>
+                <div class="scope-preview-body" id="scopePreview"></div>
+              </aside>
+            </div>
+            <section class="panel role-matrix-panel" aria-labelledby="roleMatrixHeading">
+              <div class="panel-header">
+                <div><span class="section-eyebrow">功能權限</span><h3 id="roleMatrixHeading">角色權限矩陣</h3></div>
+                <button class="btn btn-sm btn-outline-secondary" id="saveRolePermissions" type="button"><i
+                    data-lucide="save"></i>儲存設定</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table permission-matrix mb-0">
+                  <thead><tr><th>角色</th><th>查看文件</th><th>上傳／修改</th><th>承辦確認</th><th>需人工審核</th><th>稽核日誌</th><th>帳號管理</th></tr></thead>
+                  <tbody>
+                    <tr><th>司長</th><td>✓</td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td>✓</td><td>✓</td><td><span class="permission-denied">—</span></td></tr>
+                    <tr><th>科長／股長</th><td>✓</td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td>✓</td><td>✓</td><td><span class="permission-denied">—</span></td></tr>
+                    <tr><th>承辦人</th><td>✓</td><td>✓</td><td>✓</td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td></tr>
+                    <tr><th>系統管理員</th><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td><span class="permission-denied">—</span></td><td>✓</td><td>✓</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div class="overlay" id="reportProgress" role="dialog" aria-modal="true" aria-labelledby="progressTitle">
+    <div class="modal-card">
+      <div class="modal-content-inner text-center">
+        <div class="ai-orbit"><i data-lucide="brain-circuit"></i></div>
+        <h3 id="progressTitle" class="h5 fw-bold">AI 正在產生彙整報告</h3>
+        <p class="subtle" id="reportProgressText">正在讀取選取文件...</p>
+        <div class="text-start mt-4" id="reportStages"></div>
+      </div>
+    </div>
+  </div>
+  <div class="overlay" id="reportPreview" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
+    <div class="modal-card report-preview">
+      <div class="modal-head">
+        <h3 id="reportTitle">美國平台帳號資料保全案彙整報告</h3><button class="btn btn-sm btn-outline-secondary ms-auto me-2"
+          id="printReport" type="button"><i data-lucide="printer"></i>列印／另存 PDF</button><button
+          class="icon-btn close-overlay" type="button" aria-label="關閉報告"><i data-lucide="x"></i></button>
+      </div>
+      <article class="report-paper">
+        <div class="report-cover"><small>AI GENERATED CASE BRIEF</small>
+          <h2>美國平台帳號資料保全案彙整報告</h2>
+          <p class="subtle mb-0">案號：ML-2026-0818-04・產生日期：2026 年 8 月 24 日・資料範圍：4 份案件文件</p>
+        </div>
+        <h3 class="h6 fw-bold">一、整體摘要</h3>
+        <p>本次彙整美國平台帳號資料保全案之請求書、主管機關回覆函、平台帳號證據材料及登入紀錄附件。現已取得帳號註冊資訊、登入紀錄與電子郵件關聯資料；資料時間範圍及回覆期限仍待承辦人確認。</p>
+        <div class="report-grid">
+          <div class="report-stat"><strong>4</strong><span>本案文件</span></div>
+          <div class="report-stat"><strong>3</strong><span>主要證據類型</span></div>
+          <div class="report-stat"><strong>2</strong><span>待確認欄位</span></div>
+        </div>
+        <h3 class="h6 fw-bold mt-4">二、文件彙整</h3>
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>文件</th>
+              <th>主要內容</th>
+              <th>目前狀態</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>司法互助請求書</td>
+              <td>平台帳號保全範圍、法律依據與回覆期限</td>
+              <td>待承辦確認</td>
+            </tr>
+            <tr>
+              <td>美國司法部回覆函</td>
+              <td>受理結果、資料交付方式與證據認證說明</td>
+              <td>已歸檔</td>
+            </tr>
+            <tr>
+              <td>平台帳號證據材料</td>
+              <td>註冊資訊、關聯電子郵件與帳號識別資料</td>
+              <td>已歸檔</td>
+            </tr>
+            <tr>
+              <td>登入與 IP 紀錄附件</td>
+              <td>登入時間、來源 IP、裝置及存取紀錄</td>
+              <td>待欄位確認</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 class="h6 fw-bold mt-4">三、AI 提醒</h3>
+        <ul>
+          <li>請求書之資料時間範圍與回覆期限仍需人工確認。</li>
+          <li>建議比對回覆函與登入紀錄附件的資料涵蓋期間是否一致。</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+  <div class="overlay" id="returnConfigModal" role="dialog" aria-modal="true" aria-labelledby="returnConfigTitle">
+    <div class="modal-card return-config-modal">
+      <div class="modal-head">
+        <div><span class="section-eyebrow">回拋至司互案管系統</span><h3 id="returnConfigTitle">設定回拋內容</h3></div>
+        <button class="icon-btn close-overlay" type="button" aria-label="關閉回拋設定"><i
+            data-lucide="x"></i></button>
+      </div>
+      <div class="modal-content-inner">
+        <div class="return-config-summary">
+          <div><span>案件</span><strong id="returnConfigCaseName">美國平台帳號資料保全案</strong></div>
+          <div><span>目標系統</span><strong>司互案管系統</strong></div>
+          <div><span>回拋狀態</span><strong id="returnConfigStatus">待回拋</strong></div>
+        </div>
+        <fieldset class="return-fieldset">
+          <div class="return-fieldset-head"><legend>可回拋欄位／標籤</legend><label><input
+                class="form-check-input" id="selectAllReturnFields" type="checkbox">全選</label></div>
+          <p class="subtle small">人工勾選本次允許司互案管系統引用的資料範圍。</p>
+          <div class="return-field-grid">
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>案號</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>國家</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>受請求國家／機關</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>請求機關</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>案件類型</label>
+            <label><input class="form-check-input return-field-check" type="checkbox" checked>證據類型標籤</label>
+            <label><input class="form-check-input return-field-check" type="checkbox">案件摘要</label>
+            <label><input class="form-check-input return-field-check" type="checkbox">關聯電子郵件</label>
+          </div>
+        </fieldset>
+        <div class="return-api-option">
+          <div><strong>發布至 API 服務</strong><span>啟用後，司互案管系統可透過 API 引用已勾選欄位。</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" id="publishReturnApi" type="checkbox"
+              role="switch" checked><label class="visually-hidden" for="publishReturnApi">發布至 API 服務</label></div>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4"><button class="btn btn-outline-secondary close-overlay"
+            type="button">取消</button><button class="btn btn-primary" id="saveReturnConfig" type="button"><i
+              data-lucide="save"></i>儲存回拋設定</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="overlay" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-card" style="max-width:480px">
+      <div class="modal-head">
+        <h3 id="confirmTitle">批次開始處理</h3><button class="icon-btn close-overlay" type="button" aria-label="關閉"><i
+            data-lucide="x"></i></button>
+      </div>
+      <div class="modal-content-inner">
+        <div class="alert alert-warning d-flex gap-2"><i
+            data-lucide="triangle-alert"></i><span>確認後，所選案件內的待處理文件將進入 AI 處理流程。</span></div>
+        <p class="mb-4">確定開始處理 <strong id="confirmCount">0</strong> 個案件嗎？</p>
+        <div class="d-flex justify-content-end gap-2"><button class="btn btn-outline-secondary close-overlay"
+            type="button">取消</button><button class="btn btn-primary" id="confirmBatchAction"
+            type="button">開始處理</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+  <!-- Reference-only helper: renders Lucide icons. No application/business logic is included. -->
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+
+</html>
