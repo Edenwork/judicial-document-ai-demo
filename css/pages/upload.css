@@ -1,5 +1,5 @@
 .upload-status-panel {
-  margin-top: 18px;
+  margin-top: var(--spacing-18);
 }
 
 .upload-status-header {
@@ -7,30 +7,26 @@
 }
 
 .upload-status-header p {
-  margin: 4px 0 0;
-  color: var(--color-text-muted);
-  font-size: 12px;
-}
+  margin: var(--spacing-4) 0 0;  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);}
 
 .status-overview {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 18px;
+  gap: var(--spacing-10);  margin-bottom: 18px;
 }
 
 .status-overview-card {
-  --status-color: var(--color-primary);
-  --status-tone: var(--color-primary-100);
+  --status-color: var(--color-action-primary);
+  --status-tone: var(--color-brand-100);
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 13px;
-  border: 1px solid var(--color-border);
+  gap: var(--spacing-10);  padding: var(--spacing-14);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-md);
-  color: var(--color-text);
-  background: var(--color-surface);
+  color: var(--color-text-primary);
+  background: var(--color-surface-primary);
   text-align: left;
   transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
 }
@@ -56,22 +52,22 @@
 }
 
 .status-overview-card[data-status-filter="processing"] {
-  --status-color: var(--color-processing);
+  --status-color: var(--color-status-processing);
   --status-tone: var(--color-processing-100);
 }
 
 .status-overview-card[data-status-filter="completed"] {
-  --status-color: var(--color-success);
+  --status-color: var(--color-status-success);
   --status-tone: var(--color-success-100);
 }
 
 .status-overview-card[data-status-filter="failed"] {
-  --status-color: var(--color-danger);
+  --status-color: var(--color-status-danger);
   --status-tone: var(--color-danger-100);
 }
 
 .status-overview-card[data-status-filter="manual"] {
-  --status-color: var(--color-warning);
+  --status-color: var(--color-status-warning);
   --status-tone: var(--color-warning-100);
 }
 
@@ -99,16 +95,14 @@
 .status-overview-card small {
   overflow: hidden;
   color: var(--color-text-muted);
-  font-size: 11px;
-  text-overflow: ellipsis;
+  font-size: var(--font-size-xs);  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .status-overview-card strong {
   margin-top: 2px;
   color: var(--status-color);
-  font-size: 20px;
-  line-height: 1;
+  font-size: var(--font-size-xl);  line-height: 1;
 }
 
 .status-table-wrap {
@@ -122,16 +116,14 @@
 }
 
 .status-table th {
-  padding: 11px 13px;
+  padding: 11px var(--spacing-14);
   color: var(--color-text-muted);
   background: var(--color-neutral-50);
-  border-bottom: 1px solid var(--color-border);
-  font-size: 11px;
-  font-weight: 700;
-}
+  border-bottom: 1px solid var(--color-border-default);
+  font-size: var(--font-size-xs);  font-weight: var(--font-weight-bold);}
 
 .status-table td {
-  padding: 13px;
+  padding: var(--spacing-14);
   border-color: var(--color-border-subtle);
   vertical-align: middle;
 }
@@ -143,8 +135,7 @@
 .status-document {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-width: 230px;
+  gap: var(--spacing-10);  min-width: 230px;
 }
 
 .status-document-icon {
@@ -168,8 +159,7 @@
   max-width: 290px;
   overflow: hidden;
   color: var(--color-text-strong);
-  font-size: 12px;
-  text-overflow: ellipsis;
+  font-size: var(--font-size-sm);  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -177,8 +167,7 @@
 .status-stage,
 .status-updated {
   color: var(--color-text-muted);
-  font-size: 11px;
-}
+  font-size: var(--font-size-xs);}
 
 .status-progress {
   min-width: 130px;
@@ -187,10 +176,9 @@
 .status-progress-meta {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 5px;
+  gap: var(--spacing-8);  margin-bottom: 5px;
   color: var(--color-text-muted);
-  font-size: 10px;
+  font-size: var(--font-size-xs);
 }
 
 .status-progress .progress-thin {
@@ -202,8 +190,7 @@
   display: grid;
   place-items: center;
   align-content: center;
-  gap: 8px;
-  color: var(--color-text-muted);
+  gap: var(--spacing-8);  color: var(--color-text-muted);
 }
 
 .status-empty svg {

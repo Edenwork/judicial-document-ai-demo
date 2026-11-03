@@ -1,22 +1,18 @@
 .report-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 330px;
-    gap: 18px;
+    gap: var(--spacing-18);
 }
 
 .report-doc-list {
     display: grid;
-    gap: 8px;
-}
+    gap: var(--spacing-8);}
 
 .report-doc {
     display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 12px;
-    border: 1px solid var(--color-border-soft);
-    border-radius: 10px;
-}
+    gap: var(--spacing-10);    align-items: center;
+    padding: var(--spacing-12);    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-md);}
 
 .report-doc svg {
     width: 18px;
@@ -25,11 +21,11 @@
 
 .report-doc span {
     margin-right: auto;
-    font-weight: 650;
+    font-weight: var(--font-weight-semibold);
 }
 
 .output-card {
-    padding: 18px;
+    padding: var(--spacing-18);
     position: sticky;
     top: 88px;
 }
@@ -38,18 +34,16 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 13px;
+    gap: var(--spacing-12);    padding: var(--spacing-14);
     margin-top: 9px;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    background: var(--color-surface);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);    background: var(--color-surface-primary);
     text-align: left;
 }
 
 .output-option:hover {
-    border-color: var(--color-primary-300);
-    background: var(--color-primary-50);
+    border-color: var(--color-brand-300);
+    background: var(--color-brand-50);
 }
 
 .output-option .output-icon {
@@ -57,9 +51,8 @@
     height: 36px;
     display: grid;
     place-items: center;
-    border-radius: 10px;
-    color: var(--color-primary);
-    background: var(--color-primary-100);
+    border-radius: var(--radius-md);    color: var(--color-action-primary);
+    background: var(--color-brand-100);
 }
 
 .output-option svg {
@@ -68,7 +61,7 @@
 
 .output-option strong {
     display: block;
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .output-option small {
@@ -76,7 +69,7 @@
 }
 
 .output-icon--pdf {
-    color: var(--color-danger);
+    color: var(--color-status-danger);
     background: var(--color-danger-100);
 }
 
@@ -89,8 +82,8 @@
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 18px;
-    padding: 17px;
+    gap: var(--spacing-18);
+    padding: var(--spacing-16);
     border-bottom: 1px solid var(--color-border-subtle);
 }
 
@@ -101,8 +94,4 @@
 .change-count {
     color: var(--color-warning-700);
     background: var(--color-warning-100);
-    border-radius: 999px;
-    padding: 4px 8px;
-    font-size: 11px;
-    font-weight: 700;
-}
+    border-radius: var(--radius-pill);    padding: var(--spacing-4) var(--spacing-8);    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}

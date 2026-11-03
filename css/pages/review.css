@@ -27,17 +27,15 @@
 
 .review-context {
     flex: 0 0 auto;
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface-primary);
+    border-bottom: 1px solid var(--color-border-default);
 }
 
 .review-toolbar {
     min-height: 64px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 18px 4px;
-}
+    gap: var(--spacing-10);    padding: var(--spacing-12) 18px var(--spacing-4);}
 
 .review-title {
     min-width: 200px;
@@ -49,24 +47,18 @@
 
 .review-title span {
     color: var(--color-text-muted);
-    font-size: 11px;
-}
+    font-size: var(--font-size-xs);}
 
 .review-case-meta {
     display: grid;
     grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) 128px;
     align-items: end;
-    gap: 32px;
-    padding: 14px 60px 26px;
-}
+    gap: var(--spacing-32);    padding: var(--spacing-14) 60px 26px;}
 
 .review-meta-field label {
     display: block;
-    margin-bottom: 6px;
-    color: var(--color-text-secondary);
-    font-size: 12px;
-    font-weight: 700;
-}
+    margin-bottom: var(--spacing-6);    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);}
 
 .review-meta-field .form-control,
 .review-update-button {
@@ -80,8 +72,7 @@
 .review-document-bar {
     display: flex;
     align-items: end;
-    gap: 10px;
-    padding: 22px 60px;
+    gap: var(--spacing-10);    padding: 22px 60px;
     border-top: 1px solid var(--color-border-subtle);
 }
 
@@ -93,9 +84,7 @@
 
 .review-toolbar-field label {
     color: var(--color-text-muted);
-    font-size: 11px;
-    font-weight: 700;
-}
+    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}
 
 .review-document-picker {
     width: 260px;
@@ -123,7 +112,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--color-background-document);
+    background: var(--color-surface-document);
     border-right: 1px solid var(--color-border-strong);
 }
 
@@ -136,9 +125,9 @@
 
 .document-footer {
     flex: 0 0 auto;
-    padding: 13px 26px;
+    padding: var(--spacing-14) 26px;
     background: var(--color-surface-glass-strong);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
     box-shadow: var(--shadow-sticky);
 }
 
@@ -147,8 +136,8 @@
     min-height: 920px;
     margin: 0 auto;
     padding: 56px 62px;
-    color: var(--color-document-text);
-    background: var(--color-surface);
+    color: var(--color-text-document);
+    background: var(--color-surface-primary);
     box-shadow: var(--shadow-document);
     font-family: "Noto Serif TC", "PMingLiU", serif;
     line-height: 1.8;
@@ -156,31 +145,26 @@
 
 .paper-kicker {
     text-align: center;
-    font-size: 13px;
+    font-size: 0.8125rem;
     letter-spacing: .28em;
 }
 
 .paper h3 {
     margin: 7px 0 5px;
     text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: .16em;
+    font-size: var(--font-size-2xl);    font-weight: var(--font-weight-bold);    letter-spacing: .16em;
 }
 
 .paper-ref {
     text-align: right;
-    font-size: 12px;
-}
+    font-size: var(--font-size-sm);}
 
 .paper p {
-    margin: 14px 0;
-}
+    margin: var(--spacing-14) 0;}
 
 .paper-section {
     margin-top: 22px;
-    font-weight: 700;
-}
+    font-weight: var(--font-weight-bold);}
 
 .paper mark {
     padding: 1px 3px;
@@ -200,15 +184,14 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--color-surface);
+    background: var(--color-surface-primary);
 }
 
 .fields-sticky {
     flex: 0 0 auto;
     z-index: 3;
-    padding: 14px 18px;
-    background: var(--color-surface-glass-strong);
-    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-14) var(--spacing-18);
+    border-bottom: 1px solid var(--color-border-default);
 }
 
 .fields-summary {
@@ -225,17 +208,15 @@
     min-height: 0;
     flex: 1;
     overflow: auto;
-    padding: 12px 18px;
+    padding: var(--spacing-12) var(--spacing-18);
 }
 
 .field-group-title {
     display: flex;
     align-items: center;
     gap: 9px;
-    margin: 14px 0 8px;
-    color: var(--color-text-muted);
-    font-size: 12px;
-    font-weight: 750;
+    margin: var(--spacing-14) 0 var(--spacing-8);    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);
 }
 
 .field-group-title::after {
@@ -246,11 +227,8 @@
 }
 
 .field-row {
-    padding: 12px;
-    margin-bottom: 8px;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    background: var(--color-surface);
+    padding: var(--spacing-12);    margin-bottom: var(--spacing-8);    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);    background: var(--color-surface-primary);
     transition: .18s;
 }
 
@@ -272,13 +250,10 @@
 .field-head {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
+    gap: var(--spacing-8);    margin-bottom: var(--spacing-8);}
 
 .field-head label {
-    font-weight: 700;
-}
+    font-weight: var(--font-weight-bold);}
 
 .field-meta {
     margin-left: auto;
@@ -286,17 +261,15 @@
     align-items: center;
     gap: 7px;
     color: var(--color-text-muted);
-    font-size: 11px;
-}
+    font-size: var(--font-size-xs);}
 
 .field-meta .low {
     color: var(--color-warning-700);
-    font-weight: 700;
-}
+    font-weight: var(--font-weight-bold);}
 
 .field-row .form-control {
     min-height: 36px;
-    background: var(--color-surface);
+    background: var(--color-surface-primary);
 }
 
 .field-note {
@@ -305,8 +278,7 @@
     align-items: start;
     margin-top: 7px;
     color: var(--color-warning-700);
-    font-size: 11px;
-}
+    font-size: var(--font-size-xs);}
 
 .field-note svg {
     width: 14px;
@@ -318,14 +290,13 @@
     display: flex;
     align-items: center;
     gap: 9px;
-    padding: 13px 18px;
+    padding: var(--spacing-14) var(--spacing-18);
     background: var(--color-surface-glass-strong);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
     box-shadow: var(--shadow-sticky);
 }
 
 .review-footer .footer-hint {
     margin-right: auto;
     color: var(--color-text-muted);
-    font-size: 11px;
-}
+    font-size: var(--font-size-xs);}

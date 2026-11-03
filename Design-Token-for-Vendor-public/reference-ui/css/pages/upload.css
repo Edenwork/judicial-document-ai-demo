@@ -1,0 +1,221 @@
+.upload-status-panel {
+  margin-top: var(--spacing-18);
+}
+
+.upload-status-header {
+  justify-content: space-between;
+}
+
+.upload-status-header p {
+  margin: var(--spacing-4) 0 0;  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);}
+
+.status-overview {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--spacing-10);  margin-bottom: 18px;
+}
+
+.status-overview-card {
+  --status-color: var(--color-action-primary);
+  --status-tone: var(--color-brand-100);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-10);  padding: var(--spacing-14);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  background: var(--color-surface-primary);
+  text-align: left;
+  transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+
+.status-overview-card:hover,
+.status-overview-card.active {
+  border-color: var(--status-color);
+  background: var(--status-tone);
+}
+
+.status-overview-card.active {
+  box-shadow: 0 0 0 2px var(--status-tone);
+}
+
+.status-overview-card:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.status-overview-card[data-status-filter="pending"] {
+  --status-color: var(--color-text-secondary);
+  --status-tone: var(--color-neutral-100);
+}
+
+.status-overview-card[data-status-filter="processing"] {
+  --status-color: var(--color-status-processing);
+  --status-tone: var(--color-processing-100);
+}
+
+.status-overview-card[data-status-filter="completed"] {
+  --status-color: var(--color-status-success);
+  --status-tone: var(--color-success-100);
+}
+
+.status-overview-card[data-status-filter="failed"] {
+  --status-color: var(--color-status-danger);
+  --status-tone: var(--color-danger-100);
+}
+
+.status-overview-card[data-status-filter="manual"] {
+  --status-color: var(--color-status-warning);
+  --status-tone: var(--color-warning-100);
+}
+
+.status-overview-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: var(--radius-md);
+  color: var(--status-color);
+  background: var(--status-tone);
+}
+
+.status-overview-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.status-overview-card small,
+.status-overview-card strong {
+  display: block;
+}
+
+.status-overview-card small {
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-overview-card strong {
+  margin-top: 2px;
+  color: var(--status-color);
+  font-size: var(--font-size-xl);  line-height: 1;
+}
+
+.status-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.status-table {
+  min-width: 840px;
+}
+
+.status-table th {
+  padding: 11px var(--spacing-14);
+  color: var(--color-text-muted);
+  background: var(--color-neutral-50);
+  border-bottom: 1px solid var(--color-border-default);
+  font-size: var(--font-size-xs);  font-weight: var(--font-weight-bold);}
+
+.status-table td {
+  padding: var(--spacing-14);
+  border-color: var(--color-border-subtle);
+  vertical-align: middle;
+}
+
+.status-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.status-document {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-10);  min-width: 230px;
+}
+
+.status-document-icon {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: var(--radius-sm);
+  color: var(--color-danger-500);
+  background: var(--color-danger-100);
+}
+
+.status-document-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.status-document strong {
+  display: block;
+  max-width: 290px;
+  overflow: hidden;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-sm);  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-document small,
+.status-stage,
+.status-updated {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);}
+
+.status-progress {
+  min-width: 130px;
+}
+
+.status-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-8);  margin-bottom: 5px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.status-progress .progress-thin {
+  height: 5px;
+}
+
+.status-empty {
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--spacing-8);  color: var(--color-text-muted);
+}
+
+.status-empty svg {
+  width: 26px;
+  height: 26px;
+}
+
+@media (max-width: 1199px) {
+  .status-overview {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .status-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .upload-status-header {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-overview {
+    grid-template-columns: 1fr;
+  }
+}

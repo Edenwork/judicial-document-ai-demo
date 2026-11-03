@@ -1,0 +1,924 @@
+# Design Token Migration
+
+> 專案：Judicial Document AI Demo  
+> 目的：將既有 CSS 逐步整理為可維護、可擴充的 Design Token 架構。  
+> 原則：每個 Batch 都保留前一批的決策與紀錄，本文件採累積式更新，不只記錄最新一次修改。
+
+---
+
+## Migration Overview
+
+| Batch | 主題 | 狀態 |
+|---|---|---|
+| Batch 1 | Token Naming Migration | ✅ Completed |
+| Batch 2 | Weight / Spacing Normalization | ✅ Completed / Visual QA Passed |
+| Batch 3 | Component-specific Normalization | ✅ Completed / Visual QA Passed |
+| Batch 4 | Remaining Values Audit | ✅ Audit Completed / Pending Decisions |
+
+整體流程：
+
+```text
+Existing Website / HTML / CSS
+→ Explore
+→ Extract
+→ Audit
+→ Normalize
+→ Token Candidate
+→ CSS Migration Mapping
+→ Apply
+→ Visual QA
+→ Refine
+→ Token V1.0
+```
+
+---
+
+# Batch 1 — Token Naming Migration
+
+## 目標
+
+先建立一致的 Design Token 命名架構，並將既有 CSS 中可安全替換的 hard-coded values / 舊 token 名稱接到新的 token system。
+
+本批以「低風險、盡量不改畫面」為原則，不進行大幅視覺 normalization。
+
+## Token Architecture
+
+採三層結構：
+
+```text
+Primitive Token
+→ Semantic Token
+→ Component Token
+```
+
+### Primitive Token
+
+命名原則：property + value / scale。
+
+Spacing 改用實際值命名：
+
+```css
+--spacing-4
+--spacing-6
+--spacing-8
+--spacing-10
+--spacing-12
+--spacing-14
+--spacing-16
+--spacing-20
+--spacing-24
+--spacing-32
+```
+
+Typography：
+
+```css
+--font-size-xs
+--font-size-sm
+--font-size-md
+--font-size-lg
+--font-size-xl
+--font-size-2xl
+
+--font-weight-regular
+--font-weight-medium
+--font-weight-semibold
+--font-weight-bold
+```
+
+Radius：
+
+```css
+--radius-sm
+--radius-md
+--radius-lg
+--radius-xl
+--radius-pill
+```
+
+Reusable size：
+
+```css
+--control-height-sm
+--control-height-md
+--control-height-lg
+--icon-size-sm
+--icon-size-md
+--icon-size-lg
+--avatar-size-md
+```
+
+### Semantic Token
+
+命名原則：property + role + state。
+
+主要命名調整：
+
+```text
+--color-primary              → --color-action-primary
+--color-primary-hover        → --color-action-primary-hover
+--color-primary-ring         → --color-action-primary-ring
+
+--color-text                 → --color-text-primary
+--color-surface              → --color-surface-primary
+--color-border               → --color-border-default
+--color-background           → --color-surface-page
+--color-background-document  → --color-surface-document
+--color-document-text        → --color-text-document
+```
+
+Brand palette：
+
+```text
+--color-primary-50..950 → --color-brand-50..950
+```
+
+Status base colors：
+
+```text
+--color-success    → --color-status-success
+--color-warning    → --color-status-warning
+--color-danger     → --color-status-danger
+--color-processing → --color-status-processing
+```
+
+Status palette variants（例如 `--color-success-700`）保留 palette 型態。
+
+Opacity 命名改為明確百分比：
+
+```text
+--color-on-dark-08  → --color-on-dark-opacity-8
+--color-on-dark-10  → --color-on-dark-opacity-10
+--color-on-dark-025 → --color-on-dark-opacity-2-5
+```
+
+Shadow 保留語意命名：
+
+```css
+--shadow-panel
+--shadow-floating
+--shadow-document
+--shadow-field
+--shadow-sticky
+--shadow-mobile-nav
+--shadow-modal
+```
+
+### Component Token
+
+命名原則：component + element / property + state / size。
+
+例如：
+
+```css
+--brand-mark-container-radius
+--button-container-radius
+--form-control-container-radius
+--status-badge-container-radius
+--data-table-cell-padding-block
+--data-table-cell-padding-inline
+```
+
+方向性 spacing 優先採 CSS logical properties：`inline / block`，避免只用 `x / y`。
+
+## Batch 1 Validation
+
+- 全 CSS custom property reference 掃描完成
+- Undefined CSS variables：0
+- 舊命名 patterns（`--space-*`、`--size-*`、`--color-primary` 等）：0
+- ZIP integrity：OK
+- CSS brace mismatch：0
+
+## Batch 1 Commit
+
+```text
+refactor(design-tokens): 統一 CSS Token 命名規則
+```
+
+---
+
+# Batch 2 — Weight / Spacing Normalization
+
+## 目標
+
+在 Batch 1 命名架構穩定後，開始處理已確認可以規則化的 typography weight 與 spacing。
+
+## Font Weight Normalization
+
+```text
+650 → 600 / --font-weight-semibold
+720 → 700 / --font-weight-bold
+750 → 700 / --font-weight-bold
+760 → 700 / --font-weight-bold
+780 → 700 / --font-weight-bold
+```
+
+## Spacing Normalization
+
+只在 spacing-related properties 中收斂：
+
+```text
+13px → 14px / --spacing-14
+17px → 16px / --spacing-16
+19px → 20px / --spacing-20
+```
+
+套用範圍：
+
+- padding
+- margin
+- gap
+- 對應方向 variants
+
+## Explicitly NOT Changed
+
+以下即使數值為 13 / 17 / 19，也不自動修改：
+
+- font-size
+- width / height
+- border-radius
+- top / left / right / bottom positioning
+- icon dimensions
+- feature-specific typography sizes
+
+例如：
+
+```text
+17px icon
+13px border-radius
+17px topbar font-size
+```
+
+仍保留原值。
+
+## Batch 2 Validation
+
+- Legacy font weights `650/720/750/760/780` remaining：0
+- `13/17/19px` remaining in spacing declarations：0
+- Undefined CSS custom property references：0
+- Visual QA：Passed，未發現跑版
+
+## Batch 2 Commit
+
+```text
+refactor(design-tokens): 收斂字重與間距規則
+```
+
+---
+
+# Batch 3 — Component-specific Normalization
+
+## 目標
+
+處理不能單純全域替換、必須先確認元件用途的尺寸。
+
+原則：
+
+```text
+可安全映射既有 Primitive scale
+→ Normalize
+
+有明確 Component 意義但不適合全域標準化
+→ Component Token
+
+可能影響設計意圖 / layout
+→ 不自動修改，逐項確認
+```
+
+## 1. Radius Normalization
+
+只收斂與既有 radius scale 非常接近、且用途明確的元件：
+
+| 原值 | 新值 | 用途 |
+|---:|---:|---|
+| 13px | 14px | Login brand mark |
+| 13px | 14px | Upload dropzone container |
+| 15px | 16px | Upload dropzone icon container |
+| 13px | 14px | Relations detail icon container |
+| 11px | 10px | Toast container |
+
+既有 Primitive Radius：
+
+```css
+--radius-md: 10px;
+--radius-lg: 14px;
+--radius-xl: 16px;
+```
+
+這不是「所有奇數 radius 一律修改」。只有上述已確認、且接近既有 scale 的元件才收斂。
+
+像 `9px`、`3px`、`50%` 等其他 radius 不會因為不是標準整數 scale 就自動修改。
+
+## 2. Typography Normalization
+
+三個原本皆為 `21px`、用途已確認的字級統一為 `20px`：
+
+```css
+--auth-card-title-font-size: 20px;
+--report-stat-value-font-size: 20px;
+--search-hero-title-font-size: 20px;
+```
+
+用途：
+
+- Login 卡片標題
+- Report 統計數值
+- Search Hero 標題
+
+因此：
+
+```text
+21px → 20px
+```
+
+屬實際視覺 normalization，不只是 token rename。
+
+## 3. Admin Empty-state Icon Normalization
+
+Admin empty state SVG icon：
+
+```css
+--admin-empty-icon-size: 28px;
+```
+
+由：
+
+```text
+27px → 28px
+```
+
+只修改此已確認用途的 icon，不全域替換所有 `27px`。
+
+## 4. Component-specific Values 保留原值
+
+像以下用途雖然也是非標準值，但語意不同，因此暫不因數字相近就一起修改：
+
+- Admin metric typography
+- Modal padding
+- Report cover spacing
+- Responsive layout spacing
+- Feature-specific sizes
+
+例如 `22px` 目前可能同時代表 typography、padding、spacing，不適合用一條全域規則處理。
+
+## Batch 3 Visual QA
+
+Status: ✅ Passed
+
+已確認：未發現跑版或需回退的異常。
+
+檢查範圍：
+
+- Login：卡片標題、brand mark
+- Upload：dropzone 外框與 icon
+- Search：Hero 標題
+- Reports：統計數值
+- Admin：empty-state icon
+- Relations：detail icon
+- Toast：圓角
+
+主要視覺變化：
+
+```text
+Radius
+13 → 14
+15 → 16
+11 → 10
+
+Typography（3 個已確認用途）
+21 → 20
+
+Admin empty-state icon
+27 → 28
+```
+
+## Batch 3 Commit
+
+```text
+refactor(design-tokens): 收斂元件尺寸與字級規則
+```
+
+---
+
+# Current Decisions / Rules
+
+目前已確立：
+
+1. 不把每一個 hard-coded value 都升成 Global Token。
+2. Primitive Token 應代表可重複使用的基本 scale。
+3. Semantic Token 表達角色與狀態，不表達單一元件。
+4. Component Token 用於有明確元件用途、但不應成為全域規則的值。
+5. 奇數值不是修改理由；是否 Normalize 取決於用途與既有 scale。
+6. 任何會造成實際視覺變動的 normalization，若用途尚未確認，先詢問再改。
+7. Feature-specific、graph、print、responsive values 採保守策略。
+8. 每一批 Migration 的 CSS 與本 MD 放在同一個 commit。
+9. 本 MD 採累積更新：新 Batch 必須保留之前 Batch 的紀錄，不覆蓋成只剩最新一次。
+
+---
+
+# Next
+
+Batch 3 Visual QA 通過後，再盤點尚未標準化的值，例如：
+
+```text
+22px
+其他 27px
+18px
+9px radius
+其他 feature-specific typography / size
+```
+
+逐項判斷：
+
+```text
+Normalize to Primitive
+vs.
+Keep as Component Token
+vs.
+Keep as intentional exception
+```
+
+完成後再進入 Token V1.0 cleanup / documentation。
+
+---
+
+# Batch 4 — Remaining Values Audit
+
+## 目標
+
+在 Batch 1–3 完成後，盤點剩餘 hard-code / irregular values，區分：
+
+```text
+A. Safe Tokenize — 不改值
+B. Normalize Candidate — 會改視覺，需確認
+C. Component Token — 有明確元件語意
+D. Local / Feature Exception — 合理保留 local CSS
+```
+
+本批為 **Audit-only**，沒有修改 CSS 視覺值。
+
+完整盤點見：
+
+```text
+BATCH4_REMAINING_VALUES_AUDIT.md
+```
+
+## 主要發現
+
+### 1. 已有 Token 但仍 hard-code 的值很多
+
+Typography exact-match raw occurrences：
+
+```text
+11px × 38
+12px × 17
+14px × 4
+16px × 2
+20px × 1
+24px × 2
+```
+
+這些可在下一批直接接既有 typography token，不改畫面。
+
+Spacing 也仍有大量 `4/6/8/10/12/14/16/20/24/32px` raw values，可做 Safe Token Cleanup。
+
+### 2. 10px Typography 應補正式 Token
+
+`10px` 跨元件出現 20 次，已具有重用性。
+
+建議：
+
+```css
+--font-size-2xs: 10px;
+```
+
+### 3. 18px / 28px Spacing 值得納入 Primitive 候選
+
+Spacing property 中：
+
+```text
+18px × 22
+28px × 9
+```
+
+建議優先考慮：
+
+```css
+--spacing-18: 18px;
+--spacing-28: 28px;
+```
+
+理由：使用頻率高，直接 Tokenize 可零視覺變更；不需為了維持理想化 scale 強迫大量 UI 改成 16/20 或 24/32。
+
+### 4. Remaining Normalize Candidates
+
+需要 Human Decision：
+
+```text
+13px general UI typography → 14px
+15px typography → 16px
+Topbar 17px → 16px
+Report cover 25px → 24px
+9px radius → 10px ?
+Review controls 42→44 / 34→32 / 36→38 ?
+17px icons → 16 / 18（依用途分類）
+Mobile Auth 25px 21px → 24px 20px ?
+```
+
+其中 Review `.paper-kicker` 的 13px 建議保留為 document-specific typography。
+
+### 5. Intentional Exceptions
+
+建議保留 Local / Feature-specific：
+
+- Relations / Graph geometry
+- Graph 9px sub-label
+- Review document / paper layout
+- Inline document mark 3px radius
+- Auth decorative circles / offsets
+- Responsive-only composition values
+- Print-like report/document geometry
+
+## Batch 4 Validation
+
+- Audit baseline：Batch 3 V3
+- CSS files inspected：13（含 `tokens.css`）
+- `tokens.css` 與 12 個 consumer CSS 已盤點
+- 本批 CSS value changes：0
+- 本批 visual regression risk：None（Audit-only）
+
+## Batch 4 Commit
+
+若將 Audit 文件納入 repository：
+
+```text
+docs(design-tokens): 盤點剩餘設計值與收斂候選
+```
+
+---
+
+# Next — Batch 5
+
+建議拆成兩段：
+
+```text
+Batch 5A — Safe Token Cleanup
+→ 只做等值 Tokenize，不改視覺
+
+Batch 5B — Approved Visual Normalization
+→ 只處理已確認的 near-scale values
+→ Visual QA required
+```
+
+先確認 Batch 4 的 Human Decision Checklist，再進 5B。
+
+
+---
+
+# Batch 5 — Approved Typography Normalization
+
+## Scope
+
+依人工確認調整三組 UI typography。此批包含實際字級變更，因此需要 Visual QA。
+
+## Approved Changes
+
+| Selector | Before | After | Token / Result | Risk |
+|---|---:|---:|---|---|
+| `.audit-user strong`, `.account-identity strong` | `12px` | `14px` | `var(--font-size-md)` | Visual QA |
+| `.admin-metric div > span` | `11px` | `14px` | `var(--font-size-md)` | Visual QA |
+| `.badge-status` | `var(--font-size-xs)` = `11px` | `var(--font-size-sm)` = `12px` | Existing Primitive token | Visual QA |
+
+## Decision Notes
+
+- 不新增 `13px` global typography token。
+- Audit / Account identity primary text 統一使用既有 `--font-size-md`（14px）。
+- Admin metric secondary label 亦統一使用 `--font-size-md`（14px）。
+- Status badge 從 `--font-size-xs` 升級為既有 `--font-size-sm`（12px）。
+- 本批沒有修改 `--font-size-sm` 或 `--font-size-md` 本身，因此不會連動其他使用相同 Token 的元件。
+
+## Files Changed
+
+```text
+css/pages/admin.css
+css/components.css
+DESIGN_TOKEN_MIGRATION.md
+```
+
+## Validation
+
+- CSS custom property references：需全部有定義
+- Brace integrity：需通過
+- Intended CSS diff：僅上述三個 typography declaration
+- Visual QA：Required
+
+## Visual QA Focus
+
+請特別確認：
+
+- Admin Audit user / Account identity 是否因 12 → 14px 產生換行或 row height 明顯變化
+- Admin metric secondary label 是否因 11 → 14px 造成 card 擁擠
+- Status badge 文字放大至 12px 後，badge padding / height / wrapping 是否正常
+
+## Batch 5 Commit
+
+```text
+refactor(design-tokens): 統一管理介面與狀態標籤字級
+```
+
+---
+
+## Batch 6 — Typography Unit Migration
+
+### Status
+Applied — Visual QA required.
+
+### Goal
+將網站的 `font-size` 單位由 `px` 等值轉換為 `rem`，並明確設定 root typography baseline：
+
+```css
+html {
+    font-size: 16px;
+}
+```
+
+本批次只處理 Typography font size，不修改 spacing、radius、icon size、control height、breakpoint 或 layout geometry。
+
+### Conversion rule
+
+以 `16px = 1rem` 為基準：
+
+```text
+9px  → 0.5625rem
+10px → 0.625rem
+11px → 0.6875rem
+12px → 0.75rem
+13px → 0.8125rem
+14px → 0.875rem
+15px → 0.9375rem
+16px → 1rem
+17px → 1.0625rem
+20px → 1.25rem
+22px → 1.375rem
+24px → 1.5rem
+27px → 1.6875rem
+```
+
+`clamp()` 內屬於 font-size 的 px 值亦做等值換算；原有 `vw` 保留。
+
+### Scope
+- `tokens.css` 的 font-size Primitive Tokens
+- Component font-size Tokens
+- 各 CSS 檔案的 hard-coded `font-size`
+- `base.css` 新增 `html { font-size: 16px; }`
+
+### Explicit exclusions
+本批次不修改：
+- spacing
+- margin / padding / gap
+- radius
+- width / height
+- icon size
+- avatar size
+- control height
+- breakpoint
+- absolute positioning
+
+### Validation
+- px → rem font-size conversions: 108
+- CSS files changed: 12
+- Root `html { font-size: 16px; }`: added
+- Remaining `font-size` declarations containing px: 0
+- Spacing / layout conversion: 0
+
+### Visual QA
+請至少確認：
+- Login / Auth
+- Admin
+- Search
+- Reports
+- Status badges
+- Desktop / Tablet / Mobile wrapping
+
+### Commit
+
+```text
+refactor(design-tokens): 將字級單位統一為 rem
+```
+
+---
+
+## Batch 7 — Safe Token Cleanup + Final Audit
+
+### Status
+Applied — no intended visual change. Final Visual QA required.
+
+### Safe replacements
+
+```text
+Existing font-size token replacements: 61
+Existing font-weight token replacements: 31
+Existing spacing token replacements: 184
+Existing radius token replacements: 6
+Total: 282
+```
+
+本批只將 raw values 替換成**相同數值**的既有 Token；沒有新增 spacing scale、沒有 normalize 非標準值，也沒有改 Layout。
+
+### Final Audit validation
+
+```text
+Undefined variables: 0
+CSS brace errors: 0
+Hard-coded colors outside tokens.css: 0
+Remaining exact existing-token font-size hard-codes: 0
+Remaining numeric standard font-weight hard-codes: 0
+Remaining exact existing-token spacing hard-codes: 0
+Remaining exact existing-token radius hard-codes: 0
+```
+
+### Remaining V1.0 decisions
+
+```text
+10px typography → whether to add --font-size-2xs
+18px spacing    → whether to add --spacing-18
+28px spacing    → whether to add --spacing-28
+```
+
+完整結果見 `FINAL_DESIGN_TOKEN_AUDIT.md`。
+
+### Commit
+
+```text
+refactor(design-tokens): 清理既有 Token 對應值並完成最終稽核
+```
+
+---
+
+## Batch 8 — Promote High-frequency Values to Formal Tokens
+
+### Status
+Applied — Safe tokenization, no visual value changes.
+
+### Goal
+將 Final Audit 確認為高頻且跨元件重用的值正式納入 Token Scale：
+
+```css
+--font-size-2xs: 0.625rem; /* 10px */
+--spacing-18: 18px;
+--spacing-28: 28px;
+```
+
+### Why these were promoted
+
+- `10px` font-size：高頻且跨多個 components / pages 重複使用
+- `18px` spacing：高頻 spacing value，已形成穩定重用
+- `28px` spacing：跨 layout / components / responsive 使用，具備正式 scale 價值
+
+### Applied replacements
+
+```text
+font-size 0.625rem → var(--font-size-2xs): 20
+18px spacing      → var(--spacing-18): 18
+28px spacing      → var(--spacing-28): 9
+```
+
+### Rule
+本批次只做「同值 Tokenize」，不改變任何實際視覺數值。
+
+### Commit
+
+```text
+refactor(design-tokens): 納入高頻字級與間距 Token
+```
+
+---
+
+## Batch 8 Revision — Remove 10px Typography Token
+
+### Decision
+`10px / 0.625rem` 在實際 UI 中可讀性不足，因此不再建立 `--font-size-2xs`。
+
+原本使用：
+
+```css
+font-size: var(--font-size-2xs); /* 10px */
+```
+
+統一調整為：
+
+```css
+font-size: var(--font-size-xs); /* 11px */
+```
+
+### Result
+- 移除 `--font-size-2xs: 0.625rem`
+- `var(--font-size-2xs)` → `var(--font-size-xs)`：20 處
+- `--spacing-18` 保留
+- `--spacing-28` 保留
+
+### Rationale
+Design Token 應反映可實際使用的設計規則；若 10px 在產品中可讀性不足，不應只因高頻出現就升格為正式 Typography Token。
+
+### Commit
+
+```text
+refactor(design-tokens): 將過小字級統一提升至 xs
+```
+
+---
+
+## Batch 8 Hotfix — CSS Syntax Repair
+
+### Status
+Fixed and validated.
+
+### Issue
+Batch 8 spacing token replacement encountered declarations whose closing `}` was on the same physical line. During automated rewrite, three closing braces were accidentally dropped.
+
+### Fixed files
+
+```text
+css/responsive.css
+  .page
+
+css/pages/review.css
+  .fields-list
+
+css/pages/admin.css
+  .organization-tree
+```
+
+### Scope
+This hotfix restores only the missing closing braces. It does not change Design Token values or visual design decisions.
+
+### Validation
+- Raw brace balance: passed for all CSS files
+- CSS parsing with `tinycss2`: no parse errors
+- Undefined CSS variables: 0
+
+---
+
+## Token Pipeline Structure Update — `design-tokens/`
+
+### Status
+Applied — path / documentation cleanup; no intended visual change.
+
+### Decision
+將 Design Token 的來源、產生工具與 Web output 集中於同一資料夾：
+
+```text
+design-tokens/
+├── tokens.json
+├── build-tokens.js
+└── tokens.css
+```
+
+取代先前將 generated CSS 放在 `css/tokens.css` 的結構。
+
+### Runtime references
+
+`index.html` 與 `login.html` 改為載入：
+
+```html
+<link rel="stylesheet" href="design-tokens/tokens.css">
+```
+
+### Build / validation commands
+
+從專案根目錄執行：
+
+```bash
+node design-tokens/build-tokens.js
+node design-tokens/build-tokens.js --check
+```
+
+### Source of Truth
+
+```text
+design-tokens/tokens.json
+→ design-tokens/build-tokens.js
+→ design-tokens/tokens.css
+```
+
+`design-tokens/tokens.css` 為 generated output，不應獨立手動維護。一般 Component / Page CSS 仍位於 `css/`，可正常修改並引用 Token。
+
+### Files updated
+
+```text
+index.html
+login.html
+README.txt
+design-tokens/tokens.json
+design-tokens/build-tokens.js
+design-tokens/tokens.css
+docs/DESIGN_TOKEN_V1.0.md
+docs/DESIGN_TOKEN_GUIDE_VENDOR.md
+docs/DESIGN_TOKEN_MIGRATION.md
+```
+
+### Suggested commit
+
+```text
+refactor(design-tokens): 統一 Token 檔案至 design-tokens 目錄
+```

@@ -1,0 +1,302 @@
+.review-page {
+    padding: 0;
+}
+
+.review-mode .topbar {
+    display: none;
+}
+
+.review-mode .app-shell {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+}
+
+.review-mode .workspace,
+.review-mode .workspace > main {
+    height: 100%;
+    min-height: 0;
+}
+
+.review-page.active {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-context {
+    flex: 0 0 auto;
+    background: var(--color-surface-primary);
+    border-bottom: 1px solid var(--color-border-default);
+}
+
+.review-toolbar {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-10);    padding: var(--spacing-12) 18px var(--spacing-4);}
+
+.review-title {
+    min-width: 200px;
+}
+
+.review-title strong {
+    display: block;
+}
+
+.review-title span {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);}
+
+.review-case-meta {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) 128px;
+    align-items: end;
+    gap: var(--spacing-32);    padding: var(--spacing-14) 60px 26px;}
+
+.review-meta-field label {
+    display: block;
+    margin-bottom: var(--spacing-6);    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);}
+
+.review-meta-field .form-control,
+.review-update-button {
+    min-height: 42px;
+}
+
+.review-update-button {
+    min-width: 128px;
+}
+
+.review-document-bar {
+    display: flex;
+    align-items: end;
+    gap: var(--spacing-10);    padding: 22px 60px;
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+.review-toolbar-field {
+    display: grid;
+    flex: 0 0 auto;
+    gap: 3px;
+}
+
+.review-toolbar-field label {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}
+
+.review-document-picker {
+    width: 260px;
+}
+
+.review-version-picker {
+    width: 140px;
+    margin-left: auto;
+}
+
+.review-toolbar-field .form-select {
+    min-height: 34px;
+}
+
+.review-layout {
+    min-height: 0;
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: minmax(430px, 1.08fr) minmax(420px, .92fr);
+}
+
+.document-pane {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--color-surface-document);
+    border-right: 1px solid var(--color-border-strong);
+}
+
+.document-scroll {
+    min-height: 0;
+    flex: 1;
+    overflow: auto;
+    padding: 26px;
+}
+
+.document-footer {
+    flex: 0 0 auto;
+    padding: var(--spacing-14) 26px;
+    background: var(--color-surface-glass-strong);
+    border-top: 1px solid var(--color-border-default);
+    box-shadow: var(--shadow-sticky);
+}
+
+.paper {
+    width: min(720px, 100%);
+    min-height: 920px;
+    margin: 0 auto;
+    padding: 56px 62px;
+    color: var(--color-text-document);
+    background: var(--color-surface-primary);
+    box-shadow: var(--shadow-document);
+    font-family: "Noto Serif TC", "PMingLiU", serif;
+    line-height: 1.8;
+}
+
+.paper-kicker {
+    text-align: center;
+    font-size: 0.8125rem;
+    letter-spacing: .28em;
+}
+
+.paper h3 {
+    margin: 7px 0 5px;
+    text-align: center;
+    font-size: var(--font-size-2xl);    font-weight: var(--font-weight-bold);    letter-spacing: .16em;
+}
+
+.paper-ref {
+    text-align: right;
+    font-size: var(--font-size-sm);}
+
+.paper p {
+    margin: var(--spacing-14) 0;}
+
+.paper-section {
+    margin-top: 22px;
+    font-weight: var(--font-weight-bold);}
+
+.paper mark {
+    padding: 1px 3px;
+    background: transparent;
+    border-radius: 3px;
+    transition: .18s;
+}
+
+.paper mark.active {
+    background: var(--color-warning-300);
+    box-shadow: 0 0 0 3px var(--color-highlight-ring);
+}
+
+.fields-pane {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--color-surface-primary);
+}
+
+.fields-sticky {
+    flex: 0 0 auto;
+    z-index: 3;
+    padding: var(--spacing-14) var(--spacing-18);
+    border-bottom: 1px solid var(--color-border-default);
+}
+
+.fields-summary {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.fields-summary strong {
+    margin-right: auto;
+}
+
+.fields-list {
+    min-height: 0;
+    flex: 1;
+    overflow: auto;
+    padding: var(--spacing-12) var(--spacing-18);
+}
+
+.field-group-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: var(--spacing-14) 0 var(--spacing-8);    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);
+}
+
+.field-group-title::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--color-border-soft);
+}
+
+.field-row {
+    padding: var(--spacing-12);    margin-bottom: var(--spacing-8);    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);    background: var(--color-surface-primary);
+    transition: .18s;
+}
+
+.field-row:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-field);
+}
+
+.field-row.anomaly {
+    border-color: var(--color-warning-300);
+    background: var(--color-warning-50);
+}
+
+.field-row.confirmed {
+    border-color: var(--color-success-200);
+    background: var(--color-success-50);
+}
+
+.field-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);    margin-bottom: var(--spacing-8);}
+
+.field-head label {
+    font-weight: var(--font-weight-bold);}
+
+.field-meta {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);}
+
+.field-meta .low {
+    color: var(--color-warning-700);
+    font-weight: var(--font-weight-bold);}
+
+.field-row .form-control {
+    min-height: 36px;
+    background: var(--color-surface-primary);
+}
+
+.field-note {
+    display: flex;
+    gap: 7px;
+    align-items: start;
+    margin-top: 7px;
+    color: var(--color-warning-700);
+    font-size: var(--font-size-xs);}
+
+.field-note svg {
+    width: 14px;
+    flex: 0 0 auto;
+}
+
+.review-footer {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: var(--spacing-14) var(--spacing-18);
+    background: var(--color-surface-glass-strong);
+    border-top: 1px solid var(--color-border-default);
+    box-shadow: var(--shadow-sticky);
+}
+
+.review-footer .footer-hint {
+    margin-right: auto;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);}

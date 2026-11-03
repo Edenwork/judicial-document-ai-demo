@@ -1,0 +1,204 @@
+/*
+ * VENDOR RELEASE — DESIGN TOKENS FOR WEB
+ * This file contains the approved CSS Custom Properties for implementation.
+ * Do not modify token definitions directly in this file.
+ * If a token is missing or needs to change, submit a change request to the Design Token owner.
+ * Reference specification: tokens.json
+ */
+
+:root {
+  /* Primitive */
+  /* Primitive · color */
+  --color-brand-50: #f6fbff;
+  --color-brand-100: #eaf3fb;
+  --color-brand-200: #c9e0f3;
+  --color-brand-300: #9db7cd;
+  --color-brand-400: #73a9d8;
+  --color-brand-600: #2d86cf;
+  --color-brand-700: #205f98;
+  --color-brand-800: #17395f;
+  --color-brand-850: #122f50;
+  --color-brand-900: #0f2a47;
+  --color-brand-950: #0d2743;
+  --color-success-50: #f5fbfa;
+  --color-success-100: #e6f5f3;
+  --color-success-200: #a8d7cf;
+  --color-success-300: #62c8c0;
+  --color-success-500: #3bb5a8;
+  --color-success-700: #14796e;
+  --color-warning-50: #fffcf4;
+  --color-warning-100: #fff5dc;
+  --color-warning-300: #efc46d;
+  --color-warning-500: #d39b46;
+  --color-warning-700: #976017;
+  --color-danger-100: #fdecef;
+  --color-danger-500: #d34b56;
+  --color-danger-700: #ac3545;
+  --color-processing-100: #f0edfa;
+  --color-word-100: #eaf0fa;
+  --color-neutral-50: #fafbfc;
+  --color-neutral-100: #edf1f4;
+  --color-neutral-300: #c6cdd3;
+
+  /* Primitive · radius */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* Primitive · font */
+  --font-family-sans: Inter, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-size-xs: 0.6875rem;
+  --font-size-sm: 0.75rem;
+  --font-size-md: 0.875rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Primitive · spacing */
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-14: 14px;
+  --spacing-16: 16px;
+  --spacing-18: 18px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+
+  /* Primitive · size */
+  --control-height-sm: 32px;
+  --control-height-md: 38px;
+  --control-height-lg: 44px;
+  --icon-size-sm: 16px;
+  --icon-size-md: 18px;
+  --icon-size-lg: 20px;
+  --avatar-size-md: 34px;
+
+  /* Semantic */
+  /* Semantic · color */
+  --color-action-primary: #2475c5;
+  --color-action-primary-hover: #1d66ae;
+  --color-action-primary-ring: rgba(36, 117, 197, .10);
+  --color-status-success: #16877f;
+  --color-status-warning: #b7791f;
+  --color-status-danger: #bd3d4d;
+  --color-status-processing: #7c65b9;
+  --color-word: #315f9d;
+  --color-text-strong: #172738;
+  --color-text-primary: #243444;
+  --color-text-secondary: #536577;
+  --color-text-muted: #657384;
+  --color-text-subtle: #788795;
+  --color-text-faint: #8995a1;
+  --color-text-document: #222222;
+  --color-on-dark: #ffffff;
+  --color-on-dark-opacity-4: rgba(255, 255, 255, .04);
+  --color-on-dark-opacity-8: rgba(255, 255, 255, .08);
+  --color-on-dark-opacity-10: rgba(255, 255, 255, .10);
+  --color-on-dark-opacity-15: rgba(255, 255, 255, .15);
+  --color-on-dark-opacity-17: rgba(255, 255, 255, .17);
+  --color-on-dark-opacity-24: rgba(255, 255, 255, .24);
+  --color-on-dark-opacity-38: rgba(255, 255, 255, .38);
+  --color-on-dark-opacity-46: rgba(255, 255, 255, .46);
+  --color-on-dark-opacity-52: rgba(255, 255, 255, .52);
+  --color-on-dark-opacity-76: rgba(255, 255, 255, .76);
+  --color-on-dark-opacity-86: rgba(255, 255, 255, .86);
+  --color-on-dark-opacity-2-5: rgba(255, 255, 255, .025);
+  --color-surface-primary: #ffffff;
+  --color-surface-subtle: #fbfdff;
+  --color-surface-muted: #f8fafb;
+  --color-surface-page: #f3f6f8;
+  --color-surface-document: #dfe5e9;
+  --color-surface-glass: rgba(255, 255, 255, .92);
+  --color-surface-glass-strong: rgba(255, 255, 255, .96);
+  --color-avatar: #3f719c;
+  --color-sidebar-count-text: #dff8f4;
+  --color-sidebar-glow: rgba(60, 137, 190, .27);
+  --color-sidebar-active: rgba(102, 190, 204, .18);
+  --color-sidebar-count: rgba(94, 210, 194, .16);
+  --color-node-on-dark-muted: #dcf5f2;
+  --color-graph-case-halo: #dff4f1;
+  --color-graph-document-halo: #dceefb;
+  --color-graph-similar-halo: #fff0d2;
+  --color-graph-similar: #f4d79d;
+  --color-border-strong: #b5ccdf;
+  --color-border-default: #dce3e9;
+  --color-border-soft: #e1e7ec;
+  --color-border-subtle: #e8edf1;
+  --color-focus-ring: rgba(36, 117, 197, .22);
+  --color-overlay: rgba(9, 25, 42, .58);
+  --color-highlight-ring: rgba(255, 205, 77, .16);
+
+  /* Semantic · shadow */
+  --shadow-panel: 0 1px 0 rgba(18, 42, 67, .02);
+  --shadow-floating: 0 10px 30px rgba(18, 42, 67, .08);
+  --shadow-document: 0 12px 28px rgba(28, 42, 56, .14);
+  --shadow-field: 0 5px 14px rgba(30, 65, 95, .06);
+  --shadow-sticky: 0 -8px 20px rgba(26, 51, 75, .05);
+  --shadow-mobile-nav: 20px 0 50px rgba(6, 23, 38, .30);
+  --shadow-modal: 0 24px 70px rgba(8, 29, 49, .28);
+
+  /* Component */
+  /* Component · brand-mark */
+  --brand-mark-container-radius: 12px;
+
+  /* Component · button */
+  --button-container-radius: 9px;
+
+  /* Component · form-control */
+  --form-control-container-radius: 9px;
+
+  /* Component · status-badge */
+  --status-badge-container-radius: var(--radius-pill);
+
+  /* Component · data-table */
+  --data-table-cell-padding-block: var(--spacing-14);
+  --data-table-cell-padding-inline: var(--spacing-14);
+
+  /* Component · auth */
+  --auth-brand-mark-radius: var(--radius-lg);
+  --auth-card-title-font-size: 1.25rem;
+
+  /* Component · dropzone */
+  --dropzone-container-radius: var(--radius-lg);
+  --dropzone-icon-radius: var(--radius-xl);
+
+  /* Component · relation */
+  --relation-detail-icon-radius: var(--radius-lg);
+
+  /* Component · page */
+  --page-heading-gap: 18px;
+
+  /* Component · metric-card */
+  --metric-card-padding: 18px;
+
+  /* Component · modal */
+  --modal-container-padding: 22px;
+  --modal-content-padding: 22px;
+
+  /* Component · report */
+  --report-cover-margin-bottom: 22px;
+  --report-grid-margin-block: 18px;
+  --report-stat-value-font-size: 1.25rem;
+
+  /* Component · toast */
+  --toast-container-radius: var(--radius-md);
+
+  /* Component · search */
+  --search-tab-panel-margin-top: 18px;
+  --search-hero-title-font-size: 1.25rem;
+  --search-box-margin-top: 18px;
+
+  /* Component · admin */
+  --admin-metric-value-font-size: 1.375rem;
+  --admin-empty-icon-size: 28px;
+}
