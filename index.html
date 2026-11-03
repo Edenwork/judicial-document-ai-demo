@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/pages/relations.css">
   <link rel="stylesheet" href="css/pages/reports.css">
   <link rel="stylesheet" href="css/pages/admin.css">
+  <link rel="stylesheet" href="css/pages/glossary.css">
   <link rel="stylesheet" href="css/components/overlays.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -29,28 +30,14 @@
         <div class="brand-copy"><strong>司法文件智慧平台</strong><small>Mutual Legal Assistance</small></div>
       </div>
       <div class="sidebar-scroll">
-        <div class="nav-label">案件作業</div>
-        <nav class="side-nav">
-          <button class="nav-item-btn active" data-page="files" type="button"><i
-              data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count">12</span></button>
-          <button class="nav-item-btn nav-item-btn--child" data-page="relations" type="button"><i
-              data-lucide="network"></i><span>關聯視覺化</span></button>
-          <button class="nav-item-btn nav-item-btn--child" data-page="reports" type="button"><i
-              data-lucide="file-chart-column"></i><span>彙整報告</span></button>
-          <button class="nav-item-btn" data-page="upload" type="button"><i
-              data-lucide="cloud-upload"></i><span>批次上傳</span></button>
-          <button class="nav-item-btn" data-page="search" type="button"><i
-              data-lucide="sparkles"></i><span>智慧搜尋</span></button>
-        </nav>
-        <div class="nav-label mt-4">審核作業</div>
-        <nav class="side-nav"><button class="nav-item-btn" data-page="supervisor" type="button"><i
-            data-lucide="shield-check"></i><span>需人工審核</span><span class="nav-count">2</span></button></nav>
-        <div class="nav-label mt-4">系統設定</div>
-        <nav class="side-nav">
-          <button class="nav-item-btn" data-page="audit" type="button"><i
-            data-lucide="scroll-text"></i><span>稽核日誌</span></button>
-          <button class="nav-item-btn" data-page="accounts" type="button"><i
-            data-lucide="users-round"></i><span>帳號與權限</span></button>
+        <nav class="side-nav" aria-label="功能選單">
+          <button class="nav-item-btn active" data-page="files" type="button"><i data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count">12</span></button>
+          <button class="nav-item-btn" data-page="upload" type="button"><i data-lucide="cloud-upload"></i><span>批次上傳</span></button>
+          <button class="nav-item-btn" data-page="search" type="button"><i data-lucide="sparkles"></i><span>智慧搜尋</span></button>
+          <button class="nav-item-btn" data-page="reports" type="button"><i data-lucide="file-chart-column"></i><span>彙整報告</span></button>
+          <button class="nav-item-btn" data-page="audit" type="button"><i data-lucide="scroll-text"></i><span>稽核日誌</span></button>
+          <button class="nav-item-btn" data-page="glossary" type="button"><i data-lucide="book-open"></i><span>詞彙管理</span></button>
+          <button class="nav-item-btn" data-page="accounts" type="button"><i data-lucide="users-round"></i><span>帳號與權限</span></button>
         </nav>
       </div>
       <div class="side-footer">
@@ -811,6 +798,32 @@
           </div>
         </section>
 
+        <section class="page" id="page-glossary" aria-labelledby="glossaryHeading">
+          <div class="page-heading glossary-heading">
+            <div>
+              <h2 id="glossaryHeading">詞彙管理</h2>
+              <p>詞庫對照表：每個長名稱可對應一個或多個短名稱。</p>
+            </div>
+            <div class="glossary-search">
+              <label class="visually-hidden" for="glossarySearch">搜尋術語長名稱或短名稱</label>
+              <i data-lucide="search" aria-hidden="true"></i>
+              <input class="form-control" id="glossarySearch" type="search" placeholder="搜尋長名稱或短名稱" autocomplete="off" aria-controls="glossaryRows">
+            </div>
+          </div>
+          <div class="panel glossary-panel">
+            <div class="glossary-summary"><span>詞庫對照表</span><span class="subtle small" id="glossaryCount" role="status" aria-live="polite"></span></div>
+            <div class="glossary-table-scroll">
+              <table class="table data-table glossary-table mb-0">
+                <caption class="visually-hidden">術語長名稱與短名稱對照，支援一對一及一對多。</caption>
+                <thead><tr><th scope="col">術語（長名稱）</th><th scope="col">術語（短名稱）</th></tr></thead>
+                <tbody id="glossaryRows"></tbody>
+              </table>
+            </div>
+            <p class="glossary-empty" id="glossaryEmpty" hidden>找不到符合的詞彙，請嘗試其他關鍵字。</p>
+          </div>
+          <p class="subtle small mt-3">目前為示範詞庫資料。</p>
+        </section>
+
         <section class="page" id="page-accounts" aria-labelledby="accountsHeading">
           <div class="page-heading">
             <div>
@@ -1052,6 +1065,7 @@
   <script src="js/features/reports.js" defer></script>
   <script src="js/features/admin.js" defer></script>
   <script src="js/features/session.js" defer></script>
+  <script src="js/features/glossary.js" defer></script>
   <script src="js/bootstrap.js" defer></script>
 </body>
 

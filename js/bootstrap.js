@@ -15,6 +15,7 @@
   App.initSupervisor();
   App.initAdmin();
   App.initSessionMenu();
+  App.initGlossary();
 
   if (initialPage && App.pageMeta[initialPage]) {
     App.goToPage(initialPage);
