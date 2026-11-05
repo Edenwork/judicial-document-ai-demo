@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="css/pages/glossary.css">
   <link rel="stylesheet" href="css/components/overlays.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/pages/case-statistics-table.css">
 </head>
 
 <body>
@@ -36,6 +37,7 @@
           <button class="nav-item-btn active" data-page="files" type="button"><i data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count">12</span></button>
           <button class="nav-item-btn" data-page="upload" type="button"><i data-lucide="cloud-upload"></i><span>批次上傳</span></button>
           <button class="nav-item-btn" data-page="search" type="button"><i data-lucide="sparkles"></i><span>智慧搜尋</span></button>
+          <button class="nav-item-btn" data-page="reports-table" type="button" aria-label="案件統計" title="案件統計"><i data-lucide="table" aria-hidden="true"></i><span>案件統計</span></button>
           <button class="nav-item-btn" data-page="reports-charts" type="button" aria-label="案件統計-版型1" title="案件統計-版型1"><i data-lucide="chart-column" aria-hidden="true"></i><span>案件統計-版型1</span></button>
           <button class="nav-item-btn" data-page="reports" type="button" aria-label="案件統計-版型2" title="案件統計-版型2"><i data-lucide="table-2" aria-hidden="true"></i><span>案件統計-版型2</span></button>
           <button class="nav-item-btn" data-page="audit" type="button"><i data-lucide="scroll-text"></i><span>稽核日誌</span></button>
@@ -427,7 +429,7 @@
               <div class="review-footer"><span class="footer-hint" id="fieldProgress">已確認 0 / 9 個欄位</span><button
                   class="btn btn-outline-secondary" data-go="relations" type="button"><i
                     data-lucide="network"></i>關聯視覺化</button><button class="btn btn-primary" id="generateCaseReport"
-                  data-go="reports" type="button"><i data-lucide="file-chart-column"></i>案件統計</button>
+                  data-go="reports-table" type="button"><i data-lucide="file-chart-column"></i>案件統計</button>
               </div>
             </section>
           </div>
@@ -634,6 +636,88 @@
                 data-lucide="arrow-left"></i>返回案件</button>
           </div>
         </section>
+<section class="page" id="page-reports-table" aria-labelledby="monthly-table-heading">
+<div class="page-heading">
+<div><h2 id="monthly-table-heading">案件統計</h2>
+<p>依月份查閱各科月報與原始報送資料。</p></div>
+</div>
+<div class="panel filters monthly-table-filters">
+<label>統計月份<input class="form-control" id="monthly-table-month" type="month" value="2026-02">
+</label>
+<label>科別<select class="form-select" id="monthly-table-unit">
+<option>全部科別</option>
+<option>兩岸科</option>
+<option>國際科</option>
+</select>
+</label>
+</div>
+<div id="monthly-table-monthCards" class="metrics">
+</div>
+<section class="panel">
+<div class="panel-header">
+<h3>各科月報摘要</h3>
+<small id="monthly-table-period">
+</small>
+</div>
+<div class="table-responsive">
+<table class="table data-table">
+<thead>
+<tr>
+<th>科別</th>
+<th>雙方相互請求</th>
+<th>雙方合作完成</th>
+<th>月報</th>
+</tr>
+</thead>
+<tbody id="monthly-table-agencies">
+</tbody>
+</table>
+</div>
+</section>
+<section class="panel" id="monthly-table-business" hidden>
+<div class="panel-header">
+<h3>兩岸科 · 業務明細</h3>
+<button class="btn btn-sm btn-outline-secondary" data-source="5">查看月報 005</button>
+</div>
+<div class="table-responsive">
+<table class="table data-table">
+<thead>
+<tr>
+<th>協助事項</th>
+<th>單位</th>
+<th>我方請求</th>
+<th>陸方完成</th>
+<th>陸方請求</th>
+<th>我方完成</th>
+<th>來源</th>
+</tr>
+</thead>
+<tbody id="monthly-table-items">
+</tbody>
+</table>
+</div>
+<div class="panel-body subtle">請求欄包含邀請與主動提供。當月完成數可含前期受理事項。</div>
+</section>
+<section class="panel" id="monthly-table-summary" hidden>
+<div class="panel-header">
+<h3>當月辦理摘要</h3>
+</div>
+<div class="panel-body">
+<p>刑事警察局記錄 2 月遣返 5 人回臺。<small>（第 012–013 頁）</small>
+</p>
+<p>海巡署於金門、馬祖海域各辦理 1 次兩岸協同執法。<small>（第 016 頁）</small>
+</p>
+</div>
+</section>
+<dialog aria-labelledby="monthly-table-sourceTitle" id="monthly-table-source">
+<div class="panel-header">
+<h3 id="monthly-table-sourceTitle">
+</h3>
+<button class="btn btn-sm btn-soft" id="monthly-table-close">關閉</button>
+</div>
+<img id="monthly-table-scan" alt="原始報表掃描影像">
+</dialog>
+</section>
 <section class="page" id="page-reports-charts" aria-labelledby="chartsHeading">
   <div class="page-heading"><div><h2 id="chartsHeading">案件統計-版型1</h2><p>依收件月份檢視各科案件量與辦理情形。</p></div><button id="stat-export" class="btn btn-outline-secondary" type="button">↓ 匯出統計 CSV</button></div>
   <div class="panel stat-filters" id="stat-filters"></div>
@@ -1093,6 +1177,7 @@
   <script src="js/features/glossary.js" defer></script>
   <script src="js/bootstrap.js" defer></script>
   <script src="js/features/case-statistics-charts.js" defer></script>
+  <script src="js/features/case-statistics-table.js" defer></script>
   <script src="js/features/case-statistics.js" defer></script>
 </body>
 

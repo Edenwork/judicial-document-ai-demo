@@ -1,0 +1,88 @@
+#page-reports-table .panel {
+  margin-bottom: var(--spacing-16);
+}
+#page-reports-table .metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+#page-reports-table .assistance-note {
+  display: block;
+  margin-top: var(--spacing-6);
+  color: var(--color-text-muted);
+  white-space: normal;
+}
+#page-reports-table .metrics .panel {
+  margin-bottom: 0;
+}
+#page-reports-table table {
+  white-space: nowrap;
+}
+#page-reports-table th,
+#page-reports-table td {
+  text-align: end;
+}
+#page-reports-table th:first-child,
+#page-reports-table td:first-child {
+  text-align: start;
+}
+#page-reports-table dialog {
+  width: min(960px, 95vw);
+  max-height: 90vh;
+  padding: 0;
+  color: var(--color-text-strong);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+}
+#page-reports-table dialog img {
+  display: block;
+  width: 100%;
+}
+#page-reports-table dialog .panel-header {
+  position: sticky;
+  top: 0;
+  justify-content: space-between;
+  background: var(--color-surface-primary);
+}
+
+#page-reports-table .monthly-table-filters {
+  flex-wrap: wrap;
+}
+#page-reports-table .monthly-table-filters label {
+  display: grid;
+  gap: var(--spacing-6);
+  min-width: 0;
+}
+#page-reports-table .metric-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-6);
+}
+#page-reports-table .metric-label,
+#page-reports-table .metric-value {
+  margin: 0;
+}
+#page-reports-table .metric-card small,
+#page-reports-table .panel-header small {
+  color: var(--color-text-muted);
+}
+#page-reports-table .panel-header {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#page-reports-table .table-responsive {
+  max-width: 100%;
+  overflow-x: auto;
+}
+#page-reports-table .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 575px) {
+  #page-reports-table .metrics {
+    grid-template-columns: 1fr;
+  }
+  #page-reports-table .monthly-table-filters label {
+    flex: 1 1 100%;
+  }
+}

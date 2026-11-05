@@ -9,6 +9,7 @@
     review: ["文件校對", "原始文件與 AI 結果對照確認"],
     search: ["智慧搜尋", "查找、勾選並彙整已入庫文件"],
     relations: ["關聯視覺化", "案件、文件、引用及相似關係"],
+    "reports-table": ["案件統計", "各科月報摘要與業務明細"],
     "reports-charts": ["案件統計-版型1", "案件統計圖表"],
     reports: ["案件統計-版型2", "各科月報與協助事項明細"],
     supervisor: ["需人工審核", "核准或退回承辦人修正內容"],
@@ -50,7 +51,7 @@
       if (navigationOptions.skipHistory) return;
 
       const nextUrl = pageName === "files" ? location.pathname : "?page=" + pageName;
-      const shouldReturnHome = pageName === "relations" || pageName === "reports";
+      const shouldReturnHome = pageName === "relations" || pageName === "reports" || pageName === "reports-table";
 
       if (shouldReturnHome) {
         history.replaceState({ page: "files" }, "", location.pathname);
