@@ -2,7 +2,7 @@
   margin-bottom: var(--spacing-16);
 }
 #page-reports-table .metrics {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 #page-reports-table .assistance-note {
   display: block;
@@ -78,7 +78,7 @@
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
 }
-@media (max-width: 575px) {
+@media (max-width: 800px) {
   #page-reports-table .metrics {
     grid-template-columns: 1fr;
   }

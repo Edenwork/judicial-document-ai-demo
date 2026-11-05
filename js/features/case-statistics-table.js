@@ -9,6 +9,22 @@ const demoMonths = {
   '2026-02': [[24,19,17,13], [14,10,11,8], [8,6,6,5], [3,2,2,1]]
 };
 const demoNames = ['司法文書送達', '調查取證', '犯罪情資交換', '受刑人移交'];
+function progressCard(unit, period) {
+  if (period !== '2026-02' || unit === '國際科') {
+    return card(['進行中', '—', '本月未提供進行中件數']);
+  }
+  // 緝捕遣返另列人數，統計案件時只加總單位為「件」的列。
+  const counts = rows.reduce((total, row) => {
+    const [, measure, , , , , , mainland, domestic] = row;
+    if (measure === '件') {
+      total.domestic += domestic;
+      total.mainland += mainland;
+    }
+    return total;
+  }, { domestic: 0, mainland: 0 });
+  const note = unit === '全部科別' ? '僅計兩岸科，國際科未提供' : '兩岸科月報 · 第 005 頁';
+  return card(['進行中', `我方 ${counts.domestic} 件｜陸方 ${counts.mainland} 件`, note]);
+}
 function resetDetails() {
   expanded.business = true;
   expanded.international = el('unit').value === '國際科';
@@ -83,9 +99,9 @@ function render() {
   const hasDemo = available.some(report => report.id === 'international');
   const note = hasDemo ? (available.length > 1 ? '含國際科示範資料' : '國際科示範資料') :
     (available.length ? '月報原表合計' : '尚無資料');
-  el('monthCards').innerHTML = ['相互請求', '合作完成'].map((label, index) =>
+  el('monthCards').innerHTML = ['相互請求', '已完成'].map((label, index) =>
     card([label, available.length ? available.reduce((sum, r) => sum + r.totals[index], 0) : '—', note])
-  ).join('');
+  ).join('') + progressCard(unit, selectedMonth);
   for (const id of ['business', 'international']) {
     el(id).hidden = !(expanded[id] && available.some(report => report.id === id));
   }
