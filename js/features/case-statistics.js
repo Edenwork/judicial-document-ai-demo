@@ -207,7 +207,7 @@
   month.addEventListener('change', render);
   get('prev').addEventListener('click', () => { month.selectedIndex--; render(); });
   get('next').addEventListener('click', () => { month.selectedIndex++; render(); });
-  get('export').addEventListener('click', () => {
+  window.JudicialApp.setupStatsExport(get('export'), () => {
     const { headers, rows } = dataset();
     const lines = [['統計月份', period()], ['科別', unit]];
     const detail = unit === '兩岸科' && hasReport();
@@ -219,13 +219,7 @@
       lines.push([], ['文書送達明細（第 7 頁）'], delivery.headers, ...delivery.rows);
       lines.push([], ['執行機關摘要'], agencies.headers, ...agencies.rows);
     }
-    const csv = lines.map(row => row.map(v => v === null ? '原表遮蔽' : v).join(',')).join('\r\n');
-    const url = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' }));
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = ['案件統計', period(), unit, ...(unit === '國際科' ? ['示範資料', headers[1]] : detail ? [headers[1]] : [])].join('-') + '.csv';
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return {title: ['案件統計-版型2', period(), unit].join('-'), lines};
   });
   render();
 })();

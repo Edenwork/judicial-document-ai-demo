@@ -53,7 +53,7 @@
   }
   el('filters').addEventListener('change',render);
   el('depts').addEventListener('click',e=>{if(e.target.dataset.dept){el('dept').value=e.target.dataset.dept;render();}});
-  el('export').addEventListener('click',()=>{
+  window.JudicialApp.setupStatsExport(el('export'), () => {
     const rows=currentRows();
     const lines=[['示範資料',monthName(el('month').value)],...filters.slice(1).map(([id,label])=>[label,el(id).value||'全部']),
       ['科別','收件數','已結案','未結案','結案率（暫定）','平均處理天數（暫定）']];
@@ -62,8 +62,8 @@
       const closed=group.filter(c=>c.closed);
       lines.push([name,group.length,closed.length,group.length-closed.length,rate(closed.length,group.length),closed.length?(closed.reduce((s,c)=>s+c.duration,0)/closed.length).toFixed(1):'—']);
     }
-    const url=URL.createObjectURL(new Blob(['\uFEFF'+lines.map(row=>row.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}));
-    const a=document.createElement('a');a.href=url;a.download='案件統計-115年'+el('month').value+'月.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    lines.push([], ['案件類型分布'], ['案件類型','件數'], ...types.map(type => [type, rows.filter(c => c.type === type).length]));
+    return {title: '案件統計-版型1-' + monthName(el('month').value), lines};
   });
   render();
 })();
