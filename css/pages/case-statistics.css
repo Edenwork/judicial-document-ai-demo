@@ -112,3 +112,12 @@
     .stats-scroll th, .stats-scroll td { padding: var(--spacing-10) var(--spacing-8); }
     .stats-scroll th:first-child { position: sticky; left: 0; background: var(--color-surface-primary); }
 }
+
+/* 月報摘要沿用圖表版的卡片與圖表元件。 */
+#stats-cards {
+    display: block;
+    --stat-line: var(--color-border-default);
+}
+#stats-cards .stat-kpi small { color: var(--color-text-muted); }
+#stats-cards .stat-panel h3 { font-size: var(--font-size-lg); margin: 0; }
+#stats-cards .stat-col i { max-width: 5rem; }
