@@ -86,3 +86,55 @@
     flex: 1 1 100%;
   }
 }
+
+#page-reports-table .monthly-table-filters {
+  align-items: start;
+}
+.monthly-period-field {
+  display: grid;
+  gap: var(--spacing-6);
+  min-width: 10rem;
+}
+#monthly-period-picker summary {
+  display: block;
+  cursor: pointer;
+  list-style: none;
+}
+#monthly-period-picker summary::-webkit-details-marker {
+  display: none;
+}
+.monthly-period-options {
+  margin-top: var(--spacing-6);
+  padding: var(--spacing-4);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-primary);
+}
+.monthly-period-options button {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-4) var(--spacing-6);
+  border: 0;
+  text-align: left;
+  background: transparent;
+  color: var(--color-text-strong);
+}
+.monthly-months {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-6);
+}
+.monthly-months button {
+  text-align: center;
+}
+.monthly-period-options button:hover,
+.monthly-period-options button:focus-visible,
+.monthly-period-options button[aria-pressed="true"] {
+  background: var(--color-brand-50);
+}
+@media (max-width: 575px) {
+  .monthly-period-field {
+    flex: 1 1 100%;
+  }
+}
