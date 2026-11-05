@@ -900,7 +900,27 @@
               <section class="panel organization-panel" aria-labelledby="organizationHeading">
                 <div class="panel-header">
                   <div><span class="section-eyebrow">資料範圍</span><h3 id="organizationHeading">組織階層</h3></div>
-                  <span class="subtle ms-auto">點擊節點預覽</span>
+                  <button class="btn btn-sm btn-outline-secondary ms-auto" id="editOrganization" type="button" aria-controls="organizationEditor" aria-expanded="false">編輯組織階層</button>
+                </div>
+                <div id="organizationEditor" class="px-3 pt-3" hidden>
+                  <p class="subtle mb-2" id="orgSelection"></p>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="orgAdd">新增下層</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="orgRename">修改名稱</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" id="orgDelete">刪除節點</button>
+                  </div>
+                  <form id="orgNameForm" class="mt-2" hidden>
+                    <label for="orgName" id="orgNameLabel"></label>
+                    <div class="d-flex flex-wrap gap-2">
+                      <input id="orgName" class="form-control" maxlength="60" required>
+                      <button class="btn btn-sm btn-outline-primary" type="submit">套用名稱</button>
+                    </div>
+                  </form>
+                  <p id="orgStatus" class="subtle my-2" role="status"></p>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-sm btn-primary" id="orgSave">儲存組織階層</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="orgCancel">取消編輯</button>
+                  </div>
                 </div>
                 <div class="organization-tree" id="organizationTree"></div>
               </section>

@@ -109,7 +109,7 @@
     { id: "ho.zh", name: "何宗翰", unit: "兩岸科", orgId: "cross-strait", role: "承辦人", lastLogin: "2026/08/15", status: "停用" },
   ];
 
-  const organization = {
+  const initialOrganization = {
     id: "directorate",
     name: "國兩司",
     children: [
@@ -192,7 +192,29 @@
     const auditPageSummary = document.getElementById("auditPageSummary");
     const accountTableBody = document.getElementById("accountTableBody");
     const organizationTree = document.getElementById("organizationTree");
-    const allOrganizationNodes = flattenOrganization(organization);
+    const key = "judicial-demo.organization.v1";
+    const byId = id => document.getElementById(id);
+    let saved = initialOrganization;
+    let originalValue = null;
+    try {
+      originalValue = localStorage.getItem(key);
+      if (originalValue) {
+        const tree = JSON.parse(originalValue);
+        const nodes = flattenOrganization(tree);
+        const ids = new Set(nodes.map(node => node.id));
+        if (tree.id === initialOrganization.id && ids.size === nodes.length &&
+            nodes.every(node => typeof node.name === "string" && typeof node.id === "string" && /^[a-zA-Z0-9-]+$/.test(node.id)) &&
+            accounts.every(account => ids.has(account.orgId))) saved = tree;
+      }
+    } catch { /* Use the built-in demo when stored data is unavailable. */ }
+    let organization = saved;
+    let editing = false;
+    let dirty = false;
+    let nameMode = "";
+    function accountUnit(account) {
+      return findOrganizationPath(saved, account.orgId).slice(-account.unit.split("／").length)
+        .map(node => node.name).join("／");
+    }
     let selectedOrganizationId = "asia";
     let currentAuditPage = 1;
 
@@ -230,7 +252,7 @@
       const search = document.getElementById("accountSearch").value.trim().toLowerCase();
       const status = document.getElementById("accountStatus").value;
       return accounts.filter(function (account) {
-        const searchText = [account.id, account.name, account.unit, account.role].join(" ").toLowerCase();
+        const searchText = [account.id, account.name, accountUnit(account), account.role].join(" ").toLowerCase();
         return (!search || searchText.includes(search)) && (!status || account.status === status);
       });
     }
@@ -242,7 +264,7 @@
       accountTableBody.innerHTML = filteredAccounts.map(function (account) {
         return '<tr data-account-id="' + account.id + '"><td><div class="account-user"><span class="account-avatar">' +
           escapeHtml(account.name.slice(0, 1)) + '</span><div class="account-identity"><strong>' + escapeHtml(account.name) +
-          "</strong><span>" + escapeHtml(account.id) + "</span></div></div></td><td>" + escapeHtml(account.unit) + "</td><td>" +
+          "</strong><span>" + escapeHtml(account.id) + "</span></div></div></td><td>" + escapeHtml(accountUnit(account)) + "</td><td>" +
           escapeHtml(account.role) + "</td><td>" + escapeHtml(account.lastLogin) + '</td><td><span class="badge-status ' +
           getStatusClass(account.status) + '">' + escapeHtml(account.status) + '</span></td><td><div class="account-actions">' +
           '<button class="btn btn-sm btn-outline-secondary account-scope" data-org-id="' + account.orgId +
@@ -265,7 +287,7 @@
       const path = findOrganizationPath(organization, selectedOrganizationId) || [];
       const visibleNodes = flattenOrganization(selectedNode, []);
       const visibleIds = new Set(visibleNodes.map(function (node) { return node.id; }));
-      const blockedNodes = allOrganizationNodes.filter(function (node) { return !visibleIds.has(node.id); });
+      const blockedNodes = flattenOrganization(organization).filter(function (node) { return !visibleIds.has(node.id); });
       const visibleChips = visibleNodes.map(function (node) {
         return '<span class="scope-chip">' + escapeHtml(node.name) + "</span>";
       }).join("");
@@ -285,7 +307,96 @@
       selectedOrganizationId = nodeId;
       organizationTree.innerHTML = "<ul>" + renderOrganizationBranch(organization) + "</ul>";
       renderScopePreview();
+      if (editing) updateEditor();
     }
+
+    function updateEditor() {
+      const node = findOrganizationNode(organization, selectedOrganizationId);
+      const assigned = accounts.some(account => account.orgId === node.id);
+      const restriction = node === organization ? "根節點須保留。" :
+        node.children.length ? "請先處理下層節點，再刪除此節點。" :
+        assigned ? "已有帳號隸屬此節點，無法刪除。" : "";
+      byId("orgSelection").textContent = "選取節點：" + node.name;
+      byId("orgDelete").disabled = Boolean(restriction);
+      byId("orgStatus").textContent = (dirty ? "有尚未儲存的變更。 " : "") + restriction;
+      byId("orgSave").disabled = !dirty;
+      byId("orgNameForm").hidden = true;
+      nameMode = "";
+    }
+
+    function setEditing(active) {
+      editing = active;
+      dirty = false;
+      organization = active ? JSON.parse(JSON.stringify(saved)) : saved;
+      if (!findOrganizationNode(organization, selectedOrganizationId)) selectedOrganizationId = organization.id;
+      byId("organizationEditor").hidden = !active;
+      byId("editOrganization").disabled = active;
+      byId("editOrganization").setAttribute("aria-expanded", String(active));
+      selectOrganization(selectedOrganizationId);
+    }
+
+    byId("editOrganization").onclick = () => setEditing(true);
+    byId("orgCancel").onclick = () => {
+      if (!dirty || global.confirm("放棄這次編輯的所有變更？")) setEditing(false);
+    };
+    function openNameForm(mode) {
+      const node = findOrganizationNode(organization, selectedOrganizationId);
+      nameMode = mode;
+      byId("orgNameLabel").textContent = mode === "add" ? "在「" + node.name + "」下新增節點" : "修改「" + node.name + "」的名稱";
+      byId("orgName").value = mode === "add" ? "" : node.name;
+      byId("orgNameForm").hidden = false;
+      byId("orgSave").disabled = true;
+      byId("orgName").focus();
+    }
+    byId("orgAdd").onclick = () => openNameForm("add");
+    byId("orgRename").onclick = () => openNameForm("rename");
+    byId("orgNameForm").onsubmit = event => {
+      event.preventDefault();
+      const name = byId("orgName").value.trim();
+      const path = findOrganizationPath(organization, selectedOrganizationId);
+      const node = path.at(-1);
+      const siblings = nameMode === "add" ? node.children : path.at(-2)?.children || [];
+      if (!name || siblings.some(other => other.name === name && (nameMode === "add" || other !== node))) {
+        byId("orgStatus").textContent = "請輸入名稱，並避免同一層節點重名。";
+        return;
+      }
+      if (nameMode === "add") {
+        const id = "node-" + Array.from(global.crypto.getRandomValues(new Uint32Array(4))).join("-");
+        node.children.push({ id, name, children: [] });
+        selectedOrganizationId = id;
+      } else {
+        node.name = name;
+      }
+      dirty = true;
+      selectOrganization(selectedOrganizationId);
+    };
+    byId("orgDelete").onclick = () => {
+      const path = findOrganizationPath(organization, selectedOrganizationId);
+      const node = path.at(-1);
+      if (byId("orgDelete").disabled || !global.confirm("從這份草稿刪除「" + node.name + "」？")) return;
+      const parent = path.at(-2);
+      parent.children = parent.children.filter(child => child !== node);
+      dirty = true;
+      selectOrganization(parent.id);
+    };
+    byId("orgSave").onclick = () => {
+      try {
+        if (localStorage.getItem(key) !== originalValue) {
+          byId("orgStatus").textContent = "另一個分頁已更新組織階層，請重新載入後再編輯。";
+          return;
+        }
+        const value = JSON.stringify(organization);
+        localStorage.setItem(key, value);
+        originalValue = value;
+      } catch {
+        byId("orgStatus").textContent = "瀏覽器無法儲存，草稿仍保留在此頁。";
+        return;
+      }
+      saved = organization;
+      setEditing(false);
+      renderAccountTable();
+      App.showToast("組織階層已儲存在此瀏覽器。");
+    };
 
     function activateAdminTab(tabName) {
       document.querySelectorAll("[data-admin-tab]").forEach(function (button) {
