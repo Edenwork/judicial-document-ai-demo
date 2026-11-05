@@ -34,7 +34,7 @@
           <button class="nav-item-btn active" data-page="files" type="button"><i data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count">12</span></button>
           <button class="nav-item-btn" data-page="upload" type="button"><i data-lucide="cloud-upload"></i><span>批次上傳</span></button>
           <button class="nav-item-btn" data-page="search" type="button"><i data-lucide="sparkles"></i><span>智慧搜尋</span></button>
-          <button class="nav-item-btn" data-page="reports" type="button"><i data-lucide="file-chart-column"></i><span>彙整報告</span></button>
+          <button class="nav-item-btn" data-page="reports" type="button"><i data-lucide="file-chart-column"></i><span>案件統計</span></button>
           <button class="nav-item-btn" data-page="audit" type="button"><i data-lucide="scroll-text"></i><span>稽核日誌</span></button>
           <button class="nav-item-btn" data-page="glossary" type="button"><i data-lucide="book-open"></i><span>詞彙管理</span></button>
           <button class="nav-item-btn" data-page="accounts" type="button"><i data-lucide="users-round"></i><span>帳號與權限</span></button>
@@ -424,7 +424,7 @@
               <div class="review-footer"><span class="footer-hint" id="fieldProgress">已確認 0 / 9 個欄位</span><button
                   class="btn btn-outline-secondary" data-go="relations" type="button"><i
                     data-lucide="network"></i>關聯視覺化</button><button class="btn btn-primary" id="generateCaseReport"
-                  data-go="reports" type="button"><i data-lucide="file-chart-column"></i>彙整報告</button>
+                  data-go="reports" type="button"><i data-lucide="file-chart-column"></i>案件統計</button>
               </div>
             </section>
           </div>
@@ -507,7 +507,7 @@
                     </div>
               </div>
               <div class="search-selected-layout">
-                <p class="selection-scope-note">以下列出目前帳號可查看的全部文件，請勾選要納入彙整報告的資料。</p>
+                <p class="selection-scope-note">以下列出目前帳號可查看的全部文件，請勾選要納入案件統計的資料。</p>
                 <div class="selected-documents" id="selectedDocuments" aria-label="可勾選文件清單"></div>
                 <div class="search-filter-actions search-selected-actions">
                   <!--
@@ -535,9 +535,9 @@
             </div>
             <div id="resultsBody" aria-live="polite"></div>
             <div class="search-report-controls" id="searchReportControls" hidden>
-              <h4>彙整報告設定</h4>
+              <h4>案件統計設定</h4>
               <div class="filter-field"><label for="searchReportName">報告名稱</label><input class="form-control"
-                  id="searchReportName" value="司法互助案件彙整報告"></div>
+                  id="searchReportName" value="司法互助案件案件統計"></div>
               <div class="filter-field"><label for="searchReportType">報告用途</label><select
                   class="form-select" id="searchReportType"><option>案件摘要</option><option>證據彙整</option><option>異常文件清單</option><option>需人工審核報告</option></select></div>
               <div class="filter-field"><label for="searchReportInstruction">補充要求</label><textarea
@@ -634,7 +634,7 @@
         <section class="page" id="page-reports" aria-labelledby="reportsHeading">
           <div class="page-heading">
             <div>
-              <h2 id="reportsHeading">彙整報告</h2>
+              <h2 id="reportsHeading">案件統計</h2>
               <p>彙整同一案件內的請求書、回覆函與證據材料，產生案件報告。</p>
             </div>
           </div>
