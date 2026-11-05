@@ -27,9 +27,11 @@ function progressCard(unit, period) {
 }
 function resetDetails() {
   expanded.business = true;
-  expanded.international = el('unit').value === '國際科';
+  expanded.international = appliedUnit === '國際科';
 }
 let selectedMonth = '2026-02';
+let draftMonth = selectedMonth;
+let appliedUnit = el('unit').value;
 const picker = document.getElementById('monthly-period-picker');
 const options = picker.querySelector('.monthly-months');
 const trigger = picker.querySelector('summary');
@@ -40,12 +42,12 @@ function closePicker() {
 const yearInput = document.getElementById('monthly-period-year');
 function syncMonths() {
   for (const button of options.children) {
-    button.setAttribute('aria-pressed', String(selectedMonth === yearInput.value + '-' + button.value));
+    button.setAttribute('aria-pressed', String(draftMonth === yearInput.value + '-' + button.value));
   }
 }
 picker.addEventListener('toggle', () => {
   if (picker.open) {
-    yearInput.value = selectedMonth.slice(0, 4);
+    yearInput.value = draftMonth.slice(0, 4);
     syncMonths();
   }
 });
@@ -57,11 +59,9 @@ for (let month = 1; month <= 12; month++) {
   button.textContent = month + '月';
   button.addEventListener('click', () => {
     if (!yearInput.reportValidity()) return;
-    selectedMonth = String(yearInput.valueAsNumber) + '-' + button.value;
+    draftMonth = String(yearInput.valueAsNumber) + '-' + button.value;
     document.getElementById('monthly-period-value').textContent =
       yearInput.valueAsNumber + '年' + button.value + '月';
-    resetDetails();
-    render();
     closePicker();
   });
   options.append(button);
@@ -77,7 +77,7 @@ document.addEventListener('click', event => {
   if (!picker.contains(event.target)) picker.open = false;
 });
 function render() {
-  const unit = el('unit').value;
+  const unit = appliedUnit;
   const [year, month] = selectedMonth.split('-').map(Number);
   el('period').textContent = '民國 ' + (year - 1911) + ' 年 ' + month + ' 月';
   const demo = demoMonths[selectedMonth];
@@ -89,16 +89,13 @@ function render() {
   ].filter(report => unit === '全部科別' || report.name === unit);
   el('agencies').innerHTML = reports.map(({ name, id, totals }) => {
     if (!totals) return '<tr><td>' + name + '</td><td>—</td><td>—</td><td>尚無資料</td></tr>';
-    const label = name + (id === 'international' ? '（示範資料）' : '');
-    return `<tr><td>${label}</td><td>${totals[0]}</td><td>${totals[1]}</td><td>
+    return `<tr><td>${name}</td><td>${totals[0]}</td><td>${totals[1]}</td><td>
       <button class="btn btn-sm btn-soft" type="button" id="monthly-table-toggle-${id}"
         data-report="${id}" aria-controls="monthly-table-${id}" aria-expanded="${expanded[id]}">
         ${expanded[id] ? '收合明細' : '查看明細'}</button></td></tr>`;
   }).join('');
   const available = reports.filter(report => report.totals);
-  const hasDemo = available.some(report => report.id === 'international');
-  const note = hasDemo ? (available.length > 1 ? '含國際科示範資料' : '國際科示範資料') :
-    (available.length ? '月報原表合計' : '尚無資料');
+  const note = available.length ? available.map(report => report.name).join('、') + '合計' : '尚無資料';
   el('monthCards').innerHTML = ['相互請求', '已完成'].map((label, index) =>
     card([label, available.length ? available.reduce((sum, r) => sum + r.totals[index], 0) : '—', note])
   ).join('') + progressCard(unit, selectedMonth);
@@ -122,7 +119,13 @@ document.getElementById('page-reports-table').addEventListener('click', event =>
     el('toggle-' + report).focus();
   }
 });
-el('unit').onchange = () => { resetDetails(); render(); };
+el('apply').addEventListener('click', () => {
+  selectedMonth = draftMonth;
+  appliedUnit = el('unit').value;
+  picker.open = false;
+  resetDetails();
+  render();
+});
 el('close').onclick = () => el('source').close();
 function card([title,value,note]){return '<div class="panel metric-card"><span class="metric-label">'+title+'</span><strong class="metric-value">'+value+'</strong><small>'+note+'</small></div>'}
 

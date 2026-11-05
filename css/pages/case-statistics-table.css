@@ -95,6 +95,9 @@
   gap: var(--spacing-6);
   min-width: 10rem;
 }
+#monthly-period-picker {
+  position: relative;
+}
 #monthly-period-picker summary {
   display: block;
   cursor: pointer;
@@ -104,6 +107,15 @@
   display: none;
 }
 .monthly-period-options {
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
+  z-index: 5;
+  width: max-content;
+  min-width: 100%;
+  max-width: min(18rem, calc(100vw - 2rem));
+  box-sizing: border-box;
+  box-shadow: var(--shadow-panel);
   margin-top: var(--spacing-6);
   padding: var(--spacing-4);
   border: 1px solid var(--color-border-default);
