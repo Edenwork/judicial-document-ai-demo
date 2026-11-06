@@ -29,6 +29,10 @@
     const navigationOptions = options || {};
 
     if (!target || !pageMeta) return;
+    if (pageName === "case-review" && App.loadCaseReview) {
+      const caseId = navigationOptions.caseId || new URLSearchParams(location.search).get("case") || App.currentReviewCaseId;
+      App.loadCaseReview(caseId);
+    }
 
     document.querySelectorAll(".page").forEach(function (page) {
       page.classList.remove("active");
@@ -51,7 +55,7 @@
     try {
       if (navigationOptions.skipHistory) return;
 
-      const nextUrl = pageName === "files" ? location.pathname : "?page=" + pageName;
+      const nextUrl = pageName === "files" ? location.pathname : "?page=" + pageName + (pageName === "case-review" && App.currentReviewCaseId ? "&case=" + encodeURIComponent(App.currentReviewCaseId) : "");
       const shouldReturnHome = pageName === "relations" || pageName === "reports" || pageName === "reports-table";
 
       if (shouldReturnHome) {
