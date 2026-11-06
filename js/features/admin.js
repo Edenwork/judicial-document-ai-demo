@@ -335,7 +335,10 @@
       selectOrganization(selectedOrganizationId);
     }
 
-    byId("editOrganization").onclick = () => setEditing(true);
+    // 編輯按鈕暫時註解時，不綁定事件，避免中斷頁面初始化。
+    if (byId("editOrganization")) {
+      byId("editOrganization").onclick = () => setEditing(true);
+    }
     byId("orgCancel").onclick = () => {
       if (!dirty || global.confirm("放棄這次編輯的所有變更？")) setEditing(false);
     };
