@@ -35,7 +35,7 @@
       </div>
       <div class="sidebar-scroll">
         <nav class="side-nav" aria-label="功能選單">
-          <button class="nav-item-btn active" data-page="files" type="button"><i data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count" id="crNavCount">7</span></button>
+          <button class="nav-item-btn active" data-page="files" type="button"><i data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count" id="crNavCount">8</span></button>
           <button class="nav-item-btn" data-page="upload" type="button"><i data-lucide="cloud-upload"></i><span>批次上傳</span></button>
           <button class="nav-item-btn" data-page="search" type="button"><i data-lucide="sparkles"></i><span>智慧搜尋</span></button>
           <button class="nav-item-btn" data-page="reports-table" type="button" aria-label="案件統計" title="案件統計"><i data-lucide="table" aria-hidden="true"></i><span>案件統計</span></button>
@@ -90,7 +90,7 @@
           <div class="metrics">
             <article class="panel metric-card metric-card--primary">
               <div class="metric-icon"><i data-lucide="inbox"></i></div>
-              <div class="metric-value" id="crTotalCount">7</div>
+              <div class="metric-value" id="crTotalCount">8</div>
               <div class="metric-label">案件總數</div>
             </article>
             <article class="panel metric-card metric-card--processing">
@@ -130,7 +130,7 @@
               <table class="table data-table align-middle" id="casesTable">
                 <thead>
                   <tr>
-                    <th style="width:42px"><input class="form-check-input" id="selectAllNormal" type="checkbox" disabled
+                    <th style="width:42px"><input class="form-check-input" id="selectAllNormal" type="checkbox"
                         aria-label="選取本頁待處理案件"></th>
                     <th>案件名稱</th>
                     <th>國家／地區</th>
@@ -225,12 +225,16 @@
             <section class="cr-fields" aria-label="案件欄位核對">
               <div class="cr-pane-head"><strong>AI 擷取結果</strong><button class="btn btn-sm btn-soft" type="button" id="crCheckFilled">已核對所有有值欄位</button></div>
               <div class="cr-fields-scroll" id="crFields"></div>
-              <div class="empty-state" id="crProcessingNotice" hidden><strong>AI 文件處理中</strong><p>本案尚未完成擷取，暫時無法人工核對。</p><button class="btn btn-outline-primary" id="crSimulateReady" type="button">模擬擷取完成（討論用）</button></div>
+              <div class="empty-state" id="crProcessingNotice" hidden><strong id="crProcessingTitle">AI 文件處理中</strong><p id="crProcessingDescription">本案尚未完成擷取，暫時無法人工核對。</p><button class="btn btn-primary" id="crStartCase" type="button" hidden>開始處理</button><button class="btn btn-outline-primary" id="crSimulateReady" type="button">模擬擷取完成（討論用）</button></div>
             </section>
           </div>
           <footer class="cr-footer"><button class="btn btn-outline-secondary" data-go="files" type="button"><i data-lucide="arrow-left"></i>返回案件管理</button><div class="cr-footer-info"><strong id="crProgress" role="status">已核對 0 / 11 個欄位</strong><small id="crSaveInfo" aria-live="polite"></small></div><button class="btn btn-outline-primary" id="crSave" type="button">儲存草稿</button><button class="btn btn-primary" id="crConfirm" type="button">確認資料</button></footer>
           <dialog class="cr-dialog" id="crConfirmDialog" aria-labelledby="crConfirmTitle"><h3 id="crConfirmTitle">確認案件資料？</h3><p>收文文號：<strong id="crConfirmReceipt"></strong><br>司法互助類型：<span id="crConfirmType"></span></p><p id="crConfirmSummary"></p><p>確認後，回拋狀態會變成「待回拋」。只有實際傳送成功才是「已回拋」。修改內容後需重新核對；本版未串接正式 API。</p><div class="cr-dialog-actions"><button class="btn btn-outline-secondary" type="button" data-cr-close="crConfirmDialog">繼續核對</button><button class="btn btn-primary" type="button" id="crConfirmAction">確認無誤</button></div></dialog>
-          <dialog class="cr-dialog" id="crDiscussionDialog" aria-labelledby="crDiscussionTitle"><h3 id="crDiscussionTitle">這版想確認的設計</h3><p>入口：案件管理 → 選擇案件 → 案件資料核對。每筆案件使用自己的文件、欄位、草稿與核對狀態。現有國際案件是我國向外國請求，不能套成 Excel 的「外國對我國請求（刑事）」；國際案件欄位僅供介面討論，正式欄位對照待確認。</p><ul><li>AI 判斷案件類型後，是否允許承辦人修改？本版先固定類型。</li><li>哪些欄位必填？星號暫以收文文號、收文日期、提出請求機關為討論假設。既有「已回拋」案件亦為示範資料。</li><li>原文缺漏時，是否可確認後保留空白？</li><li>核對與最終確認由誰負責，是否需要主管覆核？</li><li>目前決定：需人工核對並按下「確認資料」後才可進入待回拋；修改後需重新確認。回拋狀態沿用需人工處理、待回拋、已回拋、回拋失敗。</li></ul><p>省分與機關暫以文字輸入呈現，正式版需對應機關、地區等代碼清單。送件、回覆、催辦與實際執行結果不在本頁示範範圍。</p><div class="cr-dialog-actions"><button class="btn btn-primary" type="button" data-cr-close="crDiscussionDialog">回到核對頁</button></div></dialog>
+          <dialog class="cr-dialog cr-party-dialog" id="crPartyDialog" aria-labelledby="crPartyDialogTitle">
+            <form id="crPartyForm"><h3 id="crPartyDialogTitle">新增當事人</h3><p>請至少填寫中文或外文姓名。其他未提供的欄位可保留空白。</p><div class="cr-party-form-grid" id="crPartyFormFields"></div><p class="cr-error" id="crPartyError" role="alert" hidden></p><div class="cr-dialog-actions"><button class="btn btn-outline-secondary" type="button" data-cr-close="crPartyDialog">取消</button><button class="btn btn-primary" type="submit">儲存當事人</button></div></form>
+          </dialog>
+          <dialog class="cr-dialog" id="crDeletePartyDialog" aria-labelledby="crDeletePartyTitle"><h3 id="crDeletePartyTitle">刪除當事人？</h3><p>確定移除「<strong id="crDeletePartyName"></strong>」？刪除後，本案件需重新核對確認。</p><div class="cr-dialog-actions"><button class="btn btn-outline-secondary" type="button" data-cr-close="crDeletePartyDialog">取消</button><button class="btn btn-danger" type="button" id="crDeletePartyAction">確認刪除</button></div></dialog>
+          <dialog class="cr-dialog" id="crDiscussionDialog" aria-labelledby="crDiscussionTitle"><h3 id="crDiscussionTitle">這版想確認的設計</h3><p>入口：案件管理 → 選擇案件 → 案件資料核對。每筆案件使用自己的文件、欄位、草稿與核對狀態。所有案件的當事人基本資料均支援多筆；增刪或修改後需重新核對。現有國際案件是我國向外國請求，不能套成 Excel 的「外國對我國請求（刑事）」；國際案件欄位僅供介面討論，正式欄位對照待確認。</p><ul><li>AI 判斷案件類型後，是否允許承辦人修改？本版先固定類型。</li><li>哪些欄位必填？星號暫以收文文號、收文日期、提出請求機關為討論假設。既有「已回拋」案件亦為示範資料。</li><li>原文缺漏時，是否可確認後保留空白？</li><li>核對與最終確認由誰負責，是否需要主管覆核？</li><li>目前決定：需人工核對並按下「確認資料」後才可進入待回拋；修改後需重新確認。回拋狀態沿用需人工處理、待回拋、已回拋、回拋失敗。</li></ul><p>省分與機關暫以文字輸入呈現，正式版需對應機關、地區等代碼清單。送件、回覆、催辦與實際執行結果不在本頁示範範圍。</p><div class="cr-dialog-actions"><button class="btn btn-primary" type="button" data-cr-close="crDiscussionDialog">回到核對頁</button></div></dialog>
         </section>
         <section class="page review-page" id="page-review" aria-label="文件校對">
           <div class="review-context">

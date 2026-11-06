@@ -4,26 +4,37 @@
   const App = global.JudicialApp;
 
   App.initFileList = function () {
-    const caseChecks = Array.from(document.querySelectorAll(".case-check"));
+    const table = document.getElementById("casesTable");
     const selectAll = document.getElementById("selectAllNormal");
     const selectionBar = document.getElementById("selectionBar");
     const selectedCount = document.getElementById("selectedCount");
     const returnFieldChecks = Array.from(document.querySelectorAll(".return-field-check"));
     const selectAllReturnFields = document.getElementById("selectAllReturnFields");
 
+    function getEligibleChecks() {
+      return Array.from(table.querySelectorAll('tbody tr[data-status="pending"] .case-check:not(:disabled)'))
+        .filter(function (checkbox) { return checkbox.closest("tr").style.display !== "none"; });
+    }
+
     function getSelectedCases() {
-      return caseChecks.filter(function (checkbox) {
-        return checkbox.checked;
-      });
+      return getEligibleChecks().filter(function (checkbox) { return checkbox.checked; });
     }
 
     function updateSelection() {
+      table.querySelectorAll('.case-check:checked').forEach(function (checkbox) {
+        const row = checkbox.closest("tr");
+        if (checkbox.disabled || row.dataset.status !== "pending" || row.style.display === "none") checkbox.checked = false;
+      });
+      const eligible = getEligibleChecks();
       const count = getSelectedCases().length;
       selectedCount.textContent = count;
       selectionBar.classList.toggle("show", count > 0);
-      selectAll.checked = count === caseChecks.length && count > 0;
-      selectAll.indeterminate = count > 0 && count < caseChecks.length;
+      selectAll.disabled = eligible.length === 0;
+      selectAll.checked = count > 0 && count === eligible.length;
+      selectAll.indeterminate = count > 0 && count < eligible.length;
+      document.getElementById("batchConfirm").disabled = count === 0;
     }
+    App.refreshCaseSelection = updateSelection;
 
     function filterRows() {
       const query = document.getElementById("caseFilter").value.trim().toLowerCase();
@@ -34,6 +45,7 @@
         const matchesStatus = status === "all" || row.dataset.status === status;
         row.style.display = matchesQuery && matchesStatus ? "" : "none";
       });
+      updateSelection();
     }
 
     function updateReturnFieldSelection() {
@@ -45,8 +57,8 @@
       selectAllReturnFields.indeterminate = selectedFields > 0 && selectedFields < returnFieldChecks.length;
     }
 
-    caseChecks.forEach(function (checkbox) {
-      checkbox.addEventListener("change", updateSelection);
+    table.addEventListener("change", function (event) {
+      if (event.target.matches(".case-check")) updateSelection();
     });
 
     document.querySelectorAll(".case-return-switch .form-check-input").forEach(function (returnSwitch) {
@@ -97,37 +109,30 @@
     });
 
     selectAll.addEventListener("change", function (event) {
-      caseChecks.forEach(function (checkbox) {
+      getEligibleChecks().forEach(function (checkbox) {
         checkbox.checked = event.target.checked;
       });
       updateSelection();
     });
 
     document.getElementById("batchConfirm").addEventListener("click", function () {
+      if (!getSelectedCases().length) return;
       document.getElementById("confirmCount").textContent = getSelectedCases().length;
       App.showOverlay("confirmModal");
     });
 
     document.getElementById("confirmBatchAction").addEventListener("click", function () {
       const selected = getSelectedCases();
-
-      selected.forEach(function (checkbox) {
-        const row = checkbox.closest("tr");
-        const badge = row.querySelector(".badge-status");
-        row.dataset.status = "processing";
-        badge.className = "badge-status status-processing";
-        badge.textContent = "處理中";
-        checkbox.checked = false;
-        checkbox.disabled = true;
-      });
-
+      const ids = selected.map(function (checkbox) { return checkbox.closest("tr").dataset.caseId; });
+      const count = App.startCaseProcessing ? App.startCaseProcessing(ids) : 0;
       App.hideOverlay(document.getElementById("confirmModal"));
       updateSelection();
-      App.showToast("已開始處理 " + selected.length + " 個案件。");
+      if (count) App.showToast("已開始處理 " + count + " 個案件（示範流程）。");
     });
 
     document.getElementById("caseFilter").addEventListener("input", filterRows);
     document.getElementById("statusFilter").addEventListener("change", filterRows);
     updateReturnFieldSelection();
+    updateSelection();
   };
 })(window);
