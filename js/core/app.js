@@ -6,6 +6,7 @@
   App.pageMeta = {
     files: ["案件管理", "跨境司法互助案件工作台"],
     upload: ["批次上傳", "匯入並追蹤 AI 文件處理進度"],
+    "case-review": ["案件資料核對", "AI 擷取結果與案管欄位核對"],
     review: ["文件校對", "原始文件與 AI 結果對照確認"],
     search: ["智慧搜尋", "查找、勾選並彙整已入庫文件"],
     relations: ["關聯視覺化", "案件、文件、引用及相似關係"],
@@ -35,14 +36,14 @@
     target.classList.add("active");
 
     document.querySelectorAll(".nav-item-btn").forEach(function (button) {
-      button.classList.toggle("active", button.dataset.page === pageName);
+      button.classList.toggle("active", button.dataset.page === ((pageName === "case-review" || pageName === "review") ? "files" : pageName));
     });
 
     const topTitle = document.getElementById("topTitle");
     const topSubtitle = document.getElementById("topSubtitle");
     if (topTitle) topTitle.textContent = pageMeta[0];
     if (topSubtitle) topSubtitle.textContent = pageMeta[1];
-    document.body.classList.toggle("review-mode", pageName === "review");
+    document.body.classList.toggle("review-mode", pageName === "review" || pageName === "case-review");
     const sidebar = document.getElementById("sidebar");
     if (sidebar) sidebar.classList.remove("open");
     global.scrollTo({ top: 0, behavior: "smooth" });

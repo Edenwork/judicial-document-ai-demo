@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="css/components/overlays.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/pages/case-statistics-table.css">
+  <link rel="stylesheet" href="css/pages/case-review.css">
 </head>
 
 <body>
@@ -85,6 +86,10 @@
               <p>依案件掌握文件處理、人工確認及需人工審核狀態。</p>
             </div><button class="btn btn-primary" data-go="upload" type="button"><i
                 data-lucide="upload"></i>批次上傳文件</button>
+          </div>
+          <div class="cr-demo-entry" aria-label="案件資料核對討論範例">
+            <div><strong>調查取證（臺請陸）示範案件</strong><p>新增的案管欄位核對流程，從案件管理進入。範例內容均為虛構。</p></div>
+            <button class="btn btn-outline-primary" data-go="case-review" type="button"><i data-lucide="clipboard-check"></i>進入資料核對</button>
           </div>
           <div class="metrics">
             <article class="panel metric-card metric-card--primary">
@@ -298,6 +303,46 @@
             </div>
           </div>
 
+        </section>
+        <section class="page review-page" id="page-case-review" aria-label="案件資料核對">
+          <header class="cr-context">
+            <div class="cr-breadcrumb"><button data-go="files" type="button">案件管理</button><span aria-hidden="true">／</span><span>案件資料核對</span></div>
+            <div class="cr-title"><h2>案件資料核對</h2><span class="cr-status" id="crStatus" role="status">待核對</span><span class="badge-status status-info">討論版</span><button class="btn btn-sm btn-outline-secondary" id="crDiscussion" type="button"><i data-lucide="message-square"></i>設計討論事項</button></div>
+            <p class="cr-description">對照原始文件，核對 AI 擷取的案件欄位。此頁使用虛構範例，尚未連接 AI 或案管系統。</p>
+            <div class="cr-meta">
+              <div><label>收文文號</label><strong id="crReceiptSummary">1150001234</strong></div>
+              <div><label for="crCaseType">司法互助類型</label><select id="crCaseType" class="form-select"><option>調查取證（臺請陸）</option><option disabled>外國對我國請求（刑事） · 本版未展開</option><option disabled>調查取證（陸請臺） · 本版未展開</option><option disabled>非病死（陸請臺） · 本版未展開</option><option disabled>非病死（臺請陸） · 本版未展開</option><option disabled>人身自由（臺請陸） · 本版未展開</option><option disabled>重要訊息通報（陸請臺） · 本版未展開</option><option disabled>重要訊息通報（臺請陸） · 本版未展開</option><option disabled>受刑人移交（陸請臺） · 本版未展開</option><option disabled>受刑人移交（臺請陸） · 本版未展開</option><option disabled>緝捕遣返請求（陸請臺） · 本版未展開</option><option disabled>緝捕遣返請求（臺請陸） · 本版未展開</option><option disabled>犯罪情資交換（陸請臺） · 本版未展開</option><option disabled>犯罪情資交換（臺請陸） · 本版未展開</option></select></div>
+              <div><label>目前核對文件</label><strong>司法互助請求函 · 示例</strong></div>
+            </div>
+          </header>
+          <div class="cr-confirmed-banner" id="crConfirmedBanner" role="status" hidden>資料已確認。此為討論版狀態，尚未傳送至案管系統；修改內容後需重新確認。</div>
+          <div class="cr-layout">
+            <section class="cr-document" aria-label="原始文件對照">
+              <div class="cr-pane-head"><strong>原始文件</strong><span>示範文件 · 第 1 頁／共 1 頁</span></div>
+              <div class="cr-document-scroll">
+                <article class="paper cr-paper">
+                  <div class="cr-watermark">介面討論用 · 虛構文件</div>
+                  <div class="paper-kicker">司法互助請求</div><h3>調查取證請求函</h3>
+                  <p>收文文號：<mark data-cr-original="receivedNo">1150001234</mark><br>收文日期：<mark data-cr-original="receivedDate">中華民國 115 年 2 月 3 日</mark></p>
+                  <p>請求機關：<mark data-cr-original="applyAgency">臺灣○○地方檢察署（示例）</mark><br>協助地區：<mark data-cr-original="area">大陸地區</mark><br>省分：<mark data-cr-original="provincial">福建省</mark></p>
+                  <div class="paper-section">一、案件說明</div>
+                  <p>本署偵辦被告 <mark data-cr-original="defendant">陳○○</mark> 涉嫌詐欺案件，屬 <mark data-cr-original="caseCategory">刑事</mark> 司法互助事項。</p>
+                  <div class="paper-section">二、請求協助事項</div>
+                  <p>請協助 <mark data-cr-original="requests">取得證據</mark>，內容包括 <mark data-cr-original="evidence">提供書證、提供視聽資料</mark>。</p>
+                  <p><mark data-cr-original="acceptDesc">請協助取得被告於指定期間之銀行交易明細與提款影像。</mark></p>
+                  <div class="paper-section">三、其他說明</div><p>本示範文件未載明請求機關案號。核對時可補充已知資料，或確認原文未提供並保留空白。</p>
+                  <p style="margin-top:40px;text-align:right">請求機關：臺灣○○地方檢察署（示例）</p>
+                </article>
+              </div>
+            </section>
+            <section class="cr-fields" aria-label="案件欄位核對">
+              <div class="cr-pane-head"><strong>AI 擷取結果</strong><button class="btn btn-sm btn-soft" type="button" id="crCheckFilled">已核對所有有值欄位</button></div>
+              <div class="cr-fields-scroll" id="crFields"></div>
+            </section>
+          </div>
+          <footer class="cr-footer"><button class="btn btn-outline-secondary" data-go="files" type="button"><i data-lucide="arrow-left"></i>返回案件管理</button><div class="cr-footer-info"><strong id="crProgress" role="status">已核對 0 / 11 個欄位</strong><small id="crSaveInfo" aria-live="polite"></small></div><button class="btn btn-outline-primary" id="crSave" type="button">儲存草稿</button><button class="btn btn-primary" id="crConfirm" type="button">確認資料</button></footer>
+          <dialog class="cr-dialog" id="crConfirmDialog" aria-labelledby="crConfirmTitle"><h3 id="crConfirmTitle">確認案件資料？</h3><p>收文文號：<strong id="crConfirmReceipt"></strong><br>司法互助類型：調查取證（臺請陸）</p><p>你已核對全部 11 個欄位。未提供的「請求機關案號」可以在核對後保留空白。</p><p>本版只記錄確認狀態，沒有傳送或寫入正式案管系統。</p><div class="cr-dialog-actions"><button class="btn btn-outline-secondary" type="button" data-cr-close="crConfirmDialog">繼續核對</button><button class="btn btn-primary" type="button" id="crConfirmAction">確認無誤</button></div></dialog>
+          <dialog class="cr-dialog" id="crDiscussionDialog" aria-labelledby="crDiscussionTitle"><h3 id="crDiscussionTitle">這版想確認的設計</h3><p>入口：案件管理 → 選擇案件 → 案件資料核對。14 類案件共用核對版面，依類型顯示不同欄位；本版僅展開調查取證（臺請陸）的部分欄位。</p><ul><li>AI 判斷案件類型後，是否允許承辦人修改？本版先固定類型。</li><li>哪些欄位必填？星號暫以收文文號、收文日期、提出請求機關為討論假設。</li><li>原文缺漏時，是否可確認後保留空白？</li><li>核對與最終確認由誰負責，是否需要主管覆核？</li><li>確認後何時允許案管系統透過 API 取用？現有「回拋狀態」的文字與流程需另行對齊。</li></ul><p>省分與機關暫以文字輸入呈現，正式版需對應機關、地區等代碼清單。送件、回覆、催辦與實際執行結果不在本頁示範範圍。</p><div class="cr-dialog-actions"><button class="btn btn-primary" type="button" data-cr-close="crDiscussionDialog">回到核對頁</button></div></dialog>
         </section>
         <section class="page review-page" id="page-review" aria-label="文件校對">
           <div class="review-context">
@@ -1193,6 +1238,7 @@
   <script src="js/features/admin.js" defer></script>
   <script src="js/features/session.js" defer></script>
   <script src="js/features/glossary.js" defer></script>
+  <script src="js/features/case-review.js" defer></script>
   <script src="js/bootstrap.js" defer></script>
   <script src="js/features/case-statistics-charts.js" defer></script>
   <script src="js/features/case-statistics-table.js" defer></script>
