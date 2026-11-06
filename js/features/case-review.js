@@ -375,7 +375,9 @@
   function openDialog(id){previousFocus=document.activeElement;$(id).showModal();}
   root.querySelectorAll('[data-cr-close]').forEach(button=>button.addEventListener('click',()=>$(button.dataset.crClose).close()));
   root.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('close',()=>{if(previousFocus)previousFocus.focus();}));
-  $('crDiscussion').addEventListener('click',()=>openDialog('crDiscussionDialog'));
+  $('crDiscussion')?.addEventListener('click', () => {
+  $('crDiscussionDialog')?.showModal();
+});
   $('crConfirm').addEventListener('click',()=>{
     const item=activeCase(),state=current();
     if(state.phase!=='ready')return;
