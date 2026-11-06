@@ -42,3 +42,26 @@
     .glossary-search { width: 100%; }
     .glossary-table th, .glossary-table td { padding: var(--spacing-12); }
 }
+
+/* 詞彙逐列編輯；分頁沿用稽核日誌的共用樣式。 */
+.glossary-toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.glossary-toolbar > .btn { white-space: nowrap; }
+.glossary-table th, .glossary-table td { width: auto; }
+.glossary-table th:nth-child(1) { width: 46%; }
+.glossary-table th:nth-child(2) { width: 32%; }
+.glossary-table th:nth-child(3) { width: 22%; }
+.glossary-row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.glossary-dialog { width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 48px); overflow-y: auto; padding: 28px; border: 1px solid var(--color-border-default); border-radius: 16px; color: var(--color-text-primary); background: var(--color-surface-primary); box-shadow: 0 16px 64px #0003; }
+.glossary-dialog::backdrop { background: #16253d80; }
+.glossary-dialog h3 { font-size: 20px; margin: 0 0 24px; }
+.glossary-dialog label { display: block; margin-bottom: 8px; font-weight: 600; }
+.glossary-dialog input { margin-bottom: 20px; }
+.glossary-dialog-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+.glossary-error { color: #b42318; }
+.glossary-error:empty { display: none; }
+.glossary-delete-target { font-weight: 600; overflow-wrap: anywhere; }
+#glossaryPagination .admin-page-numbers { flex-wrap: wrap; }
+@media (max-width: 780px) {
+    .glossary-toolbar { align-items: stretch; }
+    .glossary-table { min-width: 580px; }
+}
