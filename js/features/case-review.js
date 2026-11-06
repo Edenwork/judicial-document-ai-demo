@@ -37,6 +37,16 @@
     const count=definitions.filter(f=>state.checks[f.key]).length;
     $('crProgress').textContent='已核對 '+count+' / '+definitions.length+' 個欄位';
     $('crReceiptSummary').textContent=state.values.receivedNo||'尚未填寫';
+    $('crListReceipt').textContent='收文文號：'+(state.values.receivedNo||'尚未填寫')+' · 虛構範例';
+    $('crCaseRow').dataset.search=('調查取證 臺請陸 大陸 福建 示範 '+state.values.receivedNo).toLowerCase();
+    $('crCaseRow').dataset.status=state.confirmed?'completed':'manual';
+    $('crListStatus').textContent=state.confirmed?'人工核對完成':'待人工核對';
+    $('crListStatus').className='badge-status '+(state.confirmed?'status-success':'status-warn');
+    $('crListApi').textContent=state.confirmed?'可供取用（示範）':'未開放取用';
+    $('crListApi').className='badge-status '+(state.confirmed?'status-success':'status-warn');
+    $('crListAction').textContent=state.confirmed?'查看資料':'核對資料';
+    if(state.savedAt)$('crListUpdated').textContent=state.savedAt;
+    $('caseFilter').dispatchEvent(new Event('input'));
     $('crStatus').textContent=state.confirmed?'資料已確認':'待核對';
     $('crStatus').classList.toggle('done',!!state.confirmed);
     $('crConfirmedBanner').hidden=!state.confirmed;
@@ -93,7 +103,7 @@
   $('crConfirmAction').addEventListener('click',()=>{
     state.confirmed=true;state.savedAt=new Date().toLocaleString('zh-TW',{hour12:false});dirty=true;
     if(persist())dirty=false;
-    $('crConfirmDialog').close();update();App.showToast('本版已記錄資料確認狀態，尚未傳送至案管系統。');
+    $('crConfirmDialog').close();update();App.showToast('人工核對完成，已標示可供案管取用；本版未串接正式 API。');
   });
   global.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
   render();
