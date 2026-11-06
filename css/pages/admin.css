@@ -181,7 +181,8 @@
     background: transparent;
     border: 0;
     border-radius: var(--radius-sm);
-    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);}
+    font-size: var(--font-size-md);    
+    font-weight: var(--font-weight-bold);}
 
 .admin-tab svg {
     width: 15px;
@@ -255,11 +256,12 @@
 
 .permission-rule-callout strong {
     margin-bottom: 3px;
-    font-size: var(--font-size-sm);}
+    font-size: var(--font-size-md);
+    } 
 
 .permission-rule-callout span {
     color: var(--color-text-secondary);
-    font-size: var(--font-size-xs);}
+    }
 
 .permission-layout {
     display: grid;
@@ -350,7 +352,9 @@
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-panel);
-    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);    white-space: nowrap;
+    font-size: var(--font-size-md);    
+    font-weight: var(--font-weight-bold);    
+    white-space: nowrap;
 }
 
 .organization-node:hover {
@@ -395,7 +399,7 @@
 
 .scope-selected span {
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-md);
 }
 
 .scope-group h4 {
@@ -434,12 +438,13 @@
     padding: var(--spacing-12) var(--spacing-14);    border-color: var(--color-border-subtle);
     text-align: center;
     vertical-align: middle;
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-md);
+}
 
 .permission-matrix thead th {
     color: var(--color-text-muted);
     background: var(--color-neutral-50);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-md);
 }
 
 .permission-matrix th:first-child {
