@@ -302,7 +302,7 @@ function reportHTML(report) {
   return '<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escapeReport(report.title) +
     '</title><style>body{max-width:960px;margin:32px auto;padding:0 18px;font:15px/1.6 system-ui;color:#17395f}h1{font-size:24px}h2{font-size:18px}table{border-collapse:collapse;width:100%;margin:12px 0}td{border:1px solid #cbd7df;padding:6px 10px}tr:first-child{background:#eef4f8}tr{break-inside:avoid}@page{margin:15mm}</style><h1>' +
     escapeReport(report.title) + '</h1>' + content + (report.landscape ?
-      '<style>@page{size:A4 landscape;margin:10mm}body{max-width:none;font-size:10px;margin:16px auto}h1{font-size:20px}h2{font-size:14px}td{padding:5px 4px;overflow-wrap:anywhere}table{table-layout:fixed}td:first-child{width:10%}</style>' : '') + '</html>';
+      '<style>@page{size:A4 landscape;margin:10mm}body{max-width:none;font-size:16px;margin:16px auto}h1{font-size:20px}h2{font-size:14px}td{padding:5px 4px;overflow-wrap:anywhere}table{table-layout:fixed}td:first-child{width:10%}</style>' : '') + '</html>';
 }
 // 使用 ZIP 的無壓縮格式封裝簡單 DOCX，不需下載第三方套件。
 function wordBlob(report) {
