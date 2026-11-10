@@ -258,7 +258,6 @@
     }
 
     function renderAccountTable() {
-      closeAccountMenu();
       const counts = [accounts.length, ...['啟用', '鎖定', '停用'].map(status => accounts.filter(a => a.status === status).length)];
       document.querySelectorAll('.account-metrics strong').forEach((node, i) => { node.textContent = counts[i]; });
       const filteredAccounts = getFilteredAccounts();
@@ -272,9 +271,7 @@
           getStatusClass(account.status) + '">' + escapeHtml(account.status) + '</span></td><td><div class="account-actions">' +
           '<button class="btn btn-sm btn-outline-secondary account-scope" data-org-id="' + account.orgId +
           '" type="button">查看權限</button><button class="icon-btn edit-account" type="button" aria-label="編輯 ' +
-          escapeHtml(account.name) + '"><i data-lucide="pencil"></i></button>' +
-          '<button class="icon-btn account-more" type="button" aria-label="更多操作：' + escapeHtml(account.name) +
-          '" aria-expanded="false" aria-controls="accountMoreMenu"><i data-lucide="ellipsis"></i></button></div></td></tr>';
+          escapeHtml(account.name) + '"><i data-lucide="pencil"></i></button></div></td></tr>';
       }).join("");
       App.renderIcons();
     }
@@ -427,8 +424,6 @@
     accountTableBody.addEventListener("click", function (event) {
       const scopeButton = event.target.closest(".account-scope");
       const editButton = event.target.closest(".edit-account");
-      const moreButton = event.target.closest(".account-more");
-      if (moreButton) openAccountMenu(moreButton);
       if (scopeButton) {
         activateAdminTab("permission-rules");
         selectOrganization(scopeButton.dataset.orgId);
@@ -481,63 +476,6 @@
       App.showToast('密碼變更流程示範完成，已加入示範日誌；未變更真實密碼。');
     });
 
-    const moreMenu = document.createElement('div');
-    moreMenu.id = 'accountMoreMenu';
-    moreMenu.className = 'account-more-menu';
-    moreMenu.setAttribute('popover', 'auto');
-    moreMenu.setAttribute('aria-label', '帳號更多操作');
-    moreMenu.innerHTML = '<button type="button" data-list-operation="logs">登入紀錄</button><button type="button" data-list-operation="reset">重設密碼</button><button type="button" data-list-operation="first">預覽首次登入（示範）</button>';
-    document.body.append(moreMenu);
-    let moreTrigger = null;
-    let moreAccount = null;
-    function closeAccountMenu() {
-      moreMenu.hidePopover();
-      moreTrigger?.setAttribute('aria-expanded', 'false');
-    }
-    function openAccountMenu(button) {
-      const alreadyOpen = button.getAttribute('aria-expanded') === 'true';
-      closeAccountMenu();
-      if (alreadyOpen) return;
-      moreTrigger = button;
-      moreAccount = accounts.find(a => a.id === button.closest('tr').dataset.accountId);
-      const rect = button.getBoundingClientRect();
-      moreMenu.showPopover();
-      const width = moreMenu.offsetWidth;
-      const height = moreMenu.offsetHeight;
-      moreMenu.style.left = Math.max(8, Math.min(rect.right - width, global.innerWidth - width - 8)) + 'px';
-      moreMenu.style.top = Math.max(8, rect.bottom + height + 8 > global.innerHeight ? rect.top - height - 6 : rect.bottom + 6) + 'px';
-      button.setAttribute('aria-expanded', 'true');
-      moreMenu.querySelector('button').focus();
-    }
-    moreMenu.addEventListener('toggle', event => {
-      if (event.newState === 'closed') moreTrigger?.setAttribute('aria-expanded', 'false');
-    });
-    moreMenu.addEventListener('keydown', event => {
-      if (event.key === 'Escape') { event.preventDefault(); closeAccountMenu(); moreTrigger?.focus(); }
-    });
-    global.addEventListener('resize', closeAccountMenu);
-    document.addEventListener('scroll', closeAccountMenu, true);
-    moreMenu.addEventListener('click', event => {
-      const action = event.target.closest('[data-list-operation]')?.dataset.listOperation;
-      if (!action || !moreAccount) return;
-      const account = moreAccount;
-      closeAccountMenu();
-      moreTrigger?.focus();
-      openAccountOperation(action, account);
-    });
-    function openAccountOperation(action, account) {
-        if (action === 'logs') {
-          const rows = account.lastLogin === '尚未登入' ? '' : `<tr><td>${escapeHtml(account.lastLogin)}</td><td>${account.lastLogin.includes('失敗') ? '失敗' : '成功'}</td><td>未提供</td></tr>`;
-          Security.modal('登入紀錄｜' + account.id, `<p class="subtle">示範紀錄，實際時間、登入／登出結果及 IP 由正式服務提供。</p><div class="table-responsive"><table class="table"><thead><tr><th>時間</th><th>結果</th><th>IP</th></tr></thead><tbody>${rows || '<tr><td colspan="3">尚無登入紀錄</td></tr>'}</tbody></table></div><div class="account-dialog-actions"><button class="btn btn-primary" type="button" data-cancel>關閉</button></div>`); return;
-        }
-        if (action === 'reset' || action === 'first') {
-          Security.password(action === 'reset' ? 'forgot' : 'first', account.id, () => {
-            recordAccount(action === 'reset' ? '密碼重設（流程示範）' : '首次登入變更密碼（流程示範）', account);
-            App.showToast('流程示範完成，已加入示範日誌；未變更真實密碼。');
-          }); return;
-        }
-
-    }
     function openAccount(account) {
       const existing = Boolean(account);
       const roles = ['司長', '科長', '股長', '承辦人', '系統管理員'];
@@ -564,6 +502,7 @@
         if (!account) return;
         d.querySelector('[data-status]').value = account.status;
         d.querySelector('[data-tools]').innerHTML = `
+          <button class="btn btn-outline-secondary" type="button" data-operation="reset">重設密碼</button>
           ${account.status === '停用' ? '<button class="btn btn-outline-primary" type="button" data-operation="啟用">啟用帳號</button>' : '<button class="btn btn-outline-danger" type="button" data-operation="停用">停用帳號</button>'}
           ${account.status === '啟用' ? '<button class="btn btn-outline-danger" type="button" data-operation="鎖定">鎖定帳號</button>' : account.status === '鎖定' ? '<button class="btn btn-outline-primary" type="button" data-operation="解鎖">解除鎖定</button>' : ''}`;
       }
@@ -587,6 +526,13 @@
       d.addEventListener('click', e => {
         const action = e.target.closest('[data-operation]')?.dataset.operation;
         if (!action) return;
+        if (action === 'reset') {
+          Security.password('forgot', account.id, () => {
+            recordAccount('密碼重設（流程示範）', account);
+            App.showToast('流程示範完成，已加入示範日誌；未變更真實密碼。');
+          });
+          return;
+        }
         const danger = action === '停用' || action === '鎖定';
         const message = action === '停用' ? '停用後，該使用者將無法登入系統。' : action === '鎖定' ? '鎖定後，該使用者將無法登入，需經解除鎖定。' : '確認後，該帳號將恢復啟用狀態。';
         const confirm = Security.modal('確認' + action + '帳號？', `<p>帳號：<strong>${escapeHtml(account.name)}（${escapeHtml(account.id)}）</strong></p><p class="${danger ? 'account-danger-note' : ''}">${message}</p><div class="account-dialog-actions"><button class="btn btn-outline-secondary" type="button" data-cancel autofocus>取消</button><button class="btn ${danger ? 'btn-danger' : 'btn-primary'}" type="button" data-confirm>確認${action}</button></div>`);
