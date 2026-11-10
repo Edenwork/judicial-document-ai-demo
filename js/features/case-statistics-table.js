@@ -88,12 +88,12 @@ function render() {
     el(id).hidden = !available.some(report => report.id === id);
   }
   el('demo-rows').innerHTML = (demo || []).map((values, i) =>
-    '<tr><td>' + demoNames[i] + '</td><td>件</td>' +
+    '<tr><td>' + demoNames[i] + '</td>' +
       values.map(n => '<td>' + n + '</td>').join('') + '</tr>'
   ).join('');
 }
 el('items').innerHTML = rows.map(([name, unit, out, incoming]) =>
-  '<tr><td><strong>' + name + '</strong></td><td>' + unit + '</td><td>' + out + '</td><td>' + incoming + '</td></tr>'
+  '<tr><td><strong>' + name + (name === '刑事犯、刑事嫌疑犯緝捕遣返' ? '（' + unit + '）' : '') + '</strong></td><td>' + out + '</td><td>' + incoming + '</td></tr>'
 ).join('');
 el('apply').addEventListener('click', () => {
   selectedMonth = draftMonth;
@@ -118,11 +118,11 @@ function reportData() {
   ];
   if (!el('business').hidden) {
     lines.push([], ['兩岸科 · 業務明細'],
-      ['協助事項', '單位', '我方請求', '陸方請求'], ...readRows('items'));
+      ['協助事項', '我方請求', '陸方請求'], ...readRows('items'));
   }
   if (!el('international').hidden) {
     lines.push([], ['國際科 · 業務明細'],
-      ['協助事項', '單位', '我方請求', '外方請求'], ...readRows('demo-rows'));
+      ['協助事項', '我方請求', '外方請求'], ...readRows('demo-rows'));
   }
   if (el('business').hidden && el('international').hidden) lines.push([], ['尚無資料']);
   return { title: ['案件統計', period, appliedUnit].join('-'), lines };
