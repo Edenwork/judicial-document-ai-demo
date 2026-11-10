@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/pages/case-statistics-table.css">
   <link rel="stylesheet" href="css/pages/case-review.css">
+  <link rel="stylesheet" href="css/components/account-dialogs.css">
 </head>
 
 <body>
@@ -45,7 +46,7 @@
           -->
           <button class="nav-item-btn" data-page="audit" type="button"><i data-lucide="scroll-text"></i><span>稽核日誌</span></button>
           <button class="nav-item-btn" data-page="glossary" type="button"><i data-lucide="book-open"></i><span>詞彙管理</span></button>
-          <button class="nav-item-btn" data-page="accounts" type="button"><i data-lucide="users-round"></i><span>帳號與權限</span></button>
+          <button class="nav-item-btn" data-page="accounts" type="button"><i data-lucide="users-round"></i><span>帳號管理</span></button>
         </nav>
       </div>
       <div class="side-footer">
@@ -847,12 +848,12 @@
         <section class="page" id="page-accounts" aria-labelledby="accountsHeading">
           <div class="page-heading">
             <div>
-              <h2 id="accountsHeading">帳號與權限</h2>
+              <h2 id="accountsHeading">帳號管理</h2>
               <p>管理使用者狀態、角色權限及依組織階層繼承的資料查看範圍。</p>
             </div>
             <button class="btn btn-primary" id="addAccount" type="button"><i data-lucide="user-plus"></i>新增帳號</button>
           </div>
-          <div class="panel admin-tabs" role="tablist" aria-label="帳號與權限管理">
+          <div class="panel admin-tabs" role="tablist" aria-label="帳號管理">
             <button class="admin-tab active" id="accountListTab" data-admin-tab="account-list" type="button"
               role="tab" aria-selected="true" aria-controls="admin-account-list"><i data-lucide="users"></i>帳號管理</button>
             <button class="admin-tab" id="permissionRulesTab" data-admin-tab="permission-rules" type="button"
@@ -861,6 +862,7 @@
           </div>
 
           <div class="admin-tab-panel active" id="admin-account-list" role="tabpanel" aria-labelledby="accountListTab">
+            <p class="subtle">互動展示：帳號異動僅保留於本次頁面；未串接真實登入驗證。密碼欄請勿輸入真實密碼。</p><button class="btn btn-outline-secondary mb-3" id="accountPolicy" type="button">帳密安全設定</button>
             <div class="admin-metrics account-metrics">
               <article class="panel admin-metric"><span class="admin-metric-icon admin-metric-icon--primary"><i
                     data-lucide="users"></i></span><div><strong>36</strong><span>全部帳號</span></div></article>
@@ -1105,6 +1107,7 @@
   <script src="js/features/search.js" defer></script>
   <script src="js/features/relations.js" defer></script>
   <script src="js/features/reports.js" defer></script>
+  <script src="js/features/account-security.js" defer></script>
   <script src="js/features/admin.js" defer></script>
   <script src="js/features/session.js" defer></script>
   <script src="js/features/glossary.js" defer></script>

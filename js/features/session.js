@@ -30,7 +30,7 @@
 
     document.getElementById("changePassword").addEventListener("click", function () {
       setMenuOpen(false);
-      App.showToast("變更密碼功能示例，正式版需重新驗證目前密碼。");
+      App.openPasswordChange();
     });
 
     logoutButton.addEventListener("click", function () {

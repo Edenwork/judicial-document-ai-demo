@@ -27,7 +27,7 @@
   });
 
   document.getElementById("forgotPassword").addEventListener("click", function () {
-    showMessage("正式版將要求雙因子驗證，確認身分後寄送一次性且具時效性的密碼重設連結。");
+    global.AccountSecurity.password("forgot", accountInput.value.trim(), () => showMessage("密碼重設流程示範完成；未變更真實密碼。"));
   });
 
   form.addEventListener("submit", function (event) {
