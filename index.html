@@ -580,6 +580,16 @@
 <div class="page-heading">
 <div><h2 id="monthly-table-heading">案件統計</h2>
 <p>依月份查閱文件解析資料彙整的各科相互請求數量。</p></div>
+<div class="d-flex align-items-center flex-wrap gap-2">
+  <label class="d-flex align-items-center gap-2" for="monthly-table-output-format">輸出格式
+    <select class="form-select form-select-sm w-auto" id="monthly-table-output-format">
+      <option value="web">網頁報告</option>
+      <option value="pdf">PDF</option>
+      <option value="word">Word</option>
+    </select>
+  </label>
+  <button class="btn btn-outline-secondary" id="monthly-table-export" type="button">輸出報告</button>
+</div>
 </div>
 <div class="panel filters monthly-table-filters">
 <div class="monthly-period-field">
