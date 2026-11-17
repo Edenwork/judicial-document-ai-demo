@@ -644,10 +644,10 @@
 </table>
 </div>
 </section>
-<section class="panel" id="monthly-table-business" hidden>
-<div class="panel-header">
+<details open class="panel dashboard-detail" id="monthly-table-business" hidden>
+<summary class="panel-header">
 <h3>兩岸科 · 業務明細</h3>
-</div>
+</summary>
 <div class="table-responsive">
 <table class="table data-table">
 <thead>
@@ -662,14 +662,14 @@
 </table>
 </div>
 <div class="panel-body subtle">請求欄包含邀請與主動提供。</div>
-</section>
-<section class="panel" id="monthly-table-international" hidden>
-  <div class="panel-header"><h3>國際科 · 業務明細</h3></div>
+</details>
+<details open class="panel dashboard-detail" id="monthly-table-international" hidden>
+  <summary class="panel-header"><h3>國際科 · 業務明細</h3></summary>
   <div class="table-responsive">
     <table class="table data-table"><thead><tr>
       <th>協助事項</th><th>我方請求</th><th>外方請求</th>    </tr></thead><tbody id="monthly-table-demo-rows"></tbody></table>
   </div>
-</section>
+</details>
 
 <section class="panel yearly-panel" id="monthly-table-yearly" hidden aria-labelledby="monthly-table-yearly-heading">
   <div class="panel-header">
@@ -679,6 +679,8 @@
       <button type="button" class="btn btn-outline-secondary" id="monthly-table-incoming" aria-pressed="false">陸方／外方請求</button>
     </div>
   </div>
+  <details open class="dashboard-detail">
+  <summary class="panel-header">年度資料明細</summary>
   <div class="table-responsive yearly-scroll" tabindex="0" role="region" aria-label="歷年請求統計表，可橫向捲動">
     <table class="table data-table yearly-table">
       <thead id="monthly-table-yearly-head"></thead>
@@ -691,6 +693,7 @@
     <p id="monthly-table-coverage" role="status"></p>
     <p>「—」表示無可用資料；合計僅含已提供的請求件數，未提供的項目不補零。</p>
   </div>
+</details>
 </section>
 
 </section>

@@ -102,6 +102,13 @@
     return '<div class="stats-scroll" tabindex="0" role="region" aria-label="' + title +
       '"><table><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>';
   }
+  // 共用既有月報資料。緝捕遣返的人數由件數統計排除。
+  window.JudicialApp.statisticsMonthlyData = {
+    international, deliveryRows,
+    crossStrait: items.filter((item, index) => index !== 1).map(([name, out, incoming]) =>
+      [name.replace('（案件）', ''), out[0], incoming[0], out[1] + incoming[1]])
+  };
+
   function renderOverview(host, unit, monthNumber, heading) {
     const demo = unit === '國際科' && international[monthNumber];
     const delivery = unit === '兩岸科' && deliveryRows[monthNumber];
@@ -156,16 +163,32 @@
     return true;
   }
 
-  function renderDashboard(host, { cards, trend, trendTitle, parts, mixTitle, mixNote, heading, periodLabel, tickSuffix }) {
+  function renderDashboard(host, { cards, trend, trendTitle, parts, mixTitle, mixNote, heading, periodLabel, tickSuffix, directionLabels = ['我方請求', '陸方／外方請求'] }) {
     const kpis = cards.map(([label, n, note]) => '<article class="panel stat-kpi"><span>' + label +
       '</span><strong>' + n + '</strong><small>' + note + '</small></article>').join('');
     const visibleMonths = trend;
-    const peak = Math.max(1, ...visibleMonths.map(([, n]) => n ?? 0));
-    const bars = visibleMonths.map(([, n]) => '<div class="stat-col">' + (n ?? '—') +
-      '<i style="height:' + n / peak * 78 + '%"></i></div>').join('');
+    const stacked = trend.some(row => row.length > 2);
+    const totalOf = row => row.slice(1).every(n => n == null) ? null :
+      row.slice(1).reduce((sum, n) => sum + (n ?? 0), 0);
+    const peak = Math.max(1, ...trend.map(row => totalOf(row) ?? 0));
+    const bars = trend.map(row => {
+      const total = totalOf(row);
+      const segments = row.slice(1).map((n, i) =>
+        '<i class="stat-series-' + i + '" style="height:' + (n ?? 0) / peak * 150 +
+        'px" title="' + directionLabels[i] + '：' + (n ?? '無資料') + '"></i>').join('');
+      return '<div class="stat-col"><span>' + (total ?? '—') + '</span>' +
+        '<div class="stat-stack">' + segments + '</div></div>';
+    }).join('');
     const ticks = visibleMonths.map(([m]) => '<span>' + m + tickSuffix + '</span>').join('');
+    const palette = ['#193b61', '#3188cd', '#58bab8', '#8b88c8', '#d4a45b', '#8095a5', '#b97a91', '#71926b', '#a88668'];
+    const colorNames = ['司法文書送達', '調查取證', '犯罪情資交換', '刑事犯、刑事嫌疑犯緝捕遣返',
+      '人身自由受限制通報', '其他（如陳情等）', '罪犯接返（受刑人移交）', '非病死及可疑非病死通報', '業務交流'];
+    const sorted = parts.filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]);
+    parts = sorted.length > 6 ? [...sorted.slice(0, 5),
+      ['其餘協助事項', sorted.slice(5).reduce((sum, [, n]) => sum + n, 0)]] : sorted;
     const sum = parts.reduce((s, [, n]) => s + n, 0);
-    const colors = ['var(--color-brand-800)', 'var(--color-brand-600)', 'var(--color-success-300)', 'var(--color-brand-300)'];
+    const colors = parts.map(([name], i) => name === '其餘協助事項' ? '#8095a5' :
+      palette[colorNames.indexOf(name) < 0 ? i % palette.length : colorNames.indexOf(name)]);
     let cumulative = 0;
     const stops = parts.map(([, n], i) => {
       const start = cumulative;
@@ -176,11 +199,12 @@
       '<b>' + n + ' 件 · ' + (100 * n / (sum || 1)).toFixed(1) + '%</b></div>').join('');
     host.insertAdjacentHTML('beforeend', (heading ? '<h3 class="stats-period">' + heading + '</h3>' : '') +
       '<div class="stat-kpis">' + kpis + '</div><div class="stat-grid">' +
-      '<article class="panel stat-panel"><h3>' + trendTitle + '</h3><p>' + periodLabel + ' · 單位：件</p><div class="stat-bars">' +
-      bars + '</div><div class="stat-ticks">' + ticks + '</div></article>' +
+      '<article class="panel stat-panel"><h3>' + trendTitle + '</h3><p>' + periodLabel + ' · 單位：件</p><div class="dashboard-trend-scroll"><div class="stat-bars">' +
+      bars + '</div><div class="stat-ticks">' + ticks + '</div>' +
+      (stacked ? '<div class="dashboard-legend"><span>● ' + directionLabels[0] + '</span><span>● ' + directionLabels[1] + '</span></div>' : '') + '</div></article>' +
       '<article class="panel stat-panel"><h3>' + mixTitle + '</h3><p>' + mixNote + '</p><div class="stat-mix">' +
-      '<div class="stat-ring" style="background:conic-gradient(' + stops.join(',') + ')"><strong>' + sum +
-      '<small>合計件數</small></strong></div><div class="stat-legend">' + legend + '</div></div></article></div>');
+      '<div class="stat-ring" style="background:conic-gradient(' + (stops.length ? stops.join(',') : '#e6edf3 0% 100%') + ')"><strong>' + sum +
+      '<small>請求件數合計</small></strong></div><div class="stat-legend">' + legend + '</div></div></article></div>');
     return true;
   }
 

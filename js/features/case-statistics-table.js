@@ -69,15 +69,15 @@ picker.addEventListener('keydown', event => {
 document.addEventListener('click', event => {
   if (!picker.contains(event.target)) picker.open = false;
 });
-// 年度預覽：兩岸科按使用者提供的歷年表轉錄「請求」欄，完成欄不納入。
+// 年度預覽：兩岸科按使用者提供的歷年表轉錄「請求」欄，完成欄另依原表有明確標示的欄位統計。
 // 原表緝捕遣返只有人數，無案件數；null 代表未提供，不視為 0。
 // 欄序：緝捕件數、緝捕人數、情資、文書、取證、移交、人身自由、非病死、其他、交流。
 const annualSource = {
   111: { out: [null,76,218,2832,120,1,230,9,42,0], incoming: [null,0,44,1302,258,0,184,135,9,0] },
   112: { out: [null,205,204,2480,97,5,297,14,31,0], incoming: [null,1,51,1381,197,0,549,114,1,2] },
   113: { out: [null,71,215,2265,89,6,134,7,72,2], incoming: [null,0,9,1486,205,0,59,26,1,2] },
-  114: { out: [null,143,229,2087,93,0,141,5,143,1], incoming: [null,3,21,1324,249,0,186,0,1,1] },
-  115: { out: [null,14,29,236,20,0,12,0,10,0], incoming: [null,0,4,208,39,0,39,0,1,0] }
+  114: { out: [null,143,229,2087,93,0,141,5,143,1], incoming: [null,3,21,1324,249,0,186,0,1,2] },
+  115: { out: [null,14,29,236,20,0,12,0,10,0], incoming: [null,0,4,208,39,0,39,0,0,0] }
 };
 const monthlyData = {
   '國際科': Object.fromEntries(Object.entries(demoMonths).map(([month, values]) =>
@@ -141,7 +141,7 @@ function coverageText() {
   if (selectedUnits().includes('兩岸科')) {
     const years = Object.keys(annualSource).map(Number).filter(year => year >= firstYear && year <= lastYear);
     notes.push(years.length ? '兩岸科：' + years.join('、') + ' 年歷年表資料，緝捕遣返僅提供人數，件數未提供。' : '兩岸科：所選期間尚無資料。');
-    if (years.includes(115)) notes.push('115 年為累計資料，截止月份未註明。');
+    if (years.includes(115)) notes.push('115 年為截至 2 月的累計資料。');
     notes.push('歷年原表的日期歸屬口徑待確認；正式案件統計以收件日期為準。');
   }
   if (selectedUnits().includes('國際科')) {
@@ -170,6 +170,117 @@ function renderAnnualTable() {
   }
   el('coverage').textContent = coverageText();
 }
+// PDF 第 002、003 頁明列的完成欄，依序為文書、取證、移交，雙向加總。
+// 未獨列完成欄的事項不推算完成數，緝捕遣返完成的人數另計。
+const annualCompletion = {
+  111: [2861,130,0,1465,271,0], 112: [3481,104,0,1320,190,0],
+  113: [3071,62,0,1461,170,0], 114: [2229,106,0,1368,239,0],
+  115: [325,28,0,150,48,0]
+};
+const monthSource = window.JudicialApp.statisticsMonthlyData;
+let overviewData = null;
+function annualCompleted(unit, year) {
+  if (unit === '兩岸科') return annualCompletion[year]?.reduce((sum, n) => sum + n, 0) ?? null;
+  return year === 115 ? Object.values(monthSource.international).flat()
+    .reduce((sum, row) => sum + row[1] + row[3], 0) : null;
+}
+function monthlySummary(period) {
+  const datasets = selectedUnits().map(unit => {
+    if (unit === '兩岸科') return period === '2026-02' ? monthSource.crossStrait : null;
+    const source = period.startsWith('2026-') && monthSource.international[Number(period.slice(5))];
+    return source ? source.map((row, i) => [demoNames[i] === '受刑人移交' ?
+      '罪犯接返（受刑人移交）' : demoNames[i], row[0], row[2], row[1] + row[3]]) : null;
+  }).filter(Boolean);
+  const entries = datasets.flat();
+  const grouped = new Map();
+  entries.forEach(([name, out, incoming]) => grouped.set(name, (grouped.get(name) ?? 0) + out + incoming));
+  return {
+    out: sumKnown(entries.map(row => row[1])), incoming: sumKnown(entries.map(row => row[2])),
+    completed: sumKnown(entries.map(row => row[3])), parts: [...grouped]
+  };
+}
+function drawOverview(period, out, incoming, completed, parts, trend, suffix) {
+  el('monthCards').hidden = true;
+  const cards = [
+    ['雙方相互請求', sumKnown([out, incoming]) ?? '—', '已提供請求件數合計'],
+    ['雙方合作完成', completed ?? '—', '已提供完成件數合計'],
+    ['我方請求', out ?? '—', '件'],
+    [incomingLabel(), incoming ?? '—', '件']
+  ];
+  overviewData = { cards, parts, trend, period };
+  window.JudicialApp.renderStatisticsDashboard(el('overview'), {
+    heading: period + ' · ' + appliedUnit, cards, trend,
+    trendTitle: appliedMode === 'year' ? '各年度請求趨勢' : '各月請求趨勢',
+    parts, mixTitle: '協助事項分布',
+    mixNote: '雙向請求件數 · 依件數排序', periodLabel: period, tickSuffix: suffix,
+    directionLabels: ['我方請求', incomingLabel()]
+  });
+  const note = document.createElement('p');
+  note.className = 'dashboard-data-note';
+  note.textContent = appliedMode === 'year' ? coverageText() +
+    ' 完成件數採原表明列的文書、取證與移交完成欄；其餘事項未提供獨立完成欄。' :
+    '兩岸科完整協助事項月報僅提供 115 年 2 月；國際科沿用 115 年 1–2 月示範資料。加總僅計入已提供件數，緝捕遣返人數另列。';
+  el('overview').append(note);
+}
+function overviewReport() {
+  if (!overviewData) return [];
+  return [
+    ['總覽指標'], ...overviewData.cards.map(([label, value]) => [label + '（件）', value]),
+    [], ['協助事項分布'], ['協助事項', '請求件數'],
+    ...overviewData.parts.filter(([, n]) => n > 0),
+    [], ['請求趨勢'], ['期間', '我方請求', incomingLabel()],
+    ...overviewData.trend.map(row => row.map(value => value ?? '—')),
+    [], ['統計說明', el('overview').querySelector('.dashboard-data-note').textContent],
+    ...documentReport()
+  ];
+}
+let documentDirection = 0;
+function documentRecords() {
+  if (!selectedUnits().includes('兩岸科')) return [];
+  return Object.entries(monthSource.deliveryRows).filter(([month]) => appliedMode === 'year'
+    ? firstYear <= 115 && lastYear >= 115
+    : selectedMonth.startsWith('2026-') && Number(month) <= Number(selectedMonth.slice(5)));
+}
+function documentReport() {
+  const records = documentRecords();
+  if (!records.length) return [];
+  return [[], ['兩岸科司法與行政文書辦理概況'],
+    ['月份', '類別', '新收件數', '結案件數', '函催件數'],
+    ...records.flatMap(([month, values]) => values.map((row, i) =>
+      ['115 年 ' + month + ' 月', ['我方請求陸方', '陸方請求我方', '海基會行政文書'][i], row[0], row[1], row[3]]))];
+}
+function appendDocumentSection() {
+  const records = documentRecords();
+  if (!records.length) return;
+  const section = document.createElement('section');
+  section.className = 'panel dashboard-documents';
+  section.innerHTML = '<div class="dashboard-section-head"><div><h3>司法文書辦理概況</h3><p>兩岸科 · 海基會月表 · 115 年 1–2 月已提供資料</p></div>' +
+    '<div class="stats-segment"><button type="button">我方請求陸方</button><button type="button">陸方請求我方</button></div></div>' +
+    '<div class="dashboard-document-chart"></div><div class="dashboard-document-summary"></div>' +
+    '<p class="dashboard-data-note">結案可包含前期收件；行政文書另列。函催欄「—」表示原表未提供數值。</p>';
+  function update() {
+    const values = records.map(([month, rows]) => [month, rows[documentDirection]]);
+    const peak = Math.max(1, ...values.flatMap(([, row]) => row.slice(0, 2)));
+    section.querySelectorAll('button').forEach((button, i) =>
+      button.setAttribute('aria-pressed', String(i === documentDirection)));
+    section.querySelector('.dashboard-document-chart').innerHTML =
+      '<div class="dashboard-legend"><span>● 新收</span><span>● 結案</span></div><div class="dashboard-pairs">' +
+      values.map(([month, row]) => '<div><div class="dashboard-pair">' + row.slice(0, 2).map((n, i) =>
+        '<div><b>' + n + '</b><i class="stat-series-' + i + '" style="height:' + n / peak * 150 + 'px"></i></div>').join('') +
+        '</div><span>115 年 ' + month + ' 月</span></div>').join('') + '</div>';
+    const reminders = sumKnown(values.map(([, row]) => typeof row[3] === 'number' ? row[3] : null));
+    section.querySelector('.dashboard-document-summary').innerHTML =
+      '<span>司法文書函催 <b>' + (reminders ?? '—') + ' 件</b></span>' +
+      '<span>海基會行政文書新收 <b>' + records.reduce((sum, [, rows]) => sum + rows[2][0], 0) + ' 件</b></span>' +
+      '<span>海基會行政文書結案 <b>' + records.reduce((sum, [, rows]) => sum + rows[2][1], 0) + ' 件</b></span>';
+  }
+  section.querySelectorAll('button').forEach((button, i) => button.addEventListener('click', () => {
+    documentDirection = i; update();
+  }));
+  update();
+  el('overview').append(section);
+}
+
 function renderAnnual() {
   el('business').hidden = true;
   el('international').hidden = true;
@@ -182,24 +293,13 @@ function renderAnnual() {
   const incoming = annualRows(1);
   const outTotal = sumKnown(outgoing.map(record => record.total));
   const inTotal = sumKnown(incoming.map(record => record.total));
-  const documentIndex = yearlyColumns.findIndex(column => column.name === '司法文書送達');
-  const documents = sumKnown([...outgoing, ...incoming].map(record => record.values[documentIndex]));
-  el('monthCards').hidden = true;
-  window.JudicialApp.renderStatisticsDashboard(el('overview'), {
-    heading: annualPeriod() + ' · ' + appliedUnit,
-    cards: [
-      ['雙方相互請求', sumKnown([outTotal, inTotal]) ?? '—', '期間已知件數合計'],
-      ['我方請求', outTotal ?? '—', '期間已知件數合計'],
-      [incomingLabel(), inTotal ?? '—', '期間已知件數合計'],
-      ['司法文書送達請求', documents ?? '—', '雙向請求合計']
-    ],
-    trend: outgoing.map((record, index) => [record.year, sumKnown([record.total, incoming[index].total])]),
-    trendTitle: '各年度雙方請求件數',
-    parts: [['我方請求', outTotal ?? 0], [incomingLabel(), inTotal ?? 0]],
-    mixTitle: '請求方向分布',
-    mixNote: outTotal == null && inTotal == null ? '所選期間尚無資料' : '依所選科別與期間已知件數計算',
-    periodLabel: annualPeriod(), tickSuffix: ' 年'
-  });
+  const completed = sumKnown(selectedUnits().flatMap(unit =>
+    outgoing.map(({ year }) => annualCompleted(unit, year))));
+  const parts = yearlyColumns.flatMap((column, index) => column.measure === '人' ? [] :
+    [[column.name, sumKnown([...outgoing, ...incoming].map(record => record.values[index])) ?? 0]]);
+  drawOverview(annualPeriod(), outTotal, inTotal, completed, parts,
+    outgoing.map((record, index) => [record.year, record.total, incoming[index].total]), ' 年');
+  appendDocumentSection();
   renderAnnualTable();
 }
 function updateModeFields() {
@@ -247,12 +347,14 @@ function render() {
   ).join('');
   const selected = reports.filter(report => unit === '全部科別' || report.name === unit);
   const available = selected.filter(report => report.requests != null);
-  if (year === 2026) {
-    window.JudicialApp.renderMonthlyStatisticsOverview(
-      overview, unit, month, (year - 1911) + ' 年 ' + month + ' 月 · ' + unit
-    );
-  }
-  el('monthCards').hidden = overview.hasChildNodes();
+  const monthly = monthlySummary(selectedMonth);
+  const trend = Array.from({ length: month }, (_, i) => {
+    const summary = monthlySummary(year + '-' + String(i + 1).padStart(2, '0'));
+    return [i + 1, summary.out, summary.incoming];
+  });
+  drawOverview((year - 1911) + ' 年 ' + month + ' 月', monthly.out, monthly.incoming,
+    monthly.completed, monthly.parts, trend, ' 月');
+  appendDocumentSection();
   const note = available.length ? available.map(report => report.name).join('、') + '合計（件）' : '尚無資料';
   el('monthCards').innerHTML = card(['相互請求', available.length
     ? available.reduce((sum, report) => sum + report.requests, 0) : '—', note]);
@@ -290,6 +392,7 @@ function card([title,value,note]){return '<div class="panel metric-card"><span c
 function reportData() {
   if (appliedMode === 'year') {
     const lines = [
+      ...overviewReport(),
       ['統計期間', annualPeriod()], ['科別', appliedUnit],
       ['統計基準', '正式統計依收件日期；本次歷年預覽沿用提供的年度表，日期口徑待確認'],
       ['資料範圍', coverageText()]
@@ -309,6 +412,7 @@ function reportData() {
   const readRows = id => Array.from(el(id).rows,
     row => Array.from(row.cells, cell => cell.textContent.trim()));
   const lines = [
+    ...overviewReport(),
     ['統計月份', period],
     ['科別', appliedUnit],
     ['雙方相互請求（件）', el('monthCards').querySelector('.metric-value').textContent],
