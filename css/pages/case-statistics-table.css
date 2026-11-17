@@ -126,3 +126,30 @@
     flex: 1 1 100%;
   }
 }
+
+#page-reports-table [hidden] { display: none !important; }
+#page-reports-table .yearly-range {
+  display: flex;
+  align-items: end;
+  gap: var(--spacing-8);
+}
+#page-reports-table .yearly-range input { width: 9rem; }
+#page-reports-table .yearly-range-separator { padding-bottom: 10px; }
+#page-reports-table .yearly-directions { display: flex; gap: var(--spacing-8); flex-wrap: wrap; }
+#page-reports-table .yearly-query-note { color: var(--color-text-muted); font-size: 14px; margin: 0 0 16px; }
+#page-reports-table .yearly-table { min-width: 1220px; }
+#page-reports-table .yearly-table th { white-space: normal; vertical-align: middle; min-width: 86px; max-width: 145px; }
+#page-reports-table .yearly-table th:first-child { min-width: 180px; }
+#page-reports-table .yearly-table thead th { background: var(--color-brand-50); }
+#page-reports-table .yearly-table th:first-child {
+  position: sticky; left: 0; z-index: 1; background: var(--color-surface-primary);
+}
+#page-reports-table .yearly-table tfoot th,
+#page-reports-table .yearly-table tfoot td { font-weight: 700; background: var(--color-brand-50); }
+#page-reports-table .yearly-notes { color: var(--color-text-muted); font-size: 13px; }
+#page-reports-table .yearly-notes p { margin: 0 0 6px; }
+@media (max-width: 800px) {
+  #page-reports-table .yearly-range { width: 100%; }
+  #page-reports-table .yearly-range label { flex: 1 1 0; }
+  #page-reports-table .yearly-range input { width: 100%; }
+}
