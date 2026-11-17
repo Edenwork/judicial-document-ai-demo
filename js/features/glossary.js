@@ -45,7 +45,7 @@
       status.textContent = "無法讀取已儲存的詞彙，暫時顯示預設資料。";
     }
     const note = page.querySelector(":scope > p.subtle");
-    if (note && note !== status) note.textContent = "目前為示範詞庫，修改僅儲存於此瀏覽器，不會同步至其他使用者。";
+    if (note && note !== status) note.textContent = " ";
     const toolbar = document.createElement("div");
     toolbar.className = "glossary-toolbar";
     input.closest(".glossary-search").before(toolbar);
@@ -75,6 +75,10 @@
     dialog.setAttribute("aria-labelledby", "glossaryDialogTitle");
     dialog.innerHTML = `<form id="glossaryForm">
       <h3 id="glossaryDialogTitle">新增詞彙</h3>
+      <div id="glossaryEditChoice" class="mb-3" hidden>
+        <label for="glossaryEditAlias">選擇要編輯的短名稱</label>
+        <select class="form-select" id="glossaryEditAlias"></select>
+      </div>
       <label for="glossaryLongName">術語（長名稱） <span aria-hidden="true">*</span></label>
       <input class="form-control" id="glossaryLongName" required maxlength="200" autocomplete="off">
       <label for="glossaryShortName">術語（短名稱） <span aria-hidden="true">*</span></label>
@@ -86,11 +90,22 @@
     const deletion = document.createElement("dialog");
     deletion.className = "glossary-dialog";
     deletion.setAttribute("aria-labelledby", "glossaryDeleteTitle");
-    deletion.innerHTML = `<h3 id="glossaryDeleteTitle">刪除詞彙</h3><p>確定要刪除以下對照嗎？此操作無法復原。</p><p class="glossary-delete-target"></p><p class="glossary-error" role="alert"></p><div class="glossary-dialog-actions"><button type="button" class="btn btn-outline-secondary" data-cancel autofocus>取消</button><button type="button" class="btn btn-danger" data-confirm>確認刪除</button></div>`;
+    deletion.innerHTML = `<h3 id="glossaryDeleteTitle">刪除詞彙</h3>
+      <div id="glossaryDeleteChoice" class="mb-3" hidden>
+        <label for="glossaryDeleteAlias">選擇要刪除的短名稱</label>
+        <select class="form-select" id="glossaryDeleteAlias"></select>
+      </div>
+      <p>確定要刪除以下對照嗎？此操作無法復原。</p><p class="glossary-delete-target"></p><p class="glossary-error" role="alert"></p><div class="glossary-dialog-actions"><button type="button" class="btn btn-outline-secondary" data-cancel autofocus>取消</button><button type="button" class="btn btn-danger" data-confirm>確認刪除</button></div>`;
     page.append(dialog, deletion);
     const form = dialog.querySelector("form");
     const longInput = dialog.querySelector("#glossaryLongName");
     const shortInput = dialog.querySelector("#glossaryShortName");
+    const editChoice = dialog.querySelector("#glossaryEditChoice");
+    const editAlias = dialog.querySelector("#glossaryEditAlias");
+    const deleteChoice = deletion.querySelector("#glossaryDeleteChoice");
+    const deleteAlias = deletion.querySelector("#glossaryDeleteAlias");
+    const deleteTarget = deletion.querySelector(".glossary-delete-target");
+    const deleteError = deletion.querySelector(".glossary-error");
     const error = dialog.querySelector("#glossaryError");
     function persist(next, errorElement) {
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); }
@@ -98,32 +113,73 @@
       rows = next;
       return true;
     }
-    function openEditor(index) {
-      editingIndex = index;
+    function loadSelectedAlias() {
+      editingIndex = Number(editAlias.value);
+      const term = rows[editingIndex];
+      longInput.value = term.longName;
+      shortInput.value = term.shortName;
+      error.textContent = "";
+    }
+    editAlias.addEventListener("change", loadSelectedAlias);
+
+    function openEditor(aliases) {
       form.reset();
       error.textContent = "";
-      dialog.querySelector("h3").textContent = index === null ? "新增詞彙" : "編輯詞彙";
-      if (index !== null) { longInput.value = rows[index].longName; shortInput.value = rows[index].shortName; }
+      editingIndex = null;
+      editChoice.hidden = aliases === null;
+      dialog.querySelector("h3").textContent = aliases === null ? "新增詞彙" : "編輯詞彙";
+      editAlias.replaceChildren();
+      if (aliases !== null) {
+        editAlias.append(...aliases.map(({ shortName, index }) => new Option(shortName, index)));
+        loadSelectedAlias();
+      }
       dialog.showModal();
-      longInput.focus();
+      (aliases?.length > 1 ? editAlias : longInput).focus();
     }
+    function updateDeleteTarget() {
+      deletingIndex = Number(deleteAlias.value);
+      const term = rows[deletingIndex];
+      deleteTarget.textContent = term.longName + "／" + term.shortName;
+      deleteError.textContent = "";
+    }
+    deleteAlias.addEventListener("change", updateDeleteTarget);
+
+    function openDeletion(aliases) {
+      deleteChoice.hidden = aliases.length === 1;
+      deleteAlias.replaceChildren(...aliases.map(({ shortName, index }) => new Option(shortName, index)));
+      updateDeleteTarget();
+      deletion.showModal();
+    }
+
     function render() {
       const query = normalize(input.value);
-      const matches = rows.map((term, index) => ({ term, index })).filter(({ term }) =>
-        [term.longName, term.shortName].some(name => normalize(name).includes(query)));
+      const groups = new Map();
+      rows.forEach((term, index) => {
+        const key = normalize(term.longName);
+        if (!groups.has(key)) groups.set(key, { longName: term.longName, aliases: [] });
+        groups.get(key).aliases.push({ shortName: term.shortName, index });
+      });
+      const matches = [...groups.values()].filter(({ longName, aliases }) =>
+        normalize(longName).includes(query) ||
+        aliases.some(({ shortName }) => normalize(shortName).includes(query)));
       const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
       currentPage = Math.min(currentPage, totalPages);
       const start = (currentPage - 1) * PAGE_SIZE;
       body.replaceChildren();
-      matches.slice(start, start + PAGE_SIZE).forEach(({ term, index }) => {
+      matches.slice(start, start + PAGE_SIZE).forEach(({ longName, aliases }) => {
         const row = document.createElement("tr");
         const nameCell = document.createElement("td");
-        nameCell.textContent = term.longName;
+        nameCell.textContent = longName;
         const shortCell = document.createElement("td");
-        const badge = document.createElement("span");
-        badge.className = "glossary-alias";
-        badge.textContent = term.shortName;
-        shortCell.append(badge);
+        const badges = document.createElement("div");
+        badges.className = "glossary-aliases";
+        aliases.forEach(({ shortName }) => {
+          const badge = document.createElement("span");
+          badge.className = "glossary-alias";
+          badge.textContent = shortName;
+          badges.append(badge);
+        });
+        shortCell.append(badges);
         const actions = document.createElement("td");
         const group = document.createElement("div");
         group.className = "glossary-row-actions";
@@ -132,13 +188,10 @@
           button.type = "button";
           button.className = "btn btn-sm " + (action ? "btn-outline-danger" : "btn-outline-secondary");
           button.textContent = label;
-          button.setAttribute("aria-label", label + "：" + term.longName + "／" + term.shortName);
+          button.setAttribute("aria-label", label + "：" + longName);
           button.addEventListener("click", () => {
-            if (!action) return openEditor(index);
-            deletingIndex = index;
-            deletion.querySelector(".glossary-delete-target").textContent = term.longName + "／" + term.shortName;
-            deletion.querySelector(".glossary-error").textContent = "";
-            deletion.showModal();
+            if (action) openDeletion(aliases);
+            else openEditor(aliases);
           });
           group.append(button);
         });
@@ -146,7 +199,7 @@
         row.append(nameCell, shortCell, actions);
         body.append(row);
       });
-      count.textContent = query ? "顯示 " + matches.length + " / " + rows.length + " 筆" : "共 " + rows.length + " 筆";
+      count.textContent = query ? "顯示 " + matches.length + " / " + groups.size + " 筆" : "共 " + groups.size + " 筆";
       empty.hidden = matches.length !== 0;
       empty.textContent = rows.length ? "找不到符合的詞彙，請嘗試其他關鍵字。" : "尚無詞彙，請點選「新增詞彙」。";
       pagination.querySelector(".admin-pagination-summary").textContent = matches.length ? `第 ${start + 1}–${Math.min(start + PAGE_SIZE, matches.length)} 筆，共 ${matches.length} 筆` : "共 0 筆";
@@ -184,7 +237,7 @@
       status.textContent = editingIndex === null ? "已新增詞彙。" : "已儲存詞彙修改。";
     });
     deletion.querySelector("[data-confirm]").addEventListener("click", () => {
-      if (!persist(rows.filter((_, index) => index !== deletingIndex), deletion.querySelector(".glossary-error"))) return;
+      if (!persist(rows.filter((_, index) => index !== deletingIndex), deleteError)) return;
       deletion.close();
       render();
       status.textContent = "已刪除詞彙。";
