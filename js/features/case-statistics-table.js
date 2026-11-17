@@ -21,7 +21,9 @@ const demoMonths = {
 const demoNames = ['司法文書送達', '調查取證', '犯罪情資交換', '受刑人移交'];
 let selectedMonth = '2026-02';
 let draftMonth = selectedMonth;
-let appliedUnit = el('unit').value;
+const unitButtons = [...el('unit').querySelectorAll('button')];
+let draftUnit = unitButtons.find(button => button.getAttribute('aria-pressed') === 'true').dataset.unit;
+let appliedUnit = draftUnit;
 const picker = document.getElementById('monthly-period-picker');
 const options = picker.querySelector('.monthly-months');
 const trigger = picker.querySelector('summary');
@@ -176,6 +178,28 @@ function renderAnnual() {
     total: sumKnown([0, 1].flatMap(d => annualRows(d, [unit]).map(record => record.total))) }));
   el('agencies').innerHTML = reports.map(report => '<tr><td>' + report.name + '</td><td>' + (report.total ?? '—') + '</td></tr>').join('');
   el('monthCards').innerHTML = card(['期間相互請求', sumKnown(reports.map(report => report.total)) ?? '—', '已提供資料合計（件）']);
+  const outgoing = annualRows(0);
+  const incoming = annualRows(1);
+  const outTotal = sumKnown(outgoing.map(record => record.total));
+  const inTotal = sumKnown(incoming.map(record => record.total));
+  const documentIndex = yearlyColumns.findIndex(column => column.name === '司法文書送達');
+  const documents = sumKnown([...outgoing, ...incoming].map(record => record.values[documentIndex]));
+  el('monthCards').hidden = true;
+  window.JudicialApp.renderStatisticsDashboard(el('overview'), {
+    heading: annualPeriod() + ' · ' + appliedUnit,
+    cards: [
+      ['雙方相互請求', sumKnown([outTotal, inTotal]) ?? '—', '期間已知件數合計'],
+      ['我方請求', outTotal ?? '—', '期間已知件數合計'],
+      [incomingLabel(), inTotal ?? '—', '期間已知件數合計'],
+      ['司法文書送達請求', documents ?? '—', '雙向請求合計']
+    ],
+    trend: outgoing.map((record, index) => [record.year, sumKnown([record.total, incoming[index].total])]),
+    trendTitle: '各年度雙方請求件數',
+    parts: [['我方請求', outTotal ?? 0], [incomingLabel(), inTotal ?? 0]],
+    mixTitle: '請求方向分布',
+    mixNote: outTotal == null && inTotal == null ? '所選期間尚無資料' : '依所選科別與期間已知件數計算',
+    periodLabel: annualPeriod(), tickSuffix: ' 年'
+  });
   renderAnnualTable();
 }
 function updateModeFields() {
@@ -185,7 +209,12 @@ function updateModeFields() {
   picker.open = false;
 }
 el('mode').addEventListener('change', updateModeFields);
-for (const id of ['mode', 'unit', 'year-start', 'year-end']) {
+unitButtons.forEach(button => button.addEventListener('click', () => {
+  draftUnit = button.dataset.unit;
+  unitButtons.forEach(choice => choice.setAttribute('aria-pressed', String(choice === button)));
+  el('query-note').hidden = false;
+}));
+for (const id of ['mode', 'year-start', 'year-end']) {
   el(id).addEventListener('input', () => { el('query-note').hidden = false; });
   el(id).addEventListener('change', () => { el('query-note').hidden = false; });
 }
@@ -197,6 +226,9 @@ el('year-end').addEventListener('input', () => el('year-end').setCustomValidity(
 updateModeFields();
 
 function render() {
+  const overview = el('overview');
+  overview.replaceChildren();
+  el('monthCards').hidden = false;
   el('yearly').hidden = appliedMode !== 'year';
   if (appliedMode === 'year') { renderAnnual(); return; }
 
@@ -209,11 +241,18 @@ function render() {
     { name: '兩岸科', id: 'business', requests: selectedMonth === '2026-02'
       ? rows.reduce((total, [, measure, out, incoming]) => total + (measure === '件' ? out + incoming : 0), 0) : null },
     { name: '國際科', id: 'international', requests: demoTotal }
-  ].filter(report => unit === '全部科別' || report.name === unit);
+  ];
   el('agencies').innerHTML = reports.map(({ name, requests }) =>
     `<tr><td>${name}</td><td>${requests ?? '—'}</td></tr>`
   ).join('');
-  const available = reports.filter(report => report.requests != null);
+  const selected = reports.filter(report => unit === '全部科別' || report.name === unit);
+  const available = selected.filter(report => report.requests != null);
+  if (year === 2026) {
+    window.JudicialApp.renderMonthlyStatisticsOverview(
+      overview, unit, month, (year - 1911) + ' 年 ' + month + ' 月 · ' + unit
+    );
+  }
+  el('monthCards').hidden = overview.hasChildNodes();
   const note = available.length ? available.map(report => report.name).join('、') + '合計（件）' : '尚無資料';
   el('monthCards').innerHTML = card(['相互請求', available.length
     ? available.reduce((sum, report) => sum + report.requests, 0) : '—', note]);
@@ -241,7 +280,7 @@ el('apply').addEventListener('click', () => {
   appliedMode = el('mode').value;
   el('query-note').hidden = true;
   selectedMonth = draftMonth;
-  appliedUnit = el('unit').value;
+  appliedUnit = draftUnit;
   picker.open = false;
   render();
 });

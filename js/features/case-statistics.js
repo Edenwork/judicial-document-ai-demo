@@ -29,8 +29,8 @@
     1: [[20, 15, 18, 14], [12, 8, 9, 6], [6, 4, 5, 3], [2, 1, 1, 1]],
     2: [[24, 19, 17, 13], [14, 10, 11, 8], [8, 6, 6, 5], [3, 2, 2, 1]]
   };
-  function demoTotals() {
-    return international[month.value].reduce(([requests, completed], [out, outDone, incoming, inDone]) =>
+  function demoTotals(monthNumber = month.value) {
+    return international[monthNumber].reduce(([requests, completed], [out, outDone, incoming, inDone]) =>
       [requests + out + incoming, completed + outDone + inDone], [0, 0]);
   }
   const summaryLabels = ['雙方相互請求', '雙方合作完成'];
@@ -102,16 +102,33 @@
     return '<div class="stats-scroll" tabindex="0" role="region" aria-label="' + title +
       '"><table><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>';
   }
-  function renderOverview() {
-    const host = get('cards');
-    const demo = unit === '國際科' && international[month.value];
-    const delivery = unit === '兩岸科' && deliveryRows[month.value];
-    host.hidden = !demo && !delivery;
-    if (host.hidden) { host.innerHTML = ''; return; }
+  function renderOverview(host, unit, monthNumber, heading) {
+    const demo = unit === '國際科' && international[monthNumber];
+    const delivery = unit === '兩岸科' && deliveryRows[monthNumber];
+    const all = unit === '全部科別' || unit === '全部';
+    if (!demo && !delivery && !(all && deliveryRows[monthNumber] && international[monthNumber])) return false;
 
     let cards, trend, trendTitle, parts, mixTitle, mixNote;
-    if (demo) {
-      const [requests, completed] = demoTotals();
+    if (all) {
+      const [outgoing, incoming, admin] = deliveryRows[monthNumber];
+      const [requests, completed] = demoTotals(monthNumber);
+      const internationalDelivery = international[monthNumber][0];
+      cards = [
+        [summaryLabels[0], Number(monthNumber) === reportMonth ? totals[0] + requests : '—', '全部科別合計'],
+        [summaryLabels[1], Number(monthNumber) === reportMonth ? totals[1] + completed : '—', '全部科別合計'],
+        ['司法文書新收', outgoing[0] + incoming[0] + internationalDelivery[0] + internationalDelivery[2], '全部科別雙向送達合計'],
+        ['司法文書結案', outgoing[1] + incoming[1] + internationalDelivery[1] + internationalDelivery[3], '全部科別雙向送達合計']
+      ];
+      trendTitle = '各月司法文書新收件數';
+      trend = Object.entries(deliveryRows).map(([m, values]) =>
+        [m, values[0][0] + values[1][0] + international[m][0][0] + international[m][0][2]]);
+      mixTitle = '文書新收件數分布';
+      mixNote = '全部科別合計 · 國際科沿用示範資料';
+      parts = [['司法 · 我方請求', outgoing[0] + internationalDelivery[0]],
+        ['司法 · 陸方／外方請求', incoming[0] + internationalDelivery[2]],
+        ['行政 · 海基會協處', admin[0]]];
+    } else if (demo) {
+      const [requests, completed] = demoTotals(monthNumber);
       const outgoing = demo.reduce((sum, row) => sum + row[0], 0);
       cards = [[summaryLabels[0], requests, '雙向合計'], [summaryLabels[1], completed, '雙向合計'],
         ['我方提出', outgoing, '各協助事項合計'], ['外方提出', requests - outgoing, '各協助事項合計']];
@@ -122,7 +139,7 @@
       parts = demo.map((r, i) => [demoTypes[i], r[0] + r[2]]);
     } else {
       const [outgoing, incoming, admin] = delivery;
-      cards = hasReport()
+      cards = Number(monthNumber) === reportMonth
         ? [[summaryLabels[0], totals[0], '兩岸協助總表'], [summaryLabels[1], totals[1], '兩岸協助總表'],
           ['司法文書新收', outgoing[0] + incoming[0], '雙向送達合計'], ['司法文書結案', outgoing[1] + incoming[1], '雙向送達合計']]
         : [['司法文書新收', outgoing[0] + incoming[0], '雙向送達合計'], ['司法文書結案', outgoing[1] + incoming[1], '雙向送達合計'],
@@ -133,30 +150,42 @@
       mixNote = '司法與行政文書 · 海基會月表';
       parts = [['司法 · 我方請求', outgoing[0]], ['司法 · 陸方請求', incoming[0]], ['行政 · 海基會協處', admin[0]]];
     }
+    renderDashboard(host, { cards, trend: trend.filter(([m]) => Number(m) <= Number(monthNumber)),
+      trendTitle, parts, mixTitle, mixNote, heading,
+      periodLabel: '截至 115 年 ' + monthNumber + ' 月', tickSuffix: ' 月' });
+    return true;
+  }
+
+  function renderDashboard(host, { cards, trend, trendTitle, parts, mixTitle, mixNote, heading, periodLabel, tickSuffix }) {
     const kpis = cards.map(([label, n, note]) => '<article class="panel stat-kpi"><span>' + label +
       '</span><strong>' + n + '</strong><small>' + note + '</small></article>').join('');
-    const visibleMonths = trend.filter(([m]) => Number(m) <= Number(month.value));
-    const peak = Math.max(...visibleMonths.map(([, n]) => n));
-    const bars = visibleMonths.map(([, n]) => '<div class="stat-col">' + n +
+    const visibleMonths = trend;
+    const peak = Math.max(1, ...visibleMonths.map(([, n]) => n ?? 0));
+    const bars = visibleMonths.map(([, n]) => '<div class="stat-col">' + (n ?? '—') +
       '<i style="height:' + n / peak * 78 + '%"></i></div>').join('');
-    const ticks = visibleMonths.map(([m]) => '<span>' + m + ' 月</span>').join('');
+    const ticks = visibleMonths.map(([m]) => '<span>' + m + tickSuffix + '</span>').join('');
     const sum = parts.reduce((s, [, n]) => s + n, 0);
     const colors = ['var(--color-brand-800)', 'var(--color-brand-600)', 'var(--color-success-300)', 'var(--color-brand-300)'];
     let cumulative = 0;
     const stops = parts.map(([, n], i) => {
       const start = cumulative;
       cumulative += n;
-      return colors[i] + ' ' + start / sum * 100 + '% ' + cumulative / sum * 100 + '%';
+      return colors[i] + ' ' + start / (sum || 1) * 100 + '% ' + cumulative / (sum || 1) * 100 + '%';
     });
     const legend = parts.map(([label, n], i) => '<div><i style="background:' + colors[i] + '"></i>' + label +
-      '<b>' + n + ' 件 · ' + (100 * n / sum).toFixed(1) + '%</b></div>').join('');
-    host.innerHTML = '<div class="stat-kpis">' + kpis + '</div><div class="stat-grid">' +
-      '<article class="panel stat-panel"><h3>' + trendTitle + '</h3><p>截至 ' + period() + ' · 單位：件</p><div class="stat-bars">' +
+      '<b>' + n + ' 件 · ' + (100 * n / (sum || 1)).toFixed(1) + '%</b></div>').join('');
+    host.insertAdjacentHTML('beforeend', (heading ? '<h3 class="stats-period">' + heading + '</h3>' : '') +
+      '<div class="stat-kpis">' + kpis + '</div><div class="stat-grid">' +
+      '<article class="panel stat-panel"><h3>' + trendTitle + '</h3><p>' + periodLabel + ' · 單位：件</p><div class="stat-bars">' +
       bars + '</div><div class="stat-ticks">' + ticks + '</div></article>' +
       '<article class="panel stat-panel"><h3>' + mixTitle + '</h3><p>' + mixNote + '</p><div class="stat-mix">' +
       '<div class="stat-ring" style="background:conic-gradient(' + stops.join(',') + ')"><strong>' + sum +
-      '<small>合計件數</small></strong></div><div class="stat-legend">' + legend + '</div></div></article></div>';
+      '<small>合計件數</small></strong></div><div class="stat-legend">' + legend + '</div></div></article></div>');
+    return true;
   }
+
+  window.JudicialApp.renderMonthlyStatisticsOverview = renderOverview;
+  window.JudicialApp.renderStatisticsDashboard = renderDashboard;
 
   function render() {
     const detail = unit === '兩岸科' && hasReport();
@@ -170,7 +199,9 @@
     selectButtons(get('directions'), direction === 0 ? '我方提出' : partnerLabel);
     get('directions').hidden = !(detail || demo);
     get('history').hidden = !detail;
-    renderOverview();
+    const overview = get('cards');
+    overview.replaceChildren();
+    overview.hidden = !renderOverview(overview, unit, month.value);
     get('title').textContent = unit === '全部' ? '各科月報比較' : '協助事項明細';
     const delivery = unit === '兩岸科' && deliveryRows[month.value];
     get('export').disabled = !(delivery || demo || (unit === '全部' && (deliveryRows[month.value] || international[month.value])));

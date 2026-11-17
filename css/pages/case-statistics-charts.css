@@ -1,10 +1,10 @@
-#page-reports-charts {--stat-ink:var(--color-brand-800);--stat-line:var(--color-border-default)}
-#page-reports-charts h3{font-weight:700;font-size:1rem;margin:0}
+#page-reports-charts, #monthly-table-overview {--stat-ink:var(--color-brand-800);--stat-line:var(--color-border-default)}
+#page-reports-charts h3, #monthly-table-overview .stat-panel h3{font-weight:700;font-size:1rem;margin:0}
 .stat-filters{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:14px 20px}
 .stat-filters label{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--color-text-secondary)}
 .stat-filters select{max-width:100%;color:var(--stat-ink);background:white;border:1px solid var(--color-border-strong);border-radius:7px;padding:6px 8px}
 .stat-summary{display:flex;align-items:center;justify-content:space-between;margin:24px 0 12px}
-#page-reports-charts small,.stat-panel>p,.stat-notes p{color:var(--color-text-muted);font-size:.8rem}
+#page-reports-charts small,.stat-panel>p,.stat-kpi small,.stat-notes p{color:var(--color-text-muted);font-size:.8rem}
 .stat-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .stat-kpi,.stat-panel{padding:18px 20px}
 .stat-kpi:first-child{background:var(--color-brand-800);color:white}

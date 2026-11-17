@@ -611,15 +611,18 @@
     </div>
   </details>
 </div>
-<label>科別<select class="form-select" id="monthly-table-unit">
-<option>全部科別</option>
-<option>兩岸科</option>
-<option>國際科</option>
-</select>
-</label>
+<div>
+<span class="stats-label" id="monthly-table-unit-label">科別</span>
+<div class="stats-segment" id="monthly-table-unit" role="group" aria-labelledby="monthly-table-unit-label">
+<button type="button" data-unit="全部科別" aria-pressed="false">全部</button>
+<button type="button" data-unit="兩岸科" aria-pressed="true">兩岸科</button>
+<button type="button" data-unit="國際科" aria-pressed="false">國際科</button>
+</div>
+</div>
 <button class="btn btn-primary align-self-end" type="button" id="monthly-table-apply">查詢</button>
 </div>
 <p id="monthly-table-query-note" class="yearly-query-note" role="status" hidden>條件已變更，請按「查詢」更新結果。</p>
+<div id="monthly-table-overview"></div>
 <div id="monthly-table-monthCards" class="metrics">
 </div>
 <section class="panel">
@@ -1155,8 +1158,8 @@
   <script src="js/features/case-review.js" defer></script>
   <script src="js/bootstrap.js" defer></script>
   <script src="js/features/case-statistics-charts.js" defer></script>
-  <script src="js/features/case-statistics-table.js" defer></script>
   <script src="js/features/case-statistics.js" defer></script>
+  <script src="js/features/case-statistics-table.js" defer></script>
 </body>
 
 </html>
