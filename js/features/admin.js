@@ -100,6 +100,29 @@
 
   auditLogs.push.apply(auditLogs, additionalAuditLogs);
 
+  // Prototype event payloads; production values must be supplied by the audit API.
+  const auditTypes = ['資料查詢', 'AI 生成', '文件下載', '人工覆核', '欄位修正', '關聯判定', '錯誤處理', '登入驗證', '帳號管理', '其他操作'];
+  const samples = [
+    ['資料查詢', '搜尋司法互助案件', {'功能':'智慧搜尋','查詢內容與篩選條件':'司法文書送達；兩岸科；115 年 2 月','可視範圍':'使用者所屬單位','結果筆數':'12'}],
+    ['AI 生成', '產生文件摘要', {'模型版本':'示範模型 v1.0','提示語版本':'summary-v2','輸入來源':'司法互助請求書，第 1–3 頁','輸出內容':'請求協助送達司法文書，並回覆送達結果。','引用來源':'司法互助請求書，第 2 頁'}],
+    ['文件下載', '匯出人工修正紀錄', {'對象文件':'司法互助請求書','匯出內容':'欄位名稱、修正前值、修正後值及修正原因'}],
+    ['人工覆核', '完成建檔', {'對象文件或案件':'司法互助請求書','版本':'v3','原因':'承辦人已核對原始文件，確認內容無誤'}],
+    ['欄位修正', '修改收文日期', {'欄位名稱':'收文日期','修改前值':'2026-08-18','修改後值':'2026-08-19'}],
+    ['關聯判定', '判定關聯成立', {'關聯':'ML-2026-0817-08 ↔ ML-2026-0819-02','判定依據':'相同案件編號與當事人，後件為補充資料'}],
+    ['錯誤處理', '轉為需人工處理', {'對象文件':'司法互助請求書附件','失敗階段':'OCR 文字辨識','原因':'掃描頁面模糊，無法辨識必要欄位'}]
+  ];
+  samples.forEach((entry, i) => auditLogs.push({date:'2026-08-20', time:'16:0' + i + ':00', user:'王小明', unit:'國際科／亞洲股', module:entry[0], type:entry[0], action:entry[1], target:'ML-2026-0820-01 司法互助請求書', result:'成功', details:entry[2], demo:true}));
+  function prepareAudit(log) {
+    if (!log.eventId) {
+      log.eventId = 'EVT-DEMO-' + String(++prepareAudit.sequence).padStart(4, '0');
+      log.traceId = 'TRACE-DEMO-' + String(prepareAudit.sequence).padStart(4, '0');
+    }
+    if (!log.type) log.type = log.module === '帳號管理' || log.module === '登入驗證' ? log.module : /失敗/.test(log.action) ? '錯誤處理' : /修正|修改|欄位/.test(log.action) ? '欄位修正' : /查詢|搜尋/.test(log.action) ? '資料查詢' : /下載|匯出/.test(log.action) ? '文件下載' : log.module === 'AI 覆核' ? '人工覆核' : '其他操作';
+    return log;
+  }
+  prepareAudit.sequence = 0;
+  auditLogs.forEach(prepareAudit);
+
   const accounts = [
     { id: "huang.jg", name: "黃建國", unit: "國兩司", orgId: "directorate", role: "司長", lastLogin: "今日 14:06", status: "啟用" },
     { id: "chen.ks", name: "陳國勝", unit: "國際科", orgId: "international", role: "科長", lastLogin: "今日 13:28", status: "啟用" },
@@ -218,8 +241,61 @@
     let selectedOrganizationId = "asia";
     let currentAuditPage = 1;
 
+    const auditPage = byId('page-audit');
+    const exportButton = byId('exportAuditLog');
+    const toolbar = document.createElement('div');
+    toolbar.className = 'audit-heading-actions';
+    exportButton.before(toolbar);
+    toolbar.innerHTML = `<form id="auditSearchForm" class="audit-search-form" role="search"><input id="auditKeyword" class="form-control" type="search" aria-label="搜尋稽核日誌" placeholder="搜尋使用者、對象或追蹤識別碼"><button class="btn btn-outline-secondary" type="submit" aria-label="搜尋"><i data-lucide="search"></i></button></form>`;
+    toolbar.append(exportButton);
+    const filters = document.createElement('form');
+    filters.className = 'audit-filters';
+    filters.innerHTML = `<label>開始日期<input class="form-control" id="auditStart" type="date"></label><label>結束日期<input class="form-control" id="auditEnd" type="date"></label><label>事件類型<select class="form-select" id="auditType"><option value="">全部事件</option>${auditTypes.map(t => '<option>' + t + '</option>').join('')}</select></label><label>結果<select class="form-select" id="auditOutcome"><option value="">全部結果</option><option>成功</option><option>失敗</option></select></label><button class="btn btn-outline-secondary" type="button" id="auditClear">清除篩選</button><span id="auditFilterError" role="alert"></span>`;
+    auditPage.querySelector('.audit-list-panel .panel-header').after(filters);
+    const heads = auditPage.querySelectorAll('thead th');
+    heads[1].textContent = '使用者／單位'; heads[2].textContent = '事件類型／操作'; heads[5].textContent = '詳情';
+    const drawer = document.createElement('dialog');
+    drawer.className = 'audit-drawer';
+    drawer.setAttribute('aria-labelledby', 'auditDetailTitle');
+    drawer.innerHTML = '<header><div><span class="subtle">事件紀錄</span><h3 id="auditDetailTitle">稽核詳情</h3></div><button class="btn btn-outline-secondary" type="button" data-close aria-label="關閉詳情">關閉</button></header><div id="auditDetailContent"></div>';
+    document.body.append(drawer);
+    drawer.querySelector('[data-close]').onclick = () => drawer.close();
+    drawer.addEventListener('click', e => { if (e.target === drawer && e.clientX < drawer.getBoundingClientRect().left) drawer.close(); });
+    let appliedKeyword = '';
+    function filteredAudit() {
+      const start = byId('auditStart').value, end = byId('auditEnd').value;
+      const invalid = start && end && start > end;
+      byId('auditFilterError').textContent = invalid ? '結束日期不可早於開始日期' : '';
+      exportButton.disabled = Boolean(invalid);
+      return auditLogs.map(prepareAudit).filter(log => !invalid && (!start || log.date >= start) && (!end || log.date <= end) && (!byId('auditType').value || log.type === byId('auditType').value) && (!byId('auditOutcome').value || log.result === byId('auditOutcome').value) && [log.user, log.unit, log.target, log.eventId, log.traceId, log.type, log.action].join(' ').toLowerCase().includes(appliedKeyword)).sort((a,b) => (b.date + b.time).localeCompare(a.date + a.time));
+    }
+    function refreshAudit() { currentAuditPage = 1; renderAuditTable(); }
+    byId('auditSearchForm').addEventListener('submit', e => { e.preventDefault(); appliedKeyword = byId('auditKeyword').value.trim().toLowerCase(); refreshAudit(); });
+    byId('auditKeyword').addEventListener('input', e => { if (!e.target.value) { appliedKeyword = ''; refreshAudit(); } });
+    filters.addEventListener('submit', e => e.preventDefault());
+    filters.addEventListener('change', refreshAudit);
+    byId('auditClear').onclick = () => { filters.reset(); byId('auditKeyword').value = ''; appliedKeyword = ''; refreshAudit(); };
+    auditTableBody.addEventListener('click', e => {
+      const button = e.target.closest('[data-audit-detail]');
+      if (!button) return;
+      const log = auditLogs.find(l => l.eventId === button.dataset.auditDetail);
+      const row = (label, value) => '<div class="audit-detail-field"><dt>' + escapeHtml(label) + '</dt><dd>' + escapeHtml(String(value ?? '未記錄')) + '</dd></div>';
+      const copyRow = (label, value) => '<div class="audit-detail-field"><dt>' + label + '</dt><dd><code>' + escapeHtml(value) + '</code><button type="button" class="btn btn-sm btn-outline-secondary" data-copy="' + escapeHtml(value) + '">複製</button></dd></div>';
+      let detail = Object.entries(log.details || {}).filter(([key]) => !['修改前值','修改後值'].includes(key)).map(([key,value]) => row(key,value)).join('');
+      if (log.details && '修改前值' in log.details) detail += '<div class="audit-diff"><div><span>修改前</span><p>' + escapeHtml(log.details['修改前值']) + '</p></div><div><span>修改後</span><p>' + escapeHtml(log.details['修改後值']) + '</p></div></div>';
+      byId('auditDetailContent').innerHTML = '<p class="audit-demo-note">目前為原型示範紀錄；識別碼與事件內容用於展示。</p><dl>' + row('時間', log.date + ' ' + log.time) + row('使用者／單位', log.user + '／' + log.unit) + row('事件類型', log.type) + row('操作', log.action) + row('對象', log.target) + row('結果', log.result) + copyRow('事件識別碼',log.eventId) + copyRow('追蹤識別碼',log.traceId) + '</dl><h4>事件內容</h4><dl>' + (detail || '<p class="subtle">此筆既有示範紀錄未記錄詳細內容。</p>') + '</dl>';
+      drawer.showModal();
+    });
+    drawer.addEventListener('click', async e => {
+      const button = e.target.closest('[data-copy]'); if (!button) return;
+      try { await navigator.clipboard.writeText(button.dataset.copy); button.textContent = '已複製'; }
+      catch { App.showToast('無法自動複製，請選取識別碼後複製。'); }
+    });
+
     function renderAuditTable() {
-      const logs = auditLogs;
+      const logs = filteredAudit();
+      const counts = [logs.length, logs.filter(l => l.result === '失敗').length, logs.filter(l => l.type === '帳號管理').length, logs.filter(l => l.type === 'AI 生成').length];
+      auditPage.querySelectorAll('.admin-metric strong').forEach((el,i) => el.textContent = counts[i]);
       const totalPages = Math.max(1, Math.ceil(logs.length / AUDIT_PAGE_SIZE));
       currentAuditPage = Math.min(Math.max(currentAuditPage, 1), totalPages);
       const startIndex = (currentAuditPage - 1) * AUDIT_PAGE_SIZE;
@@ -230,12 +306,12 @@
         return "<tr>" +
           "<td>" + escapeHtml(log.time) + '<span class="doc-sub">' + escapeHtml(log.date.replaceAll("-", "/")) + "</span></td>" +
           '<td><div class="audit-user"><strong>' + escapeHtml(log.user) + "</strong><span>" + escapeHtml(log.unit) + "</span></div></td>" +
-          '<td><span class="audit-action">' + escapeHtml(log.action) + '</span><span class="audit-module">' + escapeHtml(log.module) + "</span></td>" +
+          '<td><span class="audit-action">' + escapeHtml(log.action) + '</span><span class="audit-module">' + escapeHtml(log.type) + "</span></td>" +
           "<td>" + escapeHtml(log.target) + "</td>" +
           '<td><span class="badge-status ' + getStatusClass(log.result) + '">' + escapeHtml(log.result) + "</span></td>" +
-          "</tr>";
+          '<td><button type="button" class="btn btn-sm btn-outline-secondary audit-detail-button" data-audit-detail="' + escapeHtml(log.eventId) + '">查看詳情</button></td></tr>';
       }).join("");
-      auditPageSummary.textContent = "第 " + (startIndex + 1) + "–" + (startIndex + pageLogs.length) + " 筆，共 " + logs.length + " 筆";
+      auditPageSummary.textContent = "第 " + (logs.length ? startIndex + 1 : 0) + "–" + (startIndex + pageLogs.length) + " 筆，共 " + logs.length + " 筆";
       auditPrevPage.disabled = currentAuditPage === 1;
       auditNextPage.disabled = currentAuditPage === totalPages;
       auditPageNumbers.innerHTML = Array.from({ length: totalPages }, function (_, index) {
@@ -443,7 +519,13 @@
       openAccount(null);
     });
     document.getElementById("exportAuditLog").addEventListener("click", function () {
-      App.showToast("稽核紀錄匯出工作已建立。");
+      const logs = filteredAudit();
+      if (!logs.length) { App.showToast('目前沒有可匯出的紀錄。'); return; }
+      const cell = value => '"' + String(value ?? '').replace(/^[=+@-]/, "'$&").replaceAll('"', '""') + '"';
+      const rows = [['時間','使用者','單位','事件類型','操作','對象','結果','事件識別碼','追蹤識別碼','事件內容'], ...logs.map(l => [l.date + ' ' + l.time,l.user,l.unit,l.type,l.action,l.target,l.result,l.eventId,l.traceId,JSON.stringify(l.details || {})])];
+      const url = URL.createObjectURL(new Blob(['\ufeff' + rows.map(r => r.map(cell).join(',')).join('\r\n')], {type:'text/csv;charset=utf-8'}));
+      const a = document.createElement('a'); a.href = url; a.download = 'audit-log.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+      App.showToast('已匯出 ' + logs.length + ' 筆稽核紀錄。');
     });
     auditPrevPage.addEventListener("click", function () {
       currentAuditPage -= 1;

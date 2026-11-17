@@ -504,3 +504,57 @@
         justify-content: space-between;
     }
 }
+
+/* Audit search, event filters and detail drawer */
+#page-audit .page-heading { flex-wrap: wrap; gap: 16px; }
+.audit-heading-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-left: auto; }
+.audit-search-form { display: flex; width: 350px; max-width: 100%; }
+.audit-search-form input { border-radius: 8px 0 0 8px; min-width: 0; }
+.audit-search-form button { border-radius: 0 8px 8px 0; }
+.audit-filters { display: flex; align-items: end; gap: 12px; flex-wrap: wrap; padding: 18px 20px; border-bottom: 1px solid #e1e7ee; background: #fafbfd; }
+.audit-filters label { display: grid; gap: 6px; font-size: 12px; color: #5c6e82; min-width: 150px; }
+#auditFilterError { color: #b4233b; font-size: 13px; }
+.audit-detail-button { white-space: nowrap; }
+.audit-drawer { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(560px, 100vw); max-width: 100vw; height: 100dvh; max-height: 100dvh; border: 0; padding: 0; background: white; color: #203247; box-shadow: -12px 0 48px #14283e26; }
+.audit-drawer::backdrop { background: #15283d66; }
+.audit-drawer header { display: flex; justify-content: space-between; align-items: center; padding: 22px 28px; border-bottom: 1px solid #e1e7ee; position: sticky; top: 0; background: white; }
+.audit-drawer h3 { font-size: 22px; margin: 4px 0 0; }
+#auditDetailContent { padding: 24px 28px; }
+.audit-demo-note { background: #f1f5f9; border-radius: 8px; padding: 12px; color: #62758b; font-size: 12px; }
+.audit-detail-field { padding: 12px 0; border-bottom: 1px solid #edf0f4; }
+.audit-detail-field dt { font-size: 12px; color: #6a7c90; margin-bottom: 6px; font-weight: 500; }
+.audit-detail-field dd { margin: 0; font-size: 14px; overflow-wrap: anywhere; white-space: pre-wrap; }
+.audit-detail-field dd button { margin-left: 12px; }
+.audit-drawer h4 { font-size: 16px; margin-top: 26px; }
+.audit-diff { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.audit-diff > div { background: #f5f7fa; padding: 16px; border-radius: 8px; overflow-wrap: anywhere; }
+.audit-diff > div + div { background: #edf7f5; }
+.audit-diff span { font-size: 12px; color: #64748b; }
+.audit-diff p { margin: 8px 0 0; }
+@media(max-width: 700px) { .audit-heading-actions { width: 100%; margin: 0; } .audit-search-form { width: 100%; } .audit-filters label { flex: 1 1 140px; } }
+
+/* Match the case overview card layout, retaining the audit labels and icons. */
+#page-audit .admin-metrics { gap: var(--spacing-14); margin-bottom: 18px; }
+#page-audit .admin-metric {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--spacing-14);
+    min-height: 140px;
+    padding: var(--metric-card-padding);
+}
+#page-audit .admin-metric-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+}
+#page-audit .admin-metric-icon svg { width: 17px; height: 17px; }
+#page-audit .admin-metric strong {
+    font-size: 1.6875rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+}
+#page-audit .admin-metric div > span { margin-top: 7px; }
