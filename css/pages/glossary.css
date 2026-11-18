@@ -47,10 +47,55 @@
 .glossary-toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .glossary-toolbar > .btn { white-space: nowrap; }
 .glossary-table th, .glossary-table td { width: auto; }
-.glossary-table th:nth-child(1) { width: 46%; }
-.glossary-table th:nth-child(2) { width: 32%; }
-.glossary-table th:nth-child(3) { width: 22%; }
-.glossary-row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.glossary-table { min-width: 920px; }
+.glossary-table th:nth-child(1) { width: 28%; }
+.glossary-table th:nth-child(2) { width: 22%; }
+.glossary-table th:nth-child(3) { width: 28%; }
+.glossary-table th:nth-child(4) { width: 22%; }
+.glossary-row-actions { display: flex; gap: 8px; flex-wrap: nowrap; }
+.glossary-row-actions > button { flex-shrink: 0; white-space: nowrap; }
+.glossary-remarks {
+    display: block;
+    width: 100%;
+    height: var(--control-height-md);
+    min-height: var(--control-height-md);
+    padding: var(--spacing-6) var(--spacing-10);
+    resize: none;
+    overflow-y: auto;
+    font-size: var(--font-size-md);
+    line-height: 1.5;
+}
+.glossary-save-remarks {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--control-height-md);
+}
+.glossary-save-remarks svg { width: var(--icon-size-sm); height: var(--icon-size-sm); margin: 0; }
+.glossary-save-remarks.is-saved,
+.glossary-save-remarks.is-saved:disabled {
+    color: var(--color-success-700);
+    background: var(--color-success-100);
+    border-color: var(--color-success-700);
+    opacity: 1;
+    animation: glossary-save-pop .3s ease-out;
+}
+.glossary-save-remarks.is-saved path {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 0;
+    animation: glossary-save-check .35s ease-out;
+}
+@keyframes glossary-save-pop {
+    50% { transform: scale(1.12); }
+}
+@keyframes glossary-save-check {
+    from { stroke-dashoffset: 24; }
+    to { stroke-dashoffset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .glossary-save-remarks.is-saved,
+    .glossary-save-remarks.is-saved path { animation: none; }
+}
 .glossary-dialog { width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 48px); overflow-y: auto; padding: 28px; border: 1px solid var(--color-border-default); border-radius: 16px; color: var(--color-text-primary); background: var(--color-surface-primary); box-shadow: 0 16px 64px #0003; }
 .glossary-dialog::backdrop { background: #16253d80; }
 .glossary-dialog h3 { font-size: 20px; margin: 0 0 24px; }
@@ -63,5 +108,5 @@
 #glossaryPagination .admin-page-numbers { flex-wrap: wrap; }
 @media (max-width: 780px) {
     .glossary-toolbar { align-items: stretch; }
-    .glossary-table { min-width: 580px; }
+    .glossary-table { min-width: 920px; }
 }

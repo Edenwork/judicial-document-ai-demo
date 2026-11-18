@@ -25,7 +25,8 @@
     const empty = document.getElementById("glossaryEmpty");
     if (!page || !input || !body || !count || !empty || page.dataset.crudReady) return;
     page.dataset.crudReady = "true";
-    let rows = terms.flatMap(term => term.shortNames.map(shortName => ({ longName: term.longName, shortName })));
+    let rows = terms.flatMap(term => term.shortNames.map(shortName => ({ longName: term.longName, shortName, remarks: "" })));
+    const remarkDrafts = new Map();
     let currentPage = 1;
     let editingIndex = null;
     let deletingIndex = null;
@@ -39,7 +40,7 @@
       if (saved !== null) {
         const parsed = JSON.parse(saved);
         if (!Array.isArray(parsed) || !parsed.every(row => row && typeof row.longName === "string" && row.longName.trim() && typeof row.shortName === "string" && row.shortName.trim())) throw new Error("invalid data");
-        rows = parsed;
+        rows = parsed.map(row => ({ ...row, remarks: typeof row.remarks === "string" ? row.remarks : "" }));
       }
     } catch (_) {
       status.textContent = "無法讀取已儲存的詞彙，暫時顯示預設資料。";
@@ -58,7 +59,10 @@
     const heading = document.createElement("th");
     heading.scope = "col";
     heading.textContent = "操作";
-    body.closest("table").querySelector("thead tr").append(heading);
+    const remarksHeading = document.createElement("th");
+    remarksHeading.scope = "col";
+    remarksHeading.textContent = "備註";
+    body.closest("table").querySelector("thead tr").append(remarksHeading, heading);
     const pagination = document.createElement("nav");
     pagination.id = "glossaryPagination";
     pagination.className = "admin-pagination";
@@ -180,6 +184,16 @@
           badges.append(badge);
         });
         shortCell.append(badges);
+        const remarksCell = document.createElement("td");
+        const remarksInput = document.createElement("textarea");
+        const remarkKey = normalize(longName);
+        remarksInput.className = "form-control glossary-remarks";
+        remarksInput.rows = 1;
+        remarksInput.placeholder = "輸入備註";
+        remarksInput.setAttribute("aria-label", "備註：" + longName);
+        remarksInput.value = remarkDrafts.has(remarkKey) ? remarkDrafts.get(remarkKey) : rows[aliases[0].index].remarks;
+        remarksInput.addEventListener("input", () => remarkDrafts.set(remarkKey, remarksInput.value));
+        remarksCell.append(remarksInput);
         const actions = document.createElement("td");
         const group = document.createElement("div");
         group.className = "glossary-row-actions";
@@ -195,8 +209,32 @@
           });
           group.append(button);
         });
+        const save = document.createElement("button");
+        save.type = "button";
+        save.className = "btn btn-sm btn-outline-secondary glossary-save-remarks";
+        save.title = "儲存備註";
+        save.setAttribute("aria-label", "儲存備註：" + longName);
+        save.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
+        save.addEventListener("click", () => {
+          const indexes = new Set(aliases.map(alias => alias.index));
+          const next = rows.map((term, index) => indexes.has(index) ? { ...term, remarks: remarksInput.value } : term);
+          if (!persist(next, status)) return;
+          remarkDrafts.delete(remarkKey);
+          status.textContent = "已儲存「" + longName + "」的備註。";
+          save.classList.add("is-saved");
+          save.disabled = true;
+          save.title = "已儲存";
+          save.setAttribute("aria-label", "備註已儲存：" + longName);
+          global.setTimeout(() => {
+            save.classList.remove("is-saved");
+            save.disabled = false;
+            save.title = "儲存備註";
+            save.setAttribute("aria-label", "儲存備註：" + longName);
+          }, 800);
+        });
+        group.append(save);
         actions.append(group);
-        row.append(nameCell, shortCell, actions);
+        row.append(nameCell, shortCell, remarksCell, actions);
         body.append(row);
       });
       count.textContent = query ? "顯示 " + matches.length + " / " + groups.size + " 筆" : "共 " + groups.size + " 筆";
@@ -223,7 +261,9 @@
     [dialog, deletion].forEach(modal => modal.querySelector("[data-cancel]").addEventListener("click", () => modal.close()));
     form.addEventListener("submit", event => {
       event.preventDefault();
-      const term = { longName: longInput.value.trim(), shortName: shortInput.value.trim() };
+      const term = { ...(editingIndex === null ? {} : rows[editingIndex]), longName: longInput.value.trim(), shortName: shortInput.value.trim() };
+      const existingGroup = rows.find(row => normalize(row.longName) === normalize(term.longName));
+      term.remarks = existingGroup ? existingGroup.remarks : (term.remarks || "");
       if (!term.longName || !term.shortName) { error.textContent = "請填寫長名稱及短名稱，不能只有空白。"; return; }
       if (rows.some((row, index) => index !== editingIndex && normalize(row.longName) === normalize(term.longName) && normalize(row.shortName) === normalize(term.shortName))) {
         error.textContent = "此長名稱與短名稱的對照已存在。"; return;
