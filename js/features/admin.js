@@ -513,7 +513,7 @@
     toolbar.append(exportButton);
     const filters = document.createElement('form');
     filters.className = 'audit-filters';
-    filters.innerHTML = `<label>開始日期<input class="form-control" id="auditStart" type="date"></label><label>結束日期<input class="form-control" id="auditEnd" type="date"></label><label>事件類型<select class="form-select" id="auditType"><option value="">全部事件</option>${auditTypes.map(t => '<option>' + t + '</option>').join('')}</select></label><label>結果<select class="form-select" id="auditOutcome"><option value="">全部結果</option><option>成功</option><option>失敗</option></select></label><button class="btn btn-outline-secondary" type="button" id="auditClear">清除篩選</button><span id="auditFilterError" role="alert"></span><button class="btn btn-primary" type="submit" id="auditApply" style="margin-left:auto">確認</button>`;
+    filters.innerHTML = `<label>開始日期<input class="form-control" id="auditStart" type="date"></label><label>結束日期<input class="form-control" id="auditEnd" type="date"></label><label>事件類型<select class="form-select" id="auditType"><option value="">全部事件</option>${auditTypes.map(t => '<option>' + t + '</option>').join('')}</select></label><label>結果<select class="form-select" id="auditOutcome"><option value="">全部結果</option><option>成功</option><option>失敗</option></select></label><span id="auditFilterError" role="alert"></span><button class="btn btn-primary" type="submit" id="auditApply" style="margin-left:auto">確認</button>`;
     auditPage.querySelector('.audit-list-panel .panel-header').after(filters);
     const heads = auditPage.querySelectorAll('thead th');
     heads[1].textContent = '使用者／單位'; heads[2].textContent = '事件類型／操作'; heads[5].textContent = '詳情';
@@ -546,7 +546,6 @@
       appliedKeyword = byId('auditKeyword').value.trim().toLowerCase();
       refreshAudit();
     });
-    byId('auditClear').onclick = () => { filters.reset(); byId('auditKeyword').value = ''; byId('auditFilterError').textContent = ''; };
     auditTableBody.addEventListener('click', e => {
       const button = e.target.closest('[data-audit-detail]');
       if (!button) return;
