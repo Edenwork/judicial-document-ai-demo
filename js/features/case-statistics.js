@@ -102,11 +102,10 @@
     return '<div class="stats-scroll" tabindex="0" role="region" aria-label="' + title +
       '"><table><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>';
   }
-  // 共用既有月報資料。緝捕遣返的人數由件數統計排除。
   window.JudicialApp.statisticsMonthlyData = {
-    international, deliveryRows,
-    crossStrait: items.filter((item, index) => index !== 1).map(([name, out, incoming]) =>
-      [name.replace('（案件）', ''), out[0], incoming[0], out[1] + incoming[1]])
+    executionRows: items,
+    executionTotals: totals,
+    deliveryRows
   };
 
   function renderOverview(host, unit, monthNumber, heading) {
@@ -163,9 +162,9 @@
     return true;
   }
 
-  function renderDashboard(host, { cards, trend, trendTitle, parts, mixTitle, mixNote, heading, periodLabel, tickSuffix, directionLabels = ['我方請求', '陸方／外方請求'] }) {
+  function renderDashboard(host, { cards, trend, trendTitle, parts, mixTitle, mixNote, heading, periodLabel, tickSuffix, directionLabels = ['我方請求', '陸方／外方請求'], countUnit = '件', countLabel = '請求件數合計' }) {
     const kpis = cards.map(([label, n, note]) => '<article class="panel stat-kpi"><span>' + label +
-      '</span><strong>' + n + '</strong><small>' + note + '</small></article>').join('');
+      '</span><strong>' + n + '</strong>' + (note ? '<small>' + note + '</small>' : '') + '</article>').join('');
     const visibleMonths = trend;
     const stacked = trend.some(row => row.length > 2);
     const totalOf = row => row.slice(1).every(n => n == null) ? null :
@@ -196,15 +195,15 @@
       return colors[i] + ' ' + start / (sum || 1) * 100 + '% ' + cumulative / (sum || 1) * 100 + '%';
     });
     const legend = parts.map(([label, n], i) => '<div><i style="background:' + colors[i] + '"></i>' + label +
-      '<b>' + n + ' 件 · ' + (100 * n / (sum || 1)).toFixed(1) + '%</b></div>').join('');
+      '<b>' + n + (countUnit ? ' ' + countUnit : '') + ' · ' + (100 * n / (sum || 1)).toFixed(1) + '%</b></div>').join('');
     host.insertAdjacentHTML('beforeend', (heading ? '<h3 class="stats-period">' + heading + '</h3>' : '') +
       '<div class="stat-kpis">' + kpis + '</div><div class="stat-grid">' +
-      '<article class="panel stat-panel"><h3>' + trendTitle + '</h3><p>' + periodLabel + ' · 單位：件</p><div class="dashboard-trend-scroll"><div class="stat-bars">' +
+      '<article class="panel stat-panel"><h3>' + trendTitle + '</h3><p>' + periodLabel + (countUnit ? ' · 單位：' + countUnit : '') + '</p><div class="dashboard-trend-scroll"><div class="stat-bars">' +
       bars + '</div><div class="stat-ticks">' + ticks + '</div>' +
       (stacked ? '<div class="dashboard-legend"><span>● ' + directionLabels[0] + '</span><span>● ' + directionLabels[1] + '</span></div>' : '') + '</div></article>' +
       '<article class="panel stat-panel"><h3>' + mixTitle + '</h3><p>' + mixNote + '</p><div class="stat-mix">' +
       '<div class="stat-ring" style="background:conic-gradient(' + (stops.length ? stops.join(',') : '#e6edf3 0% 100%') + ')"><strong>' + sum +
-      '<small>請求件數合計</small></strong></div><div class="stat-legend">' + legend + '</div></div></article></div>');
+      '<small>' + countLabel + '</small></strong></div><div class="stat-legend">' + legend + '</div></div></article></div>');
     return true;
   }
 
