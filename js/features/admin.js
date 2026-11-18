@@ -456,6 +456,20 @@
   }
 
   App.initAdmin = function () {
+    const accountPanel = document.getElementById('admin-account-list');
+    accountPanel?.querySelector('.account-metrics')?.remove();
+    accountPanel?.querySelectorAll(':scope > p.subtle').forEach(note => {
+      if (note.textContent.trim() === '互動展示：帳號異動僅保留於本次頁面；未串接真實登入驗證。密碼欄請勿輸入真實密碼。') note.remove();
+    });
+    const accountPolicyButton = document.getElementById('accountPolicy');
+    const addAccountButton = document.getElementById('addAccount');
+    if (accountPolicyButton && addAccountButton) {
+      const headingActions = document.createElement('div');
+      headingActions.className = 'd-flex align-items-center flex-wrap gap-2';
+      addAccountButton.before(headingActions);
+      accountPolicyButton.classList.remove('mb-3');
+      headingActions.append(accountPolicyButton, addAccountButton);
+    }
     const auditTableBody = document.getElementById("auditTableBody");
     const auditPrevPage = document.getElementById("auditPrevPage");
     const auditNextPage = document.getElementById("auditNextPage");
@@ -590,8 +604,6 @@
     }
 
     function renderAccountTable() {
-      const counts = [accounts.length, ...['啟用', '鎖定', '停用'].map(status => accounts.filter(a => a.status === status).length)];
-      document.querySelectorAll('.account-metrics strong').forEach((node, i) => { node.textContent = counts[i]; });
       const filteredAccounts = getFilteredAccounts();
       document.getElementById("accountResultCount").textContent = filteredAccounts.length + " 筆";
       document.getElementById("accountEmpty").hidden = filteredAccounts.length > 0;
@@ -601,9 +613,10 @@
           "</strong><span>" + escapeHtml(account.id) + "</span></div></div></td><td>" + escapeHtml(accountUnit(account)) + "</td><td>" +
           escapeHtml(account.role) + "</td><td>" + escapeHtml(account.lastLogin) + '</td><td><span class="badge-status ' +
           getStatusClass(account.status) + '">' + escapeHtml(account.status) + '</span></td><td><div class="account-actions">' +
+          '<button class="icon-btn edit-account" type="button" aria-label="編輯 ' +
+          escapeHtml(account.name) + '"><i data-lucide="pencil"></i></button>' +
           '<button class="btn btn-sm btn-outline-secondary account-scope" data-org-id="' + account.orgId +
-          '" type="button">查看權限</button><button class="icon-btn edit-account" type="button" aria-label="編輯 ' +
-          escapeHtml(account.name) + '"><i data-lucide="pencil"></i></button></div></td></tr>';
+          '" type="button">查看權限</button></div></td></tr>';
       }).join("");
       App.renderIcons();
     }
@@ -669,7 +682,10 @@
       selectOrganization(selectedOrganizationId);
     }
 
-    byId("editOrganization").onclick = () => setEditing(true);
+    // 編輯按鈕暫時註解時，不綁定事件，避免中斷頁面初始化。
+    if (byId("editOrganization")) {
+      byId("editOrganization").onclick = () => setEditing(true);
+    }
     byId("orgCancel").onclick = () => {
       if (!dirty || global.confirm("放棄這次編輯的所有變更？")) setEditing(false);
     };
