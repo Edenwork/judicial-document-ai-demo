@@ -112,6 +112,254 @@
     ['錯誤處理', '轉為需人工處理', {'對象文件':'司法互助請求書附件','失敗階段':'OCR 文字辨識','原因':'掃描頁面模糊，無法辨識必要欄位'}]
   ];
   samples.forEach((entry, i) => auditLogs.push({date:'2026-08-20', time:'16:0' + i + ':00', user:'王小明', unit:'國際科／亞洲股', module:entry[0], type:entry[0], action:entry[1], target:'ML-2026-0820-01 司法互助請求書', result:'成功', details:entry[2], demo:true}));
+  const specificationSamples = [
+  [
+    "資料查詢",
+    "問 AI",
+    {
+      "功能": "智慧搜尋／問 AI",
+      "查詢內容與篩選條件": "司法文書送達；兩岸科；115 年 2 月",
+      "可視範圍": "使用者授權科股",
+      "結果筆數": 3
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "資料查詢",
+    "產生彙整",
+    {
+      "功能": "彙整報告",
+      "查詢內容與篩選條件": "司法文書送達；兩岸科；115 年 2 月",
+      "可視範圍": "使用者授權科股",
+      "結果筆數": 8
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "資料查詢",
+    "關聯查詢",
+    {
+      "功能": "關聯圖",
+      "查詢內容與篩選條件": "司法文書送達；兩岸科；115 年 2 月",
+      "可視範圍": "使用者授權科股",
+      "結果筆數": 4
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "資料查詢",
+    "統計查詢",
+    {
+      "功能": "案件統計",
+      "查詢內容與篩選條件": "司法文書送達；兩岸科；115 年 2 月",
+      "可視範圍": "使用者授權科股",
+      "結果筆數": 12
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "AI 生成",
+    "欄位擷取",
+    {
+      "模型版本": "示範模型 v1.0",
+      "提示語版本": "audit-demo-v2",
+      "輸入來源": "司法互助請求書，第 1–3 頁",
+      "輸出內容": "收文日期：2026-08-19；請求事項：司法文書送達",
+      "引用來源": "司法互助請求書，第 2 頁"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "AI 生成",
+    "產生回答",
+    {
+      "模型版本": "示範模型 v1.0",
+      "提示語版本": "audit-demo-v2",
+      "輸入來源": "司法互助請求書，第 1–3 頁",
+      "輸出內容": "本件請求協助送達司法文書，並回覆送達結果。",
+      "引用來源": "司法互助請求書，第 2 頁"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "AI 生成",
+    "產生彙整",
+    {
+      "模型版本": "示範模型 v1.0",
+      "提示語版本": "audit-demo-v2",
+      "輸入來源": "司法互助請求書，第 1–3 頁",
+      "輸出內容": "已彙整 8 件請求，其中 6 件為司法文書送達。",
+      "引用來源": "司法互助請求書，第 2 頁"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "文件下載",
+    "開啟原稿",
+    {
+      "對象文件": "司法互助請求書",
+      "匯出內容": "原稿 PDF，第 1–3 頁（檢視）"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "文件下載",
+    "下載原始檔",
+    {
+      "對象文件": "司法互助請求書",
+      "匯出內容": "原始 PDF 檔案"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "文件下載",
+    "匯出彙整",
+    {
+      "對象文件": "司法互助請求書",
+      "匯出內容": "所選 8 件案件的彙整報告"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "文件下載",
+    "匯出統計報表",
+    {
+      "對象文件": "司法互助請求書",
+      "匯出內容": "115 年 2 月兩岸科統計表"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "人工覆核",
+    "退回",
+    {
+      "對象文件或案件": "ML-2026-0820-01 司法互助請求書",
+      "版本": "v3",
+      "原因": "文件非本股業務，退回上傳者確認歸屬股"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "人工覆核",
+    "刪除尚未歸檔的文件",
+    {
+      "對象文件或案件": "ML-2026-0820-01 司法互助請求書",
+      "版本": "v3",
+      "原因": "重複上傳且尚未歸檔，經確認刪除"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "人工覆核",
+    "重新開啟修改",
+    {
+      "對象文件或案件": "ML-2026-0820-01 司法互助請求書",
+      "版本": "v3",
+      "原因": "歸檔後發現收文日期誤植，重新開啟修正"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "人工覆核",
+    "更正所屬股",
+    {
+      "對象文件或案件": "ML-2026-0820-01 司法互助請求書",
+      "版本": "v3",
+      "原因": "經授權將歸屬股由亞洲股更正為歐洲股"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "人工覆核",
+    "合併案件",
+    {
+      "對象文件或案件": "ML-2026-0820-01 司法互助請求書",
+      "版本": "v3",
+      "原因": "確認為重複建案，保留 ML-2026-0820-01，合併 ML-2026-0820-02"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "欄位修正",
+    "標記查無",
+    {
+      "欄位名稱": "來文文號",
+      "修改前值": "AI 擷取：A-123",
+      "修改後值": "查無"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "欄位修正",
+    "還原原值",
+    {
+      "欄位名稱": "收文日期",
+      "修改前值": "2026-08-18",
+      "修改後值": "2026-08-19"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "欄位修正",
+    "確認實體",
+    {
+      "欄位名稱": "當事人／王○明",
+      "修改前值": "待確認",
+      "修改後值": "已確認"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "欄位修正",
+    "刪除實體",
+    {
+      "欄位名稱": "當事人／李○華",
+      "修改前值": "候選實體（誤辨識）",
+      "修改後值": "已刪除"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "關聯判定",
+    "判定關聯不成立",
+    {
+      "關聯": "ML-2026-0820-01 ↔ ML-2026-0820-02",
+      "判定依據": "同名但案號與請求事項不同，確認不屬同案"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "關聯判定",
+    "人工建立關聯",
+    {
+      "關聯": "ML-2026-0820-01 ↔ ML-2026-0820-02",
+      "判定依據": "補充文件引用原案號，承辦人確認屬同一案件"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "錯誤處理",
+    "手動重送",
+    {
+      "對象文件": "司法互助請求書附件",
+      "失敗階段": "回拋司互案管系統",
+      "原因": "前次連線逾時，確認服務恢復後手動重送",
+      "處理結果": "重送請求已受理；最終回拋結果待更新"
+    },
+    "ML-2026-0820-01 司法互助請求書"
+  ],
+  [
+    "登入驗證",
+    "帳號登出",
+    {
+      "登入帳號": "wang.xm",
+      "登出方式": "使用者主動登出",
+      "處理結果": "已結束本次工作階段"
+    },
+    "司法互助AI助理"
+  ]
+];
+  specificationSamples.forEach((entry, i) => auditLogs.push({date: '2026-08-20', time: '17:' + String(i).padStart(2, '0') + ':00', user: '王小明', unit: '國際科／亞洲股', module: entry[0], type: entry[0], action: entry[1], target: entry[3], result: '成功', details: entry[2], demo: true}));
   function prepareAudit(log) {
     if (!log.eventId) {
       log.eventId = 'EVT-DEMO-' + String(++prepareAudit.sequence).padStart(4, '0');
@@ -242,6 +490,7 @@
     let currentAuditPage = 1;
 
     const auditPage = byId('page-audit');
+    auditPage.querySelector('.admin-metrics')?.remove();
     const exportButton = byId('exportAuditLog');
     const toolbar = document.createElement('div');
     toolbar.className = 'audit-heading-actions';
@@ -250,7 +499,7 @@
     toolbar.append(exportButton);
     const filters = document.createElement('form');
     filters.className = 'audit-filters';
-    filters.innerHTML = `<label>開始日期<input class="form-control" id="auditStart" type="date"></label><label>結束日期<input class="form-control" id="auditEnd" type="date"></label><label>事件類型<select class="form-select" id="auditType"><option value="">全部事件</option>${auditTypes.map(t => '<option>' + t + '</option>').join('')}</select></label><label>結果<select class="form-select" id="auditOutcome"><option value="">全部結果</option><option>成功</option><option>失敗</option></select></label><button class="btn btn-outline-secondary" type="button" id="auditClear">清除篩選</button><span id="auditFilterError" role="alert"></span>`;
+    filters.innerHTML = `<label>開始日期<input class="form-control" id="auditStart" type="date"></label><label>結束日期<input class="form-control" id="auditEnd" type="date"></label><label>事件類型<select class="form-select" id="auditType"><option value="">全部事件</option>${auditTypes.map(t => '<option>' + t + '</option>').join('')}</select></label><label>結果<select class="form-select" id="auditOutcome"><option value="">全部結果</option><option>成功</option><option>失敗</option></select></label><button class="btn btn-outline-secondary" type="button" id="auditClear">清除篩選</button><span id="auditFilterError" role="alert"></span><button class="btn btn-primary" type="submit" id="auditApply" style="margin-left:auto">確認</button>`;
     auditPage.querySelector('.audit-list-panel .panel-header').after(filters);
     const heads = auditPage.querySelectorAll('thead th');
     heads[1].textContent = '使用者／單位'; heads[2].textContent = '事件類型／操作'; heads[5].textContent = '詳情';
@@ -262,19 +511,28 @@
     drawer.querySelector('[data-close]').onclick = () => drawer.close();
     drawer.addEventListener('click', e => { if (e.target === drawer && e.clientX < drawer.getBoundingClientRect().left) drawer.close(); });
     let appliedKeyword = '';
+    let appliedFilters = { start: '', end: '', type: '', outcome: '' };
     function filteredAudit() {
-      const start = byId('auditStart').value, end = byId('auditEnd').value;
-      const invalid = start && end && start > end;
-      byId('auditFilterError').textContent = invalid ? '結束日期不可早於開始日期' : '';
-      exportButton.disabled = Boolean(invalid);
-      return auditLogs.map(prepareAudit).filter(log => !invalid && (!start || log.date >= start) && (!end || log.date <= end) && (!byId('auditType').value || log.type === byId('auditType').value) && (!byId('auditOutcome').value || log.result === byId('auditOutcome').value) && [log.user, log.unit, log.target, log.eventId, log.traceId, log.type, log.action].join(' ').toLowerCase().includes(appliedKeyword)).sort((a,b) => (b.date + b.time).localeCompare(a.date + a.time));
+      const { start, end, type, outcome } = appliedFilters;
+      return auditLogs.map(prepareAudit).filter(log => (!start || log.date >= start) && (!end || log.date <= end) && (!type || log.type === type) && (!outcome || log.result === outcome) && [log.user, log.unit, log.target, log.eventId, log.traceId, log.type, log.action].join(' ').toLowerCase().includes(appliedKeyword)).sort((a,b) => (b.date + b.time).localeCompare(a.date + a.time));
     }
     function refreshAudit() { currentAuditPage = 1; renderAuditTable(); }
     byId('auditSearchForm').addEventListener('submit', e => { e.preventDefault(); appliedKeyword = byId('auditKeyword').value.trim().toLowerCase(); refreshAudit(); });
     byId('auditKeyword').addEventListener('input', e => { if (!e.target.value) { appliedKeyword = ''; refreshAudit(); } });
-    filters.addEventListener('submit', e => e.preventDefault());
-    filters.addEventListener('change', refreshAudit);
-    byId('auditClear').onclick = () => { filters.reset(); byId('auditKeyword').value = ''; appliedKeyword = ''; refreshAudit(); };
+    filters.addEventListener('submit', e => {
+      e.preventDefault();
+      const next = { start: byId('auditStart').value, end: byId('auditEnd').value, type: byId('auditType').value, outcome: byId('auditOutcome').value };
+      if (next.start && next.end && next.start > next.end) {
+        byId('auditFilterError').textContent = '結束日期不可早於開始日期';
+        byId('auditEnd').focus();
+        return;
+      }
+      byId('auditFilterError').textContent = '';
+      appliedFilters = next;
+      appliedKeyword = byId('auditKeyword').value.trim().toLowerCase();
+      refreshAudit();
+    });
+    byId('auditClear').onclick = () => { filters.reset(); byId('auditKeyword').value = ''; byId('auditFilterError').textContent = ''; };
     auditTableBody.addEventListener('click', e => {
       const button = e.target.closest('[data-audit-detail]');
       if (!button) return;
@@ -294,8 +552,6 @@
 
     function renderAuditTable() {
       const logs = filteredAudit();
-      const counts = [logs.length, logs.filter(l => l.result === '失敗').length, logs.filter(l => l.type === '帳號管理').length, logs.filter(l => l.type === 'AI 生成').length];
-      auditPage.querySelectorAll('.admin-metric strong').forEach((el,i) => el.textContent = counts[i]);
       const totalPages = Math.max(1, Math.ceil(logs.length / AUDIT_PAGE_SIZE));
       currentAuditPage = Math.min(Math.max(currentAuditPage, 1), totalPages);
       const startIndex = (currentAuditPage - 1) * AUDIT_PAGE_SIZE;
@@ -541,15 +797,36 @@
       currentAuditPage = Number(pageButton.dataset.auditPage);
       renderAuditTable();
     });
+    function readRolePermissions() {
+      const table = document.querySelector('.permission-matrix');
+      if (!table) return '未提供角色權限矩陣';
+      const headings = Array.from(table.querySelectorAll('thead th')).slice(1).map(el => el.textContent.trim());
+      return Array.from(table.querySelectorAll('tbody tr')).map(row => {
+        const role = row.querySelector('th').textContent.trim();
+        const values = Array.from(row.querySelectorAll('td')).map((cell, i) => {
+          const input = cell.querySelector('input[type="checkbox"]');
+          const allowed = input ? input.checked : cell.textContent.includes('✓');
+          return headings[i] + '：' + (allowed ? '允許' : '不允許');
+        });
+        return role + '｜' + values.join('、');
+      }).join('\n');
+    }
+    let savedRolePermissions = readRolePermissions();
     document.getElementById("saveRolePermissions").addEventListener("click", function () {
-      App.showToast("角色權限設定已儲存，異動已寫入稽核日誌。");
+      const next = readRolePermissions();
+      recordAccount('儲存角色權限設定（示範）', { id: '角色權限矩陣', name: '角色權限矩陣' }, '', {
+        '設定項目': '角色功能權限', '修改前值': savedRolePermissions, '修改後值': next,
+        '儲存結果': next === savedRolePermissions ? '設定與前次相同；記錄本次儲存操作' : '本次頁面設定已更新（示範）'
+      });
+      savedRolePermissions = next;
+      App.showToast('角色權限設定儲存示範完成，已新增稽核紀錄。');
     });
 
     const Security = global.AccountSecurity;
-    function recordAccount(action, account, detail) {
+    function recordAccount(action, account, detail, details) {
       const now = new Date();
       auditLogs.unshift({ date: now.toLocaleDateString('sv-SE'), time: now.toLocaleTimeString('zh-TW', {hour12: false}), user: '目前管理員（示範）', unit: '系統管理', module: '帳號管理', action,
-        target: account.id + '｜' + (detail || account.name) + '｜IP：未取得（示範）', result: '成功' });
+        target: account.id + '｜' + (detail || account.name) + '｜IP：未取得（示範）', result: '成功', details: details || { '帳號或設定對象': account.id, '操作內容': detail || account.name }, demo: true });
       currentAuditPage = 1;
       renderAuditTable();
     }

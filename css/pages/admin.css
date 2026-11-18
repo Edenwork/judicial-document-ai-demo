@@ -558,3 +558,6 @@
     line-height: 1;
 }
 #page-audit .admin-metric div > span { margin-top: 7px; }
+
+/* WF-06: audit list and detail only; hide legacy summary markup before initialization. */
+#page-audit .admin-metrics { display: none; }
