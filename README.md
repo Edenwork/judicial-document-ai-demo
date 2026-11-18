@@ -1,4 +1,4 @@
-司法互助文件智慧處理系統 Demo
+司法互助AI助理 Demo
 
 使用方式
 1. 解壓縮 judicial-document-ai-demo.zip。
