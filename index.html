@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/pages/case-statistics-table.css">
   <link rel="stylesheet" href="css/pages/case-review.css">
+  <link rel="stylesheet" href="css/pages/pending-return.css">
   <link rel="stylesheet" href="css/components/account-dialogs.css">
 </head>
 
@@ -37,6 +38,7 @@
       <div class="sidebar-scroll">
         <nav class="side-nav" aria-label="功能選單">
           <button class="nav-item-btn active" data-page="files" type="button"><i data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count" id="crNavCount">8</span></button>
+          <button class="nav-item-btn" data-page="pending-return" type="button"><i data-lucide="list-todo"></i><span>待回拋清單</span></button>
           <!-- <button class="nav-item-btn" data-page="upload" type="button"><i data-lucide="cloud-upload"></i><span>批次上傳</span></button> -->
           <button class="nav-item-btn" data-page="search" type="button"><i data-lucide="sparkles"></i><span>智慧搜尋</span></button>
           <button class="nav-item-btn" data-page="reports-table" type="button" aria-label="案件統計" title="案件統計"><i data-lucide="table-2" aria-hidden="true"></i><span>案件統計</span></button>
@@ -146,6 +148,36 @@
                   </tr>
                 </thead>
                 <tbody id="crCasesBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="page-pending-return" aria-labelledby="pendingReturnHeading">
+          <div class="page-heading">
+            <h2 id="pendingReturnHeading">待回拋清單</h2>
+          </div>
+          <div class="panel overflow-hidden">
+            <div class="filters">
+              <div class="search-mini pending-return-search" role="search" aria-label="搜尋待回拋清單">
+                <i data-lucide="search" aria-hidden="true"></i>
+                <input class="form-control form-control-sm" id="pendingReturnSearch" type="search"
+                  aria-label="搜尋文件、文號、案件類型或上傳者" aria-controls="pendingReturnBody"
+                  placeholder="搜尋文件、文號、案件類型或上傳者" autocomplete="off">
+              </div>
+              <span class="pending-return-count" id="pendingReturnCount" role="status" aria-live="polite"></span>
+            </div>
+            <div class="table-responsive">
+              <table class="table data-table align-middle pending-return-table" aria-labelledby="pendingReturnHeading">
+                <thead>
+                  <tr>
+                    <th scope="col">文件</th>
+                    <th scope="col">文號</th>
+                    <th scope="col">案件類型</th>
+                    <th scope="col">上傳者</th>
+                    <th scope="col">上傳日期</th>
+                  </tr>
+                </thead>
+                <tbody id="pendingReturnBody"></tbody>
               </table>
             </div>
           </div>
@@ -1107,6 +1139,7 @@
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script src="js/core/app.js" defer></script>
   <script src="js/features/file-list.js" defer></script>
+  <script src="js/features/pending-return.js" defer></script>
   <script src="js/features/upload-status.js" defer></script>
   <script src="js/features/upload.js" defer></script>
   <script src="js/features/review.js" defer></script>

@@ -1,0 +1,48 @@
+#page-pending-return .pending-return-search {
+    flex: 0 1 480px;
+    min-width: 0;
+}
+
+#page-pending-return .pending-return-count {
+    margin-left: auto;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+}
+
+#page-pending-return .pending-return-table {
+    min-width: 980px;
+    --bs-table-color: var(--color-text-strong);
+}
+
+#page-pending-return .pending-return-table th {
+    white-space: nowrap;
+}
+
+#page-pending-return .pending-return-file {
+    min-width: 280px;
+    overflow-wrap: anywhere;
+    font-weight: var(--font-weight-semibold);
+}
+
+#page-pending-return .pending-return-document-number,
+#page-pending-return .pending-return-date {
+    white-space: nowrap;
+}
+
+#page-pending-return .pending-return-empty {
+    padding: var(--spacing-32) var(--spacing-16);
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+@media (max-width: 780px) {
+    #page-pending-return .pending-return-search {
+        flex: none;
+        width: 100%;
+    }
+
+    #page-pending-return .pending-return-count {
+        margin-left: 0;
+    }
+}
