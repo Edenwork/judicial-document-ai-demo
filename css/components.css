@@ -593,3 +593,6 @@
     min-height: var(--control-height-lg);
     padding-inline: var(--spacing-18);
 }
+.table {
+  --bs-table-color: currentColor;
+}

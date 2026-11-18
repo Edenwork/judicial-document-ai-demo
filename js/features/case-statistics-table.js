@@ -219,7 +219,7 @@ function drawOverview(period, out, incoming, completed, parts, trend, suffix) {
   note.className = 'dashboard-data-note';
   note.textContent = appliedMode === 'year' ? coverageText() +
     ' 完成件數採原表明列的文書、取證與移交完成欄；其餘事項未提供獨立完成欄。' :
-    '兩岸科完整協助事項月報僅提供 115 年 2 月；國際科沿用 115 年 1–2 月示範資料。加總僅計入已提供件數，緝捕遣返人數另列。';
+    ' ';
   el('overview').append(note);
 }
 function overviewReport() {
