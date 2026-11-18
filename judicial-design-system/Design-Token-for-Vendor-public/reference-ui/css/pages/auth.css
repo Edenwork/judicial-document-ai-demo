@@ -66,7 +66,7 @@
 .auth-brand small {
     margin-top: 2px;
     color: var(--color-on-dark-opacity-52);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
 }
 
 .auth-intro-copy {
@@ -85,7 +85,7 @@
     background: var(--color-on-dark-opacity-8);
     border: 1px solid var(--color-on-dark-opacity-10);
     border-radius: var(--radius-pill);
-    gap: var(--spacing-6);    font-size: var(--font-size-xs);
+    gap: var(--spacing-6);    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);}
 
 .auth-kicker svg {
@@ -135,12 +135,12 @@
 
 .auth-features strong {
     color: var(--color-on-dark-opacity-86);
-    font-size: var(--font-size-sm);}
+    font-size: var(--font-size-md);}
 
 .auth-features small {
     margin-top: 3px;
     color: var(--color-on-dark-opacity-52);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
 }
 
 .auth-intro-foot {
@@ -148,7 +148,7 @@
     z-index: 1;
     margin: 0;
     color: var(--color-on-dark-opacity-38);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
 }
 
 .auth-form-area {
@@ -196,7 +196,7 @@
 
 .auth-card-head p {
     margin: var(--spacing-4) 0 0;    color: var(--color-text-muted);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-md);}
 
 .auth-field {
     position: relative;
@@ -207,7 +207,7 @@
     display: block;
     margin-bottom: 7px;
     color: var(--color-text-secondary);
-    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}
+    font-size: var(--font-size-md);    font-weight: var(--font-weight-bold);}
 
 .auth-input {
     position: relative;
@@ -258,7 +258,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 2px 0 var(--spacing-20);    gap: var(--spacing-12);    font-size: var(--font-size-xs);}
+    margin: 2px 0 var(--spacing-20);    gap: var(--spacing-12);    font-size: var(--font-size-md);}
 
 .auth-options label {
     display: flex;
@@ -283,7 +283,7 @@
     background: var(--color-brand-50);
     border: 1px solid var(--color-brand-200);
     border-radius: var(--radius-sm);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
     line-height: 1.5;
 }
 
@@ -306,7 +306,7 @@
     margin-top: var(--spacing-20);    padding-top: var(--spacing-16);    color: var(--color-text-faint);
     border-top: 1px solid var(--color-border-subtle);
     gap: 7px;
-    font-size: 0.5625rem;
+    font-size: var(--font-size-sm);
 }
 
 .auth-security-note svg {
@@ -317,7 +317,7 @@
 .auth-help {
     margin: var(--spacing-18) 0 0;
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-md);
 }
 
 @media (max-width: 900px) {
@@ -353,7 +353,7 @@
         margin-block: 34px var(--spacing-14);    }
 
     .auth-intro-copy>p {
-        font-size: var(--font-size-sm);    }
+        font-size: var(--font-size-md);    }
 
     .auth-form-area {
         padding-inline: var(--spacing-14);    }

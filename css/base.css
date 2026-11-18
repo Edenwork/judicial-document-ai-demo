@@ -34,3 +34,14 @@ textarea:focus-visible {
     outline: 3px solid var(--color-focus-ring) !important;
     outline-offset: 2px;
 }
+
+small,
+.small,
+.badge {
+    font-size: var(--font-size-sm);
+}
+
+.form-control-sm,
+.form-select-sm {
+    font-size: var(--font-size-md);
+}

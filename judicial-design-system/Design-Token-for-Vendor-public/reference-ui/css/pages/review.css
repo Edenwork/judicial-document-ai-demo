@@ -47,7 +47,7 @@
 
 .review-title span {
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-md);}
 
 .review-case-meta {
     display: grid;
@@ -58,7 +58,7 @@
 .review-meta-field label {
     display: block;
     margin-bottom: var(--spacing-6);    color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);}
+    font-size: var(--font-size-md);    font-weight: var(--font-weight-bold);}
 
 .review-meta-field .form-control,
 .review-update-button {
@@ -84,7 +84,7 @@
 
 .review-toolbar-field label {
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}
+    font-size: var(--font-size-md);    font-weight: var(--font-weight-bold);}
 
 .review-document-picker {
     width: 260px;
@@ -145,7 +145,7 @@
 
 .paper-kicker {
     text-align: center;
-    font-size: 0.8125rem;
+    font-size: var(--font-size-sm);
     letter-spacing: .28em;
 }
 
@@ -216,7 +216,7 @@
     align-items: center;
     gap: 9px;
     margin: var(--spacing-14) 0 var(--spacing-8);    color: var(--color-text-muted);
-    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-md);    font-weight: var(--font-weight-bold);
 }
 
 .field-group-title::after {
@@ -261,7 +261,7 @@
     align-items: center;
     gap: 7px;
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-sm);}
 
 .field-meta .low {
     color: var(--color-warning-700);
@@ -278,7 +278,7 @@
     align-items: start;
     margin-top: 7px;
     color: var(--color-warning-700);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-sm);}
 
 .field-note svg {
     width: 14px;
@@ -299,4 +299,4 @@
 .review-footer .footer-hint {
     margin-right: auto;
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-sm);}

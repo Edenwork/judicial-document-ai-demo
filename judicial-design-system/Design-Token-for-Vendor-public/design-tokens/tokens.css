@@ -1,9 +1,8 @@
 /*
- * VENDOR RELEASE — DESIGN TOKENS FOR WEB
- * This file contains the approved CSS Custom Properties for implementation.
- * Do not modify token definitions directly in this file.
- * If a token is missing or needs to change, submit a change request to the Design Token owner.
- * Reference specification: tokens.json
+ * AUTO-GENERATED FILE — DO NOT EDIT DIRECTLY.
+ * Source: tokens.json
+ * Generate: node design-tokens/build-tokens.js
+ * Validate: node design-tokens/build-tokens.js --check
  */
 
 :root {
@@ -49,9 +48,9 @@
 
   /* Primitive · font */
   --font-family-sans: Inter, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
-  --font-size-xs: 0.6875rem;
-  --font-size-sm: 0.75rem;
-  --font-size-md: 0.875rem;
+  --font-size-xs: 0.875rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
   --font-size-lg: 1rem;
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;

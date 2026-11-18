@@ -34,7 +34,7 @@
     border-radius: 9px;
     background: var(--color-surface-glass);
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-sm);}
 
 .legend-shape {
     display: inline-block;
@@ -66,7 +66,7 @@
 
 .relation-svg .edge-label {
     fill: var(--color-text-subtle);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
 }
 
 .node {
@@ -86,11 +86,11 @@
 .node text {
     pointer-events: none;
     fill: var(--color-text-primary);
-    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}
+    font-size: var(--font-size-md);    font-weight: var(--font-weight-bold);}
 
 .node .sub {
     fill: var(--color-text-subtle);
-    font-size: 0.5625rem;
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-regular);}
 
 .node .node-label-on-dark {

@@ -12,7 +12,7 @@
     border-radius: var(--radius-md);
     color: var(--color-text-muted);
     background: transparent;
-    gap: var(--spacing-8);    font-size: 0.8125rem;
+    gap: var(--spacing-8);    font-size: var(--font-size-md);
     font-weight: var(--font-weight-bold);    transition: color .18s ease, background-color .18s ease, box-shadow .18s ease;
 }
 
@@ -44,7 +44,7 @@
     padding-inline: var(--spacing-6);    color: var(--color-brand-700);
     background: var(--color-surface-primary);
     border-radius: var(--radius-pill);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
     place-items: center;
 }
 
@@ -121,7 +121,7 @@
     background: var(--color-on-dark-opacity-8);
     border: 1px solid var(--color-on-dark-opacity-24);
     border-radius: var(--radius-pill);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-md);}
 
 .query-chip:hover {
     color: var(--color-surface-primary);
@@ -154,7 +154,7 @@
 
 .filter-field label {
     color: var(--color-text-secondary);
-    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);}
+    font-size: var(--font-size-md);    font-weight: var(--font-weight-bold);}
 
 .search-filter-actions {
     display: flex;
@@ -162,7 +162,7 @@
     justify-content: space-between;
     margin-top: var(--spacing-20);    padding-top: var(--spacing-16);    border-top: 1px solid var(--color-border-subtle);
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-md);}
 
 .search-results {
     min-width: 0;
@@ -178,7 +178,7 @@
     padding: var(--spacing-4) 9px;    color: var(--color-brand-700);
     background: var(--color-brand-100);
     border-radius: var(--radius-pill);
-    font-size: var(--font-size-xs);    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-sm);    font-weight: var(--font-weight-bold);
 }
 
 .selected-count {
@@ -192,7 +192,7 @@
     min-height: 43px;
     padding: 9px var(--spacing-16);    background: var(--color-neutral-50);
     border-bottom: 1px solid var(--color-border-default);
-    gap: var(--spacing-12);    font-size: var(--font-size-xs);}
+    gap: var(--spacing-12);    font-size: var(--font-size-md);}
 
 .search-selection-toolbar label {
     display: inline-flex;
@@ -255,7 +255,7 @@
     color: var(--color-text-muted);
     background: var(--color-neutral-100);
     border-radius: var(--radius-pill);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
 }
 
 .result-status {
@@ -286,7 +286,7 @@
     margin: 0;
     overflow: hidden;
     color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);    line-height: 1.55;
+    font-size: var(--font-size-md);    line-height: 1.55;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
@@ -296,7 +296,7 @@
     align-items: flex-start;
     margin-top: var(--spacing-8);    color: var(--color-brand-700);
     gap: 5px;
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-sm);}
 
 .result-match svg {
     width: 13px;
@@ -327,7 +327,7 @@
     padding: var(--spacing-14) var(--spacing-20);    color: var(--color-text-muted);
     background: var(--color-neutral-50);
     border-bottom: 1px solid var(--color-border-default);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-sm);}
 
 .selected-documents {
     padding: var(--spacing-10) var(--spacing-20) var(--spacing-20);    border-bottom: 1px solid var(--color-border-default);
@@ -378,7 +378,7 @@
     min-width: 0;
     overflow: hidden;
     color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);    font-weight: var(--font-weight-semibold);
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -409,7 +409,7 @@
 .search-report-hint {
     grid-column: 1 / -1;
     color: var(--color-text-muted);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
 }
 
 .search-report-actions {
@@ -424,7 +424,7 @@
 }
 
 .search-report-actions .btn {
-    padding-inline: var(--spacing-8);    font-size: var(--font-size-xs);}
+    padding-inline: var(--spacing-8);    font-size: var(--font-size-md);}
 
 @media (max-width: 900px) {
     .search-filter-grid {

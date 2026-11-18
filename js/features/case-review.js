@@ -237,7 +237,7 @@
     $('crPaper').innerHTML='<div class="cr-watermark">介面討論用 · 虛構文件</div><div class="paper-kicker">'+escape(item.type)+'</div><h3>'+escape(item.document)+'</h3>'+
       item.fields.map(f => (f.group?'<div class="paper-section">'+escape(f.group)+'</div>':'')+
         '<p>'+escape(f.label)+'：'+(f.type==='parties'?(f.value.length?'<mark data-cr-original="'+f.key+'">'+f.value.map((party,index)=>'當事人 '+(index+1)+'：'+partyColumns.filter(c=>party[c.key]).map(c=>escape(c.label)+'：'+escape(party[c.key])).join('；')).join('<br>')+'</mark>':'原文未提供當事人資料'):hasValue(f.value)?'<mark data-cr-original="'+f.key+'">'+escape(Array.isArray(f.value)?f.value.join('、'):f.value)+'</mark>':'原文未提供')+'</p>').join('')+
-      '<p style="font-family:var(--font-family-sans);font-size:12px;color:var(--color-text-muted)">本頁為主要請求文件的虛構節錄，其他附件未展開。原文不會隨右側欄位修改。</p>';
+      '<p style="font-family:var(--font-family-sans);font-size:var(--font-size-sm);color:var(--color-text-muted)">本頁為主要請求文件的虛構節錄，其他附件未展開。原文不會隨右側欄位修改。</p>';
   }
   function partyPanel() {
     const parties=current().values.parties;

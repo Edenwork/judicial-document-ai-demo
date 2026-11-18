@@ -48,18 +48,18 @@
 .brand strong {
     color: var(--color-surface-primary);
     display: block;
-    font-size: 0.9375rem;
+    font-size: var(--font-size-md);
     letter-spacing: .03em;
 }
 
 .brand small {
     color: var(--color-on-dark-opacity-52);
-    font-size: var(--font-size-xs);}
+    font-size: var(--font-size-sm);}
 
 .nav-label {
     padding: 0 var(--spacing-12);
     margin: var(--spacing-6) 0 var(--spacing-8);    color: var(--color-on-dark-opacity-38);
-    font-size: var(--font-size-xs);    letter-spacing: .12em;
+    font-size: var(--font-size-sm);    letter-spacing: .12em;
 }
 
 .side-nav {
@@ -112,7 +112,7 @@
     padding: 2px var(--spacing-6);    border-radius: var(--radius-pill);
     color: var(--color-sidebar-count-text);
     background: var(--color-sidebar-count);
-    font-size: var(--font-size-xs);    text-align: center;
+    font-size: var(--font-size-sm);    text-align: center;
 }
 
 .side-footer {
@@ -156,7 +156,7 @@
 .user-card strong {
     color: var(--color-surface-primary);
     display: block;
-    font-size: 0.8125rem;
+    font-size: var(--font-size-md);
 }
 
 .user-card small {
@@ -199,13 +199,13 @@
 
 .user-menu-head strong {
     color: var(--color-text-strong);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-md);
 }
 
 .user-menu-head span {
     margin-top: 2px;
     color: var(--color-text-faint);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
 }
 
 .user-menu-item {
@@ -217,7 +217,7 @@
     border: 0;
     border-radius: var(--radius-sm);
     gap: var(--spacing-8);
-    font-size: var(--font-size-xs);    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);    font-weight: var(--font-weight-semibold);
     text-align: left;
 }
 

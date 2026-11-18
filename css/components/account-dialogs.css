@@ -10,7 +10,7 @@
 .account-dialog p { line-height: 1.65; }
 .account-form input[readonly] { background: #f1f4f8; }
 .account-dialog-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-.account-demo-note { font-size: .875rem; background: #f1f5f9; color: #526274; padding: 12px; border-radius: 8px; }
+.account-demo-note { font-size: var(--font-size-sm); background: #f1f5f9; color: #526274; padding: 12px; border-radius: 8px; }
 .account-danger-note { padding: 16px; color: var(--color-danger-700, #b42318); background: var(--color-danger-100, #fef3f2); border-radius: 8px; }
 .account-error { color: var(--color-danger-700, #b42318); margin: 0; }
 .account-dialog .btn-danger { background: #b42318; border-color: #b42318; color: #fff; }
@@ -20,4 +20,4 @@
 @media (max-width: 575px) { .account-dialog { padding: 18px; } .account-dialog-actions .btn { flex: 1; } }
 
 .account-edit-footer { border-top: 1px solid var(--color-border-default, #dbe2ea); padding-top: 18px; margin-top: 4px; }
-.account-status-hint { margin: 0; font-size: .875rem; }
+.account-status-hint { margin: 0; font-size: var(--font-size-sm); }
