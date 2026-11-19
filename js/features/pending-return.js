@@ -9,8 +9,9 @@
 
   // UI demonstration records; replace with the pending-return API when available.
   const documents = [
-    { fileName: "掃描_20260910_0908.pdf", documentNumber: "1080057970", caseType: "我國對外國請求（刑事）", uploadedBy: "lisa.wu", uploadedAt: "2026-09-10" },
+    { fileName: "掃描_20261119.pdf", documentNumber: "1080062971", caseType: "我國對外國請求（刑事）", uploadedBy: "Justin.Lee", uploadedAt: "2026-11-19" },
     { fileName: "掃描_20260910_0921.pdf", documentNumber: "1080065200", caseType: "我國對外國請求（刑事）", uploadedBy: "lisa.wu", uploadedAt: "2026-09-10" },
+    { fileName: "掃描_20260910_0912_重掃.pdf", documentNumber: "1080065107", caseType: "我國對外國請求（刑事）", uploadedBy: "lisa.wu", uploadedAt: "2026-09-10" },
     { fileName: "掃描_20260910_0912_重掃.pdf", documentNumber: "1080065107", caseType: "我國對外國請求（刑事）", uploadedBy: "lisa.wu", uploadedAt: "2026-09-10" }
   ];
   const search = document.getElementById("pendingReturnSearch");
@@ -20,8 +21,12 @@
   const pageNumbers = document.getElementById("pendingReturnPageNumbers");
   const previousPage = document.getElementById("pendingReturnPrevPage");
   const nextPage = document.getElementById("pendingReturnNextPage");
+  const dateHeading = document.getElementById("pendingReturnDateHeading");
+  const dateSort = document.getElementById("pendingReturnDateSort");
+  const dateDirection = document.getElementById("pendingReturnDateDirection");
   const PAGE_SIZE = 10;
   let currentPage = 1;
+  let sortDirection = "descending";
   const normalize = value => String(value).normalize("NFKC").toLocaleLowerCase("zh-TW").trim();
 
   function addCell(row, value, className) {
@@ -35,7 +40,16 @@
     const query = normalize(search.value);
     const matches = documents.filter(function (item) {
       return normalize([item.fileName, item.documentNumber, item.caseType, item.uploadedBy, item.uploadedAt].join(" ")).includes(query);
+    }).sort(function (a, b) {
+      // ISO dates sort chronologically; equal dates retain their original order.
+      const difference = a.uploadedAt.localeCompare(b.uploadedAt);
+      return sortDirection === "ascending" ? difference : -difference;
     });
+    dateHeading.setAttribute("aria-sort", sortDirection);
+    const descending = sortDirection === "descending";
+    dateDirection.textContent = descending ? "↓" : "↑";
+    dateSort.title = descending ? "改為最舊在前" : "改為最新在前";
+    dateSort.setAttribute("aria-label", "上傳日期：目前" + (descending ? "最新" : "最舊") + "在前，點選" + dateSort.title);
     const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
     currentPage = Math.min(Math.max(currentPage, 1), totalPages);
     const startIndex = (currentPage - 1) * PAGE_SIZE;
@@ -87,6 +101,11 @@
     pageNumbers.replaceChildren(buttons);
   }
 
+  dateSort.addEventListener("click", function () {
+    sortDirection = sortDirection === "descending" ? "ascending" : "descending";
+    currentPage = 1;
+    render();
+  });
   search.addEventListener("input", function () {
     currentPage = 1;
     render();

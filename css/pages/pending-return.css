@@ -19,6 +19,23 @@
     white-space: nowrap;
 }
 
+#page-pending-return .pending-return-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-6);
+    padding: var(--spacing-4) 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+}
+
+#page-pending-return .pending-return-sort:hover {
+    color: var(--color-action-primary);
+}
+
 #page-pending-return .pending-return-file {
     min-width: 280px;
     overflow-wrap: anywhere;
