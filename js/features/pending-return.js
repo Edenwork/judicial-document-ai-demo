@@ -5,14 +5,13 @@
   const page = document.getElementById("page-pending-return");
   if (!App || !page) return;
 
-  App.pageMeta["pending-return"] = ["待回拋清單", "查找待回拋文件"];
+  App.pageMeta["pending-return"] = ["待回拋案件", "查找待回拋案件"];
 
   // UI demonstration records; replace with the pending-return API when available.
   const documents = [
-    { fileName: "掃描_20260910_0908.pdf", documentNumber: "1080057970", caseType: "我國對外國請求（刑事）", uploadedBy: "國際科歐洲股－祈小姐", uploadedAt: "2026-09-10" },
-    { fileName: "掃描_20260910_0921.pdf", documentNumber: "1080065200", caseType: "我國對外國請求（刑事）", uploadedBy: "國際科歐洲股－祈小姐", uploadedAt: "2026-09-10" },
-    { fileName: "掃描_20260910_0912_重掃.pdf", documentNumber: "1080065107", caseType: "我國對外國請求（刑事）", uploadedBy: "國際科歐洲股－祈小姐", uploadedAt: "2026-09-10" },
-    { fileName: "英方回復_附件02.pdf", documentNumber: "", caseType: "我國對外國請求（刑事）", uploadedBy: "國際科歐洲股－祈小姐", uploadedAt: "2026-09-10" }
+    { fileName: "掃描_20260910_0908.pdf", documentNumber: "1080057970", caseType: "我國對外國請求（刑事）", uploadedBy: "lisa.wu", uploadedAt: "2026-09-10" },
+    { fileName: "掃描_20260910_0921.pdf", documentNumber: "1080065200", caseType: "我國對外國請求（刑事）", uploadedBy: "lisa.wu", uploadedAt: "2026-09-10" },
+    { fileName: "掃描_20260910_0912_重掃.pdf", documentNumber: "1080065107", caseType: "我國對外國請求（刑事）", uploadedBy: "lisa.wu", uploadedAt: "2026-09-10" }
   ];
   const search = document.getElementById("pendingReturnSearch");
   const body = document.getElementById("pendingReturnBody");
@@ -64,7 +63,7 @@
       const cell = document.createElement("td");
       cell.colSpan = 5;
       cell.className = "pending-return-empty";
-      cell.textContent = query ? "找不到符合條件的待回拋文件" : "目前沒有待回拋文件";
+      cell.textContent = query ? "找不到符合條件的待回拋案件" : "目前沒有待回拋案件";
       row.appendChild(cell);
       fragment.appendChild(row);
     }
