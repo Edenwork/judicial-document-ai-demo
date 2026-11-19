@@ -506,6 +506,20 @@
 }
 
 /* Audit search, event filters and detail drawer */
+#page-audit .audit-sort-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-6);
+    padding: var(--spacing-4) 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+}
+#page-audit .audit-sort-button:hover { color: var(--color-action-primary); }
 #page-audit .page-heading { flex-wrap: wrap; gap: 16px; }
 .audit-heading-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-left: auto; }
 .audit-search-form { display: flex; width: 350px; max-width: 100%; }

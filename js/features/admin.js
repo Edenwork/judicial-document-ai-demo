@@ -502,6 +502,8 @@
     }
     let selectedOrganizationId = "asia";
     let currentAuditPage = 1;
+    let auditSortKey = 'time';
+    let auditSortDirection = 'descending';
 
     const auditPage = byId('page-audit');
     auditPage.querySelector('.admin-metrics')?.remove();
@@ -517,6 +519,45 @@
     auditPage.querySelector('.audit-list-panel .panel-header').after(filters);
     const heads = auditPage.querySelectorAll('thead th');
     heads[1].textContent = '使用者／單位'; heads[2].textContent = '事件類型／操作'; heads[5].textContent = '詳情';
+    const auditSortControls = [['time', '時間'], ['user', '使用者／單位']].map(([key, label], index) => {
+      const heading = heads[index];
+      heading.scope = 'col';
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'audit-sort-button';
+      const text = document.createElement('span');
+      text.textContent = label;
+      const indicator = document.createElement('span');
+      indicator.setAttribute('aria-hidden', 'true');
+      button.append(text, indicator);
+      heading.replaceChildren(button);
+      button.addEventListener('click', () => {
+        auditSortDirection = auditSortKey === key && auditSortDirection === 'descending' ? 'ascending' : 'descending';
+        auditSortKey = key;
+        refreshAudit();
+      });
+      return { key, label, heading, button, indicator };
+    });
+    function syncAuditSortControls() {
+      auditSortControls.forEach(({ key, label, heading, button, indicator }) => {
+        const active = auditSortKey === key;
+        const descending = auditSortDirection === 'descending';
+        const nextDirection = active && descending ? '升冪' : '降冪';
+        if (active) heading.setAttribute('aria-sort', auditSortDirection);
+        else heading.removeAttribute('aria-sort');
+        indicator.textContent = active ? (descending ? '↓' : '↑') : '↕';
+        button.title = '切換為' + nextDirection;
+        button.setAttribute('aria-label', label + (active ? '：目前' + (descending ? '降冪' : '升冪') : '') + '，點選切換為' + nextDirection);
+      });
+    }
+    function compareAuditLogs(a, b) {
+      const chronological = (a.date + 'T' + a.time).localeCompare(b.date + 'T' + b.time);
+      const direction = auditSortDirection === 'ascending' ? 1 : -1;
+      if (auditSortKey === 'time') return chronological * direction;
+      const user = a.user.localeCompare(b.user, 'zh-Hant-TW', { numeric: true });
+      const unit = a.unit.localeCompare(b.unit, 'zh-Hant-TW', { numeric: true });
+      return (user || unit) * direction || -chronological;
+    }
     const drawer = document.createElement('dialog');
     drawer.className = 'audit-drawer';
     drawer.setAttribute('aria-labelledby', 'auditDetailTitle');
@@ -564,7 +605,8 @@
     });
 
     function renderAuditTable() {
-      const logs = filteredAudit();
+      const logs = filteredAudit().sort(compareAuditLogs);
+      syncAuditSortControls();
       const totalPages = Math.max(1, Math.ceil(logs.length / AUDIT_PAGE_SIZE));
       currentAuditPage = Math.min(Math.max(currentAuditPage, 1), totalPages);
       const startIndex = (currentAuditPage - 1) * AUDIT_PAGE_SIZE;
