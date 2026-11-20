@@ -237,8 +237,12 @@
     let otherRow = '';
     if (otherDetails) {
       const content = editableOther
-        ? '<form class="statistics-other-editor" data-other-form><textarea class="form-control" name="other" rows="3" aria-label="' +
-          escapeReport(otherDetails.label) + '">' + escapeReport(otherDetails.value) +
+        ? '<form class="statistics-other-editor" data-other-form><textarea class="form-control" name="other" rows=3" aria-label="' +
+          escapeReport(otherDetails.label) + '">' +
+          escapeReport(
+            otherDetails.value ||
+              '遣返刑事（通緝）犯5名：\n115年2月2日，曾衍儒因涉嫌偽造文書等案遭臺灣桃園地方檢察署及臺灣臺東地方檢察署發布通緝（通緝字號：桃檢亮執舒緝字第003149號、東檢方執庚緝字第000768號），循兩岸「小三通」（廈門－金門）模式遣返回臺。'
+          ) +
           '</textarea><button class="btn btn-primary" type="submit">儲存</button></form>'
         : escapeReport(otherDetails.value);
       otherRow = '<tr class="statistics-other-row"><th colspan="2" scope="row">十　' +
