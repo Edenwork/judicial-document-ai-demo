@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="css/pages/case-statistics-table.css">
   <link rel="stylesheet" href="css/pages/case-review.css">
   <link rel="stylesheet" href="css/pages/pending-return.css">
+  <link rel="stylesheet" href="css/pages/ocr.css">
   <link rel="stylesheet" href="css/components/account-dialogs.css">
 </head>
 
@@ -90,6 +91,9 @@
               <h2 id="filesHeading">案件管理</h2>
               <p>依案件掌握文件處理、人工確認及需人工審核狀態。</p>
             </div>
+            <a class="btn btn-primary ocr-list-entry" href="?page=ocr-documents" data-ocr-route="ocr-documents">
+              <i data-lucide="table-2" aria-hidden="true"></i>文件清單表格
+            </a>
             <!-- <button class="btn btn-primary" data-go="upload" type="button"><i
                 data-lucide="upload"></i>批次上傳文件</button> -->
           </div>
@@ -151,6 +155,81 @@
                 </thead>
                 <tbody id="crCasesBody"></tbody>
               </table>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="page-ocr-documents" aria-labelledby="ocrDocumentsTitle">
+          <div class="ocr-back-action">
+            <a class="btn btn-outline-secondary" href="index.html" data-ocr-route="files" data-ocr-back>
+              <i data-lucide="arrow-left" aria-hidden="true"></i>返回案件管理
+            </a>
+          </div>
+          <div class="page-heading">
+            <h2 id="ocrDocumentsTitle" tabindex="-1">文件清單表格</h2>
+          </div>
+          <div class="panel overflow-hidden">
+            <div class="table-responsive">
+              <table class="table data-table align-middle ocr-documents-table" aria-labelledby="ocrDocumentsTitle">
+                <thead>
+                  <tr>
+                    <th scope="col">文件名稱</th>
+                    <th scope="col">更新時間</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="ocrDocumentsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <section class="page" id="page-ocr-viewer" aria-labelledby="ocrViewerTitle">
+          <div class="ocr-back-action">
+            <a class="btn btn-outline-secondary" href="?page=ocr-documents" data-ocr-route="ocr-documents" data-ocr-back>
+              <i data-lucide="arrow-left" aria-hidden="true"></i>返回文件清單
+            </a>
+          </div>
+          <div class="panel ocr-viewer">
+            <header class="ocr-viewer-heading">
+              <h2 id="ocrViewerTitle" tabindex="-1">OCR 檢視器</h2>
+              <p id="ocrDocumentName" aria-live="polite"></p>
+            </header>
+            <p class="ocr-empty" id="ocrMissingDocument" hidden>找不到這份文件，請返回文件清單重新選擇。</p>
+            <div id="ocrDocumentContent" hidden>
+              <div class="ocr-toolbar">
+                <dl class="ocr-metrics" aria-label="文件辨識指標">
+                  <div><dt>信心指數</dt><dd id="ocrConfidence"></dd></div>
+                  <div><dt>品質</dt><dd id="ocrQuality"></dd></div>
+                </dl>
+                <div class="ocr-document-nav" role="group" aria-label="切換文件">
+                  <button class="btn btn-outline-primary" id="ocrPreviousDocument" type="button">上一份文件</button>
+                  <button class="btn btn-outline-primary" id="ocrNextDocument" type="button">下一份文件</button>
+                </div>
+              </div>
+              <div class="ocr-columns">
+                <section class="ocr-original" aria-labelledby="ocrOriginalTitle">
+                  <header class="ocr-pane-header">
+                    <h3 id="ocrOriginalTitle">原稿影像</h3>
+                    <p id="ocrPageNumber" aria-live="polite"></p>
+                  </header>
+                  <div class="ocr-original-content">
+                    <div class="ocr-thumbnails" id="ocrThumbnails" role="group" aria-label="選擇原稿頁次"></div>
+                    <div class="ocr-image-frame"><img id="ocrPageImage" width="880" height="1244" alt=""></div>
+                  </div>
+                </section>
+                <section class="ocr-results" aria-labelledby="ocrResultsTitle">
+                  <header class="ocr-pane-header">
+                    <h3 id="ocrResultsTitle">識別結果：jsonl</h3>
+                  </header>
+                  <div class="ocr-result-card">
+                    <div class="ocr-result-actions">
+                      <button class="btn btn-outline-secondary btn-sm" id="ocrCopy" type="button">
+                        <i data-lucide="copy" aria-hidden="true"></i>複製
+                      </button>
+                    </div>
+                    <pre class="ocr-jsonl" id="ocrJsonlBlock" role="region" aria-label="目前頁面的 JSONL 識別結果" tabindex="0"><code id="ocrJsonl"></code></pre>
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
         </section>
@@ -1175,6 +1254,7 @@
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script src="js/core/app.js" defer></script>
   <script src="js/features/file-list.js" defer></script>
+  <script src="js/features/ocr.js" defer></script>
   <script src="js/features/pending-return.js" defer></script>
   <script src="js/features/upload-status.js" defer></script>
   <script src="js/features/upload.js" defer></script>

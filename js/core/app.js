@@ -39,6 +39,11 @@
       App.loadPendingReturnDocument(documentId);
     }
 
+    if (pageName === "ocr-viewer") {
+      const documentId = navigationOptions.documentId || new URLSearchParams(location.search).get("document");
+      App.loadOcrDocument(documentId);
+    }
+
     document.querySelectorAll(".page").forEach(function (page) {
       page.classList.remove("active");
     });
@@ -46,6 +51,8 @@
 
     let selectedPage = pageName;
     if (pageName === "case-review" || pageName === "review") selectedPage = "files";
+    const isOcrPage = pageName === "ocr-documents" || pageName === "ocr-viewer";
+    if (isOcrPage) selectedPage = "files";
     if (pageName === "pending-return-document") selectedPage = "pending-return";
     document.querySelectorAll(".nav-item-btn").forEach(function (button) {
       button.classList.toggle("active", button.dataset.page === selectedPage);
@@ -66,6 +73,20 @@
       if (pageName === "pending-return-document") {
         const documentUrl = "?page=pending-return-document&document=" + encodeURIComponent(navigationOptions.documentId);
         history.pushState({ page: pageName, fromPendingReturn: true }, "", documentUrl);
+        return;
+      }
+
+      if (isOcrPage) {
+        const params = new URLSearchParams({ page: pageName });
+        if (pageName === "ocr-viewer" && navigationOptions.documentId) {
+          params.set("document", navigationOptions.documentId);
+        }
+        const state = { page: pageName, ocrFrom: navigationOptions.ocrFrom };
+        if (navigationOptions.ocrFrom && !navigationOptions.replaceHistory) {
+          history.pushState(state, "", "?" + params);
+        } else {
+          history.replaceState(state, "", "?" + params);
+        }
         return;
       }
 
