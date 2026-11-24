@@ -197,8 +197,14 @@
             <div id="ocrDocumentContent" hidden>
               <div class="ocr-toolbar">
                 <dl class="ocr-metrics" aria-label="文件辨識指標">
-                  <div><dt>信心指數</dt><dd id="ocrConfidence"></dd></div>
-                  <div><dt>品質</dt><dd id="ocrQuality"></dd></div>
+                  <div class="ocr-metric-card">
+                    <dt>信心指數</dt>
+                    <dd id="ocrConfidence" aria-live="polite"></dd>
+                  </div>
+                  <div class="ocr-metric-card">
+                    <dt>品質</dt>
+                    <dd id="ocrQuality" aria-live="polite"></dd>
+                  </div>
                 </dl>
                 <div class="ocr-document-nav" role="group" aria-label="切換文件">
                   <button class="btn btn-outline-primary" id="ocrPreviousDocument" type="button">上一份文件</button>
@@ -213,14 +219,21 @@
                   </header>
                   <div class="ocr-original-content">
                     <div class="ocr-thumbnails" id="ocrThumbnails" role="group" aria-label="選擇原稿頁次"></div>
-                    <div class="ocr-image-frame"><img id="ocrPageImage" width="880" height="1244" alt=""></div>
+                    <div class="ocr-image-frame"><img id="ocrPageImage" alt=""></div>
                   </div>
                 </section>
                 <section class="ocr-results" aria-labelledby="ocrResultsTitle">
                   <header class="ocr-pane-header">
-                    <h3 id="ocrResultsTitle">識別結果：jsonl</h3>
+                    <h3 id="ocrResultsTitle">識別結果</h3>
+                    <div class="ocr-tabs" role="tablist" aria-label="識別結果格式">
+                      <button id="ocrTextTab" type="button" role="tab" aria-selected="true" aria-controls="ocrTextPanel">辨識文字</button>
+                      <button id="ocrJsonlTab" type="button" role="tab" aria-selected="false" aria-controls="ocrJsonlPanel" tabindex="-1">JSONL</button>
+                    </div>
                   </header>
-                  <div class="ocr-result-card">
+                  <div class="ocr-result-card" id="ocrTextPanel" role="tabpanel" aria-labelledby="ocrTextTab">
+                    <div class="ocr-recognized-text" id="ocrRecognizedText" role="region" aria-label="當頁辨識文字" tabindex="0"></div>
+                  </div>
+                  <div class="ocr-result-card" id="ocrJsonlPanel" role="tabpanel" aria-labelledby="ocrJsonlTab" hidden>
                     <div class="ocr-result-actions">
                       <button class="btn btn-outline-secondary btn-sm" id="ocrCopy" type="button">
                         <i data-lucide="copy" aria-hidden="true"></i>複製
@@ -1254,6 +1267,7 @@
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
   <script src="js/core/app.js" defer></script>
   <script src="js/features/file-list.js" defer></script>
+  <script src="assets/ocr/20261007_001-data.js" defer></script>
   <script src="js/features/ocr.js" defer></script>
   <script src="js/features/pending-return.js" defer></script>
   <script src="js/features/upload-status.js" defer></script>
