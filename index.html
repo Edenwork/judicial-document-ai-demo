@@ -199,6 +199,27 @@
             </nav>
           </div>
         </section>
+        <section class="page" id="page-pending-return-document" aria-labelledby="pendingReturnDocumentTitle">
+          <div class="page-back-action">
+            <a class="btn btn-outline-secondary pending-return-back" id="pendingReturnBack" href="?page=pending-return">
+              <i data-lucide="arrow-left" aria-hidden="true"></i>返回待回拋案件
+            </a>
+          </div>
+          <div class="page-heading">
+            <div>
+              <h2 id="pendingReturnDocumentTitle" tabindex="-1">文件 JSON</h2>
+              <p id="pendingReturnDocumentNumber" hidden></p>
+            </div>
+          </div>
+          <section class="panel pending-return-json-panel" aria-labelledby="pendingReturnJsonTitle">
+            <header class="panel-header pending-return-json-header">
+              <h3 id="pendingReturnJsonTitle">文件 JSON</h3>
+              <p id="pendingReturnJsonSource" hidden>依掃描件整理的去識別化範例</p>
+            </header>
+            <pre class="pending-return-json" id="pendingReturnJsonBlock" aria-labelledby="pendingReturnJsonTitle" tabindex="0" hidden><code id="pendingReturnJson"></code></pre>
+            <p class="pending-return-json-empty" id="pendingReturnJsonEmpty" hidden></p>
+          </section>
+        </section>
         <section class="page" id="page-upload" aria-labelledby="uploadHeading">
           <div class="page-heading">
             <div>

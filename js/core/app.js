@@ -34,13 +34,21 @@
       App.loadCaseReview(caseId);
     }
 
+    if (pageName === "pending-return-document" && App.loadPendingReturnDocument) {
+      const documentId = navigationOptions.documentId || new URLSearchParams(location.search).get("document");
+      App.loadPendingReturnDocument(documentId);
+    }
+
     document.querySelectorAll(".page").forEach(function (page) {
       page.classList.remove("active");
     });
     target.classList.add("active");
 
+    let selectedPage = pageName;
+    if (pageName === "case-review" || pageName === "review") selectedPage = "files";
+    if (pageName === "pending-return-document") selectedPage = "pending-return";
     document.querySelectorAll(".nav-item-btn").forEach(function (button) {
-      button.classList.toggle("active", button.dataset.page === ((pageName === "case-review" || pageName === "review") ? "files" : pageName));
+      button.classList.toggle("active", button.dataset.page === selectedPage);
     });
 
     const topTitle = document.getElementById("topTitle");
@@ -54,6 +62,12 @@
 
     try {
       if (navigationOptions.skipHistory) return;
+
+      if (pageName === "pending-return-document") {
+        const documentUrl = "?page=pending-return-document&document=" + encodeURIComponent(navigationOptions.documentId);
+        history.pushState({ page: pageName, fromPendingReturn: true }, "", documentUrl);
+        return;
+      }
 
       const nextUrl = pageName === "files" ? location.pathname : "?page=" + pageName + (pageName === "case-review" && App.currentReviewCaseId ? "&case=" + encodeURIComponent(App.currentReviewCaseId) : "");
       const shouldReturnHome = pageName === "relations" || pageName === "reports" || pageName === "reports-table";

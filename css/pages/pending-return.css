@@ -63,3 +63,85 @@
         margin-left: 0;
     }
 }
+
+#page-pending-return .pending-return-file a {
+    color: var(--color-action-primary-hover);
+    font-size: inherit;
+    text-decoration: none;
+    text-underline-offset: 0.18em;
+}
+
+#page-pending-return .pending-return-file a:hover {
+    text-decoration: underline;
+}
+
+#page-pending-return-document .page-heading h2 {
+    overflow-wrap: anywhere;
+}
+
+#page-pending-return-document .page-back-action {
+    margin: 0 0 var(--spacing-16);
+}
+
+#page-pending-return-document .pending-return-back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-8);
+    min-height: 40px;
+    font-size: 1rem;
+}
+
+.pending-return-json-panel {
+    overflow: hidden;
+}
+
+.pending-return-json-header {
+    flex-wrap: wrap;
+    gap: var(--spacing-8);
+}
+
+.pending-return-json-header h3 {
+    font-size: 1rem;
+}
+
+.pending-return-json-header p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+.pending-return-json {
+    margin: 0;
+    padding: var(--spacing-20) var(--spacing-24);
+    background: var(--color-surface-muted);
+    color: var(--color-text-strong);
+    font-size: 0.875rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.pending-return-json code {
+    color: inherit;
+    font: inherit;
+}
+
+.pending-return-json .json-key {
+    color: var(--color-action-primary-hover);
+}
+
+.pending-return-json .json-string {
+    color: #23624b;
+}
+
+.pending-return-json .json-number,
+.pending-return-json .json-literal {
+    color: #713da1;
+}
+
+.pending-return-json-empty {
+    margin: 0;
+    padding: var(--spacing-20) var(--spacing-24);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
