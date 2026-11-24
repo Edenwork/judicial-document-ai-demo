@@ -7,15 +7,22 @@
   App.pageMeta["ocr-documents"] = ["文件清單表格", ""];
   App.pageMeta["ocr-viewer"] = ["OCR 檢視器", ""];
 
-  const documents = [App.ocrDocument];
+  const documents = [App.ocrDocument, ...App.ocrDemoDocuments];
 
   const thumbnails = get("ocrThumbnails");
   const recognizedText = get("ocrRecognizedText");
   const pageImage = get("ocrPageImage");
+  const boxOverlay = get("ocrBoxOverlay");
+  const boxTooltip = get("ocrBoxTooltip");
+  const confidenceFormat = new Intl.NumberFormat("en-US", {
+    maximumSignificantDigits: 4,
+    useGrouping: false,
+  });
   const jsonl = get("ocrJsonl");
   const previous = get("ocrPreviousDocument");
   const next = get("ocrNextDocument");
-  const tabs = [get("ocrTextTab"), get("ocrJsonlTab")];
+  const defaultTab = get("ocrJsonlTab");
+  const tabs = [get("ocrTextTab"), defaultTab];
   let documentIndex = -1;
 
   function createDocumentLink(item, label, className) {
@@ -45,23 +52,60 @@
     return "assets/ocr/" + item.id + "-" + pageNo;
   }
 
+  function renderBoxes(record) {
+    boxTooltip.hidden = true;
+    boxOverlay.replaceChildren();
+    boxOverlay.setAttribute("hidden", "");
+
+    const { width, height } = record.page || {};
+    if (!(width > 0 && height > 0) || !Array.isArray(record.regions)) return;
+
+    boxOverlay.setAttribute("viewBox", "0 0 " + width + " " + height);
+    for (const { bbox, confidence } of record.regions) {
+      if (!Array.isArray(bbox) || bbox.length < 3 ||
+          !bbox.every(point => Array.isArray(point) && point.length === 2 && point.every(Number.isFinite))) continue;
+
+      const box = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+      box.setAttribute("class", "ocr-bounding-box");
+      box.setAttribute("points", bbox.map(point => point.join(",")).join(" "));
+      box.addEventListener("pointerenter", () => {
+        const xs = bbox.map(point => point[0]);
+        const ys = bbox.map(point => point[1]);
+        const center = (Math.min(...xs) + Math.max(...xs)) / 2;
+        boxTooltip.style.setProperty("--ocr-box-x", center / width * 100 + "%");
+        boxTooltip.style.setProperty("--ocr-box-y", Math.max(...ys) / height * 100 + "%");
+        boxTooltip.textContent = "信心指數 " + (Number.isFinite(confidence)
+          ? confidenceFormat.format(confidence)
+          : "未提供");
+        boxTooltip.hidden = false;
+      });
+      box.addEventListener("pointerleave", () => {
+        boxTooltip.hidden = true;
+      });
+      boxOverlay.append(box);
+    }
+    boxOverlay.toggleAttribute("hidden", boxOverlay.children.length === 0);
+  }
+
   function setPage(pageNo) {
     const item = documents[documentIndex];
     const [width, height, jsonlLine] = item.pages[pageNo - 1];
     const record = JSON.parse(jsonlLine);
     const pageLabel = "第 " + pageNo + " 頁";
-    get("ocrPageNumber").textContent = pageLabel + "／預覽前 " + item.pages.length + " 頁";
+    const pageCountLabel = record.page_count > item.pages.length ? "預覽前 " : "共 ";
+    get("ocrPageNumber").textContent = pageLabel + "／" + pageCountLabel + item.pages.length + " 頁";
     pageImage.width = width;
     pageImage.height = height;
     pageImage.src = imagePath(item, pageNo) + ".webp";
     pageImage.alt = item.name + " " + pageLabel + "原稿";
+    renderBoxes(record);
     for (const button of thumbnails.children) {
       button.setAttribute("aria-current", Number(button.dataset.pageNumber) === pageNo ? "page" : "false");
     }
 
     recognizedText.textContent = record.status === "failed"
       ? "此頁 OCR 辨識失敗。可切換到 JSONL 查看原始錯誤資訊。"
-      : record.markdown || "此頁沒有辨識文字。";
+      : (record.markdown || record.page?.markdown || "此頁沒有辨識文字。");
     recognizedText.scrollTop = 0;
     jsonl.textContent = jsonlLine + "\n";
     get("ocrJsonlBlock").scrollTop = 0;
@@ -187,7 +231,7 @@
       history.back();
       return;
     }
-    if (target === "ocr-viewer") activateTab(tabs[0]);
+    if (target === "ocr-viewer") activateTab(defaultTab);
     App.goToPage(target, {
       documentId: link.dataset.documentId,
       ocrFrom: isBack ? undefined : target === "ocr-documents" ? "files" : "ocr-documents",

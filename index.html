@@ -219,21 +219,27 @@
                   </header>
                   <div class="ocr-original-content">
                     <div class="ocr-thumbnails" id="ocrThumbnails" role="group" aria-label="選擇原稿頁次"></div>
-                    <div class="ocr-image-frame"><img id="ocrPageImage" alt=""></div>
+                    <div class="ocr-image-frame">
+                      <div class="ocr-page-preview">
+                        <img id="ocrPageImage" alt="">
+                        <svg class="ocr-box-overlay" id="ocrBoxOverlay" preserveAspectRatio="none" aria-hidden="true" hidden></svg>
+                        <span class="ocr-box-tooltip" id="ocrBoxTooltip" hidden></span>
+                      </div>
+                    </div>
                   </div>
                 </section>
                 <section class="ocr-results" aria-labelledby="ocrResultsTitle">
                   <header class="ocr-pane-header">
                     <h3 id="ocrResultsTitle">識別結果</h3>
                     <div class="ocr-tabs" role="tablist" aria-label="識別結果格式">
-                      <button id="ocrTextTab" type="button" role="tab" aria-selected="true" aria-controls="ocrTextPanel">辨識文字</button>
-                      <button id="ocrJsonlTab" type="button" role="tab" aria-selected="false" aria-controls="ocrJsonlPanel" tabindex="-1">JSONL</button>
+                      <button id="ocrTextTab" type="button" role="tab" aria-selected="false" aria-controls="ocrTextPanel" tabindex="-1">辨識文字</button>
+                      <button id="ocrJsonlTab" type="button" role="tab" aria-selected="true" aria-controls="ocrJsonlPanel">JSONL</button>
                     </div>
                   </header>
-                  <div class="ocr-result-card" id="ocrTextPanel" role="tabpanel" aria-labelledby="ocrTextTab">
+                  <div class="ocr-result-card" id="ocrTextPanel" role="tabpanel" aria-labelledby="ocrTextTab" hidden>
                     <div class="ocr-recognized-text" id="ocrRecognizedText" role="region" aria-label="當頁辨識文字" tabindex="0"></div>
                   </div>
-                  <div class="ocr-result-card" id="ocrJsonlPanel" role="tabpanel" aria-labelledby="ocrJsonlTab" hidden>
+                  <div class="ocr-result-card" id="ocrJsonlPanel" role="tabpanel" aria-labelledby="ocrJsonlTab">
                     <div class="ocr-result-actions">
                       <button class="btn btn-outline-secondary btn-sm" id="ocrCopy" type="button">
                         <i data-lucide="copy" aria-hidden="true"></i>複製
@@ -1268,6 +1274,7 @@
   <script src="js/core/app.js" defer></script>
   <script src="js/features/file-list.js" defer></script>
   <script src="assets/ocr/20261007_001-data.js" defer></script>
+  <script src="assets/ocr/demo-documents.js" defer></script>
   <script src="js/features/ocr.js" defer></script>
   <script src="js/features/pending-return.js" defer></script>
   <script src="js/features/upload-status.js" defer></script>
