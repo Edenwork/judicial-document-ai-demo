@@ -69,6 +69,11 @@
     const year = element("year");
     const month = element("month");
     const day = element("day");
+    const rangeStart = element("range-start");
+    const rangeEnd = element("range-end");
+    const rangeError = element("range-error");
+    rangeStart.value = latestDate.slice(0, 7) + "-01";
+    rangeEnd.value = latestDate;
     const latestParts = latestDate.split("-").map(Number);
     const firstYear = Number(demoBatches[0][0].slice(0, 4));
     const years = Array.from({ length: latestParts[0] - firstYear + 1 }, (_, index) => latestParts[0] - index);
@@ -113,6 +118,9 @@
 
     function render() {
       const granularity = page.querySelector('input[name="case-overview-granularity"]:checked').value;
+      const isRange = granularity === "range";
+      element("calendar-fields").hidden = isRange;
+      element("range-fields").hidden = !isRange;
       element("month-field").hidden = granularity === "year";
       element("day-field").hidden = granularity !== "day";
 
@@ -125,12 +133,30 @@
 
       const monthPrefix = year.value + "-" + datePart(month.value);
       const date = monthPrefix + "-" + datePart(day.value);
-      const period = granularity === "year" ? year.value : granularity === "month" ? monthPrefix : date;
-      const periodLabel = year.value + " 年"
-        + (granularity === "year" ? "" : " " + month.value + " 月")
-        + (granularity === "day" ? " " + day.value + " 日" : "");
+      const bounds = {
+        year: [year.value + "-01-01", year.value + "-12-31", year.value + " 年"],
+        month: [monthPrefix + "-01", monthPrefix + "-" + datePart(dayCount), year.value + " 年 " + month.value + " 月"],
+        day: [date, date, year.value + " 年 " + month.value + " 月 " + day.value + " 日"],
+        range: [rangeStart.value, rangeEnd.value, rangeStart.value.replaceAll("-", "/") + " ～ " + rangeEnd.value.replaceAll("-", "/")],
+      };
+      const [periodStart, periodEnd, periodLabel] = bounds[granularity];
+      let error = "";
+      if (isRange) {
+        if (!periodStart || !periodEnd) error = "請選擇起日與迄日。";
+        else if (periodStart > periodEnd) error = "起日須早於或等於迄日。";
+      }
+      rangeError.hidden = !error;
+      rangeError.textContent = error;
+      rangeStart.setAttribute("aria-invalid", String(Boolean(error)));
+      rangeEnd.setAttribute("aria-invalid", String(Boolean(error)));
+      element("file-results").hidden = Boolean(error);
+      element("graph-results").hidden = Boolean(error);
+      if (error) {
+        element("status").textContent = "";
+        return;
+      }
 
-      const uploaded = documents.filter((file) => file.uploadedAt.startsWith(period));
+      const uploaded = documents.filter((file) => file.uploadedAt >= periodStart && file.uploadedAt <= periodEnd);
       const archiveCount = uploaded.filter((file) => file.archived).length;
       const uploadDisplay = formatNumber.format(uploaded.length);
       const archiveDisplay = formatNumber.format(archiveCount);
@@ -145,8 +171,6 @@
       });
       renderDistribution("", kinds, kinds.map(({ label }) => kindCounts.get(label) || 0), "份");
 
-      const periodEnd = granularity === "year" ? year.value + "-12-31"
-        : granularity === "month" ? monthPrefix + "-" + datePart(dayCount) : date;
       const graphDate = periodEnd < latestDate ? periodEnd : latestDate;
       const graph = graphSnapshots.findLast(({ date }) => date <= graphDate) || emptyGraph;
       element("graph-period").textContent = "累計至 " + graphDate.replaceAll("-", "/");

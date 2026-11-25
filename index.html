@@ -766,16 +766,23 @@
                 <label for="case-overview-by-month">月</label>
                 <input type="radio" name="case-overview-granularity" id="case-overview-by-day" value="day">
                 <label for="case-overview-by-day">日</label>
+                <input type="radio" name="case-overview-granularity" id="case-overview-by-range" value="range">
+                <label for="case-overview-by-range">區間</label>
               </div>
             </fieldset>
-            <div class="case-overview-date-fields">
+            <div class="case-overview-date-fields" id="case-overview-calendar-fields">
               <label>年份<select class="form-select" id="case-overview-year"></select></label>
               <label id="case-overview-month-field">月份<select class="form-select" id="case-overview-month"></select></label>
               <label id="case-overview-day-field" hidden>日期<select class="form-select" id="case-overview-day"></select></label>
             </div>
+            <div class="case-overview-date-fields" id="case-overview-range-fields" hidden>
+              <label>起日<input type="date" class="form-control" id="case-overview-range-start" aria-describedby="case-overview-range-error"></label>
+              <label>迄日<input type="date" class="form-control" id="case-overview-range-end" aria-describedby="case-overview-range-error"></label>
+            </div>
+            <p class="case-overview-range-error" id="case-overview-range-error" role="status" hidden></p>
           </div>
 
-          <section class="case-overview-section" aria-labelledby="case-overview-files-heading">
+          <section class="case-overview-section" id="case-overview-file-results" aria-labelledby="case-overview-files-heading">
             <div class="case-overview-section-heading">
               <h3 id="case-overview-files-heading">文件統計</h3>
               <p id="case-overview-period"></p>
@@ -808,7 +815,7 @@
               </article>
             </div>
           </section>
-          <section class="case-overview-section" aria-labelledby="case-overview-graph-heading">
+          <section class="case-overview-section" id="case-overview-graph-results" aria-labelledby="case-overview-graph-heading">
             <div class="case-overview-section-heading">
               <h3 id="case-overview-graph-heading">知識圖譜統計</h3>
               <p id="case-overview-graph-period"></p>

@@ -94,11 +94,23 @@
     gap: 5px;
 }
 
-.case-overview-date-fields .form-select {
+.case-overview-date-fields .form-select,
+.case-overview-date-fields input[type="date"] {
     min-width: 92px;
     min-height: 40px;
     font-size: 1rem;
     background-color: var(--color-surface-primary);
+}
+
+.case-overview-date-fields input[type="date"] {
+    min-width: 132px;
+}
+
+.case-overview-range-error {
+    flex-basis: 100%;
+    margin: 0;
+    color: var(--color-danger-700);
+    font-size: 0.875rem;
 }
 
 .case-overview-section {
