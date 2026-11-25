@@ -275,3 +275,29 @@
         padding-inline: 12px;
     }
 }
+
+.case-overview-graph-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.case-overview-graph-card {
+    min-width: 0;
+    padding: 16px 20px;
+}
+
+.case-overview-relation-card {
+    grid-column: 1 / -1;
+}
+
+.case-overview-relation-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}

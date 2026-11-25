@@ -8,6 +8,12 @@
     { label: "稿", color: "var(--color-success-500)" },
     { label: "其他", color: "var(--color-status-processing)" },
   ];
+  const entityKinds = [
+    { label: "人", color: "var(--color-brand-600)" },
+    { label: "事", color: "var(--color-status-processing)" },
+    { label: "時", color: "var(--color-text-muted)" },
+    { label: "地", color: "var(--color-success-700)" },
+  ];
   const formatNumber = new Intl.NumberFormat("zh-TW");
   const formatPercent = new Intl.NumberFormat("zh-TW", { style: "percent", maximumFractionDigits: 1 });
 
@@ -29,6 +35,18 @@
     return batch.map((file, index) => ({ ...file, archived: index < archiveCount }));
   });
   const latestDate = demoBatches.at(-1)[0];
+
+  // 圖譜示範快照為截至當日的去重總數，與文件歸檔各自統計。
+  const graphSnapshots = [
+    { date: "2025-12-22", main: 5, child: 17, entities: [8, 4, 3, 2], confirmed: 20, belongs: 17 },
+    { date: "2026-09-14", main: 11, child: 37, entities: [16, 9, 6, 4], confirmed: 45, belongs: 37 },
+    { date: "2026-10-19", main: 19, child: 71, entities: [31, 18, 11, 7], confirmed: 85, belongs: 71 },
+    { date: "2026-11-02", main: 25, child: 94, entities: [40, 24, 15, 9], confirmed: 110, belongs: 94 },
+    { date: "2026-11-06", main: 31, child: 120, entities: [48, 29, 18, 11], confirmed: 144, belongs: 120 },
+    { date: "2026-11-16", main: 38, child: 149, entities: [57, 34, 21, 13], confirmed: 180, belongs: 149 },
+    { date: "2026-11-25", main: 44, child: 173, entities: [64, 38, 24, 16], confirmed: 213, belongs: 173 },
+  ];
+  const emptyGraph = { main: 0, child: 0, entities: [0, 0, 0, 0], confirmed: 0, belongs: 0 };
 
   function datePart(number) {
     return String(number).padStart(2, "0");
@@ -59,17 +77,12 @@
     setOptions(month, range(12), "月", latestParts[1]);
     let previousDayCount = 0;
 
-    function renderDistribution(uploaded) {
-      const total = uploaded.length;
-      const counts = new Map();
-      uploaded.forEach(function (file) {
-        counts.set(file.kind, (counts.get(file.kind) || 0) + 1);
-      });
-
+    function renderDistribution(prefix, categories, counts, unit) {
+      const total = counts.reduce((sum, count) => sum + count, 0);
       const stops = [];
       let cumulativeCount = 0;
-      const entries = kinds.map(function ({ label, color }) {
-        const count = counts.get(label) || 0;
+      const entries = categories.map(function ({ label, color }, index) {
+        const count = counts[index];
         const ratio = total ? count / total : 0;
         if (count > 0) {
           const start = cumulativeCount / total * 100;
@@ -86,16 +99,16 @@
         swatch.style.backgroundColor = color;
         swatch.setAttribute("aria-hidden", "true");
         name.textContent = label;
-        value.textContent = formatNumber.format(count) + " 份 · " + formatPercent.format(ratio);
+        value.textContent = formatNumber.format(count) + " " + unit + " · " + formatPercent.format(ratio);
         item.append(swatch, name, value);
         return item;
       });
 
-      const donut = element("donut");
+      const donut = element(prefix + "donut");
       donut.style.backgroundImage = stops.length ? "conic-gradient(" + stops.join(", ") + ")" : "";
-      element("donut-total").textContent = formatNumber.format(total);
-      element("legend").replaceChildren(...entries);
-      element("empty").hidden = total > 0;
+      element(prefix + "donut-total").textContent = formatNumber.format(total);
+      element(prefix + "legend").replaceChildren(...entries);
+      element(prefix + "empty").hidden = total > 0;
     }
 
     function render() {
@@ -126,7 +139,23 @@
       element("archive-count").textContent = archiveDisplay;
       element("status").textContent = periodLabel + "，上傳 " + uploadDisplay
         + " 份，已歸檔 " + archiveDisplay + " 份。";
-      renderDistribution(uploaded);
+      const kindCounts = new Map();
+      uploaded.forEach(function (file) {
+        kindCounts.set(file.kind, (kindCounts.get(file.kind) || 0) + 1);
+      });
+      renderDistribution("", kinds, kinds.map(({ label }) => kindCounts.get(label) || 0), "份");
+
+      const periodEnd = granularity === "year" ? year.value + "-12-31"
+        : granularity === "month" ? monthPrefix + "-" + datePart(dayCount) : date;
+      const graphDate = periodEnd < latestDate ? periodEnd : latestDate;
+      const graph = graphSnapshots.findLast(({ date }) => date <= graphDate) || emptyGraph;
+      element("graph-period").textContent = "累計至 " + graphDate.replaceAll("-", "/");
+      element("main-count").textContent = formatNumber.format(graph.main);
+      element("child-count").textContent = formatNumber.format(graph.child);
+      element("relation-count").textContent = formatNumber.format(graph.confirmed + graph.belongs);
+      element("confirmed-count").textContent = formatNumber.format(graph.confirmed);
+      element("belongs-count").textContent = formatNumber.format(graph.belongs);
+      renderDistribution("entity-", entityKinds, graph.entities, "個");
     }
 
     page.querySelector(".case-overview-filters").addEventListener("change", render);
