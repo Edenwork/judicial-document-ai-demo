@@ -39,9 +39,13 @@
       App.loadPendingReturnDocument(documentId);
     }
 
+    const ocrDocumentInUrl = pageName === "ocr-viewer"
+      ? new URLSearchParams(location.search).get("document")
+      : null;
+    let ocrDocumentId;
     if (pageName === "ocr-viewer") {
-      const documentId = navigationOptions.documentId || new URLSearchParams(location.search).get("document");
-      App.loadOcrDocument(documentId);
+      ocrDocumentId = navigationOptions.documentId || ocrDocumentInUrl || App.ocrDocument?.id;
+      App.loadOcrDocument(ocrDocumentId);
     }
 
     document.querySelectorAll(".page").forEach(function (page) {
@@ -79,10 +83,10 @@
       }
 
       if (isOcrPage) {
+        if (!navigationOptions.documentId && ocrDocumentInUrl) return;
+
         const params = new URLSearchParams({ page: pageName });
-        if (pageName === "ocr-viewer" && navigationOptions.documentId) {
-          params.set("document", navigationOptions.documentId);
-        }
+        if (ocrDocumentId) params.set("document", ocrDocumentId);
         const state = { page: pageName, ocrFrom: navigationOptions.ocrFrom };
         if (navigationOptions.ocrFrom && !navigationOptions.replaceHistory) {
           history.pushState(state, "", "?" + params);
