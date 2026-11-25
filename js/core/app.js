@@ -71,6 +71,8 @@
       if (navigationOptions.skipHistory) return;
 
       if (pageName === "pending-return-document") {
+        // Direct links already contain the document ID. Only list navigation adds history.
+        if (!navigationOptions.documentId) return;
         const documentUrl = "?page=pending-return-document&document=" + encodeURIComponent(navigationOptions.documentId);
         history.pushState({ page: pageName, fromPendingReturn: true }, "", documentUrl);
         return;

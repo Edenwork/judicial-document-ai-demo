@@ -18,22 +18,120 @@
       caseType: "我國對外國請求（刑事）",
       uploadedBy: "Justin.Lee",
       uploadedAt: "2026-11-19",
-      documentJson: {
-        documentType: "外交部函",
-        sourceDate: "2021-03-17",
-        sender: "外交部",
-        recipient: "法務部",
-        deliveryMethod: "紙本寄送",
-        urgency: "最速件",
-        subject: "轉送瑞典就涉嫌違反著作權案件提出的司法互助補充請求。",
-        attachments: ["瑞典貿易暨投資委員會台北辦事處來函影本", "司法互助請求書正本等資料"],
-        cc: ["瑞典貿易暨投資委員會台北辦事處", "駐瑞典代表處"],
-        summary: "依瑞典貿易暨投資委員會台北辦事處 2021-03-10 來函，檢送請求書及相關資料予法務部。",
-        sourcePages: {
-          available: [1],
-          total: 1
-        }
-      }
+      jsonSource: "調查取證（臺請陸）附件資料",
+      documentJson:
+        "{\n" +
+        "  \"schemaVersion\": \"1.0.0\",\n" +
+        "  \"requestId\": \"req-demo-tb-0003\",\n" +
+        "  \"收文文號\": \"1152051023\",\n" +
+        "  \"caseType\": \"TB\",\n" +
+        "  \"caseTypeName\": \"調查取證(臺請陸)\",\n" +
+        "  \"sourceUpdatedAt\": \"2026-11-06T09:00:00+08:00\",\n" +
+        "  \"generatedAt\": \"2026-11-06T10:00:00+08:00\",\n" +
+        "  \"data\": {\n" +
+        "    \"TB_Investigation\": {\n" +
+        "      \"地區\": \"01\",\n" +
+        "      \"國別\": \"CN\",\n" +
+        "      \"聯合辦案\": false,\n" +
+        "      \"密件\": false,\n" +
+        "      \"緊急請求案件\": true,\n" +
+        "      \"高風險案件\": true,\n" +
+        "      \"不予統計\": false,\n" +
+        "      \"不予統計原因\": null,\n" +
+        "      \"辦畢日期\": null,\n" +
+        "      \"權責機關\": \"0101\",\n" +
+        "      \"收文日期\": \"2026-09-18\",\n" +
+        "      \"收文文號\": \"1152051023\",\n" +
+        "      \"請求機關\": \"0235\",\n" +
+        "      \"請求機關案號\": \"115年度檢傳字第00038號\",\n" +
+        "      \"受理說明\": \"本署就陳〇銘等六人跨境電信詐欺案，依兩岸互助約定，向大陸地區提出訊問相對人、調取書證及證據之請求，業已受理。\",\n" +
+        "      \"備註\": \"案件列高風險；大陸側協助機關以各地檢察署為主，俟回執回傳後續辦。\",\n" +
+        "      \"刑事\": true,\n" +
+        "      \"民事\": false,\n" +
+        "      \"行政及其他\": false,\n" +
+        "      \"案由說明\": \"跨境電信詐欺案；請求大陸地區協助訊問相對人及證人、調取銀行往來與通聯資料等書證、證據，必要時為搜索、扣押與鑑定。\",\n" +
+        "      \"送達文書\": true,\n" +
+        "      \"裁判認可\": false,\n" +
+        "      \"行政協查\": false,\n" +
+        "      \"分享\": false,\n" +
+        "      \"取得證據\": true,\n" +
+        "      \"取得證言及陳述\": true,\n" +
+        "      \"提供書證\": true,\n" +
+        "      \"提供物證\": true,\n" +
+        "      \"提供視聽資料\": false,\n" +
+        "      \"確定關係人所在或確認其身分\": true,\n" +
+        "      \"勘驗\": false,\n" +
+        "      \"鑑定\": true,\n" +
+        "      \"檢查\": false,\n" +
+        "      \"訪視\": true,\n" +
+        "      \"調查\": true,\n" +
+        "      \"搜索\": true,\n" +
+        "      \"扣押\": true,\n" +
+        "      \"扣押物品\": \"行動裝置、帳冊、印鑑及車輛等得為證據或贓物之物。\",\n" +
+        "      \"罪贓(犯罪所得)移交\": true,\n" +
+        "      \"罪贓幣別\": \"CNY\",\n" +
+        "      \"罪贓金額\": \"1500000.00\",\n" +
+        "      \"禁止處分財產\": true,\n" +
+        "      \"禁止處分幣別\": \"CNY\",\n" +
+        "      \"禁止處分金額\": \"3000000.00\",\n" +
+        "      \"執行沒收裁判\": false,\n" +
+        "      \"沒收或追徵幣別\": null,\n" +
+        "      \"沒收或追徵金額\": null,\n" +
+        "      \"追徵\": false,\n" +
+        "      \"追徵幣別\": null,\n" +
+        "      \"追徵金額\": null,\n" +
+        "      \"變價\": true,\n" +
+        "      \"變價幣別\": \"TWD\",\n" +
+        "      \"變價金額\": \"850000.00\",\n" +
+        "      \"其他\": false,\n" +
+        "      \"其他說明\": null\n" +
+        "    },\n" +
+        "    \"TB_Investigation_Defendant\": [\n" +
+        "      {\n" +
+        "        \"TBB_DefCHTName\": \"陳〇銘\",\n" +
+        "        \"TBB_DefNote\": \"相對人（主要被告）。\"\n" +
+        "      },\n" +
+        "      {\n" +
+        "        \"TBB_DefCHTName\": \"李〇婷\",\n" +
+        "        \"TBB_DefNote\": \"證人（銀行往來資料提供人）。\"\n" +
+        "      }\n" +
+        "    ],\n" +
+        "    \"TB_Investigation_Crime\": [\n" +
+        "      {\n" +
+        "        \"TBC_Crime\": \"01\"\n" +
+        "      },\n" +
+        "      {\n" +
+        "        \"TBC_Crime\": \"02\"\n" +
+        "      }\n" +
+        "    ],\n" +
+        "    \"TB_Investigation_Delivery\": [\n" +
+        "      {\n" +
+        "        \"TBE_DeliveryDate\": \"2026-09-20\",\n" +
+        "        \"TBE_DeliveryNO\": \"115年度檢傳字第00038號\"\n" +
+        "      }\n" +
+        "    ],\n" +
+        "    \"TB_Investigation_Reply\": [\n" +
+        "      {\n" +
+        "        \"TBF_ReplyNO\": \"115年度回執字第00012號\",\n" +
+        "        \"TBF_ReplyDate\": \"2026-10-15\",\n" +
+        "        \"TBF_ReceiveNO\": \"陸-回執-CN-2026-10-14-0038\",\n" +
+        "        \"TBF_ReceiveDate\": \"2026-10-14\",\n" +
+        "        \"TBF_ReplyContent\": \"01\",\n" +
+        "        \"TBF_NonCompleteReason\": null,\n" +
+        "        \"TBF_Note\": \"大陸側檢察署已完成訊問相對人及調取銀行资料，回執及證文随附。\"\n" +
+        "      }\n" +
+        "    ],\n" +
+        "    \"TB_Investigation_Urge\": [\n" +
+        "      {\n" +
+        "        \"TBG_ReceiveNO\": \"115年度檢傳字第00038號\",\n" +
+        "        \"TBG_ReceiveDate\": \"2026-09-20\",\n" +
+        "        \"TBG_SendNO\": \"115年度催字第00005號\",\n" +
+        "        \"TBG_SendDate\": \"2026-10-22\",\n" +
+        "        \"TBG_Note\": \"案期緊迫，已函催大陸側加快辦理訊問與證文交付。\"\n" +
+        "      }\n" +
+        "    ]\n" +
+        "  }\n" +
+        "}\n"
     },
     {
       id: "scan-20260910-0921",
@@ -127,6 +225,7 @@
   const detailTitle = document.getElementById("pendingReturnDocumentTitle");
   const detailNumber = document.getElementById("pendingReturnDocumentNumber");
   const jsonSource = document.getElementById("pendingReturnJsonSource");
+  const defaultJsonSource = jsonSource.textContent;
   const jsonBlock = document.getElementById("pendingReturnJsonBlock");
   const jsonContent = document.getElementById("pendingReturnJson");
   const jsonEmpty = document.getElementById("pendingReturnJsonEmpty");
@@ -145,7 +244,7 @@
   }
 
   function renderJson(source) {
-    const json = JSON.stringify(source, null, 2);
+    const json = typeof source === "string" ? source : JSON.stringify(source, null, 2);
     const tokens = /("(?:\\.|[^"\\])*")([ \t]*:)?|\b(true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g;
     const fragment = document.createDocumentFragment();
     let offset = 0;
@@ -170,6 +269,7 @@
     detailTitle.textContent = item ? item.fileName : "找不到文件";
     detailNumber.textContent = item ? "文號 " + item.documentNumber : "";
     detailNumber.hidden = !item;
+    jsonSource.textContent = item?.jsonSource ?? defaultJsonSource;
     jsonSource.hidden = !hasJson;
     jsonBlock.hidden = !hasJson;
     jsonEmpty.hidden = hasJson;
