@@ -41,7 +41,7 @@
       </div>
       <div class="sidebar-scroll">
         <nav class="side-nav" aria-label="功能選單">
-          <button class="nav-item-btn active" data-page="files" type="button"><i data-lucide="folder-kanban"></i><span>案件管理</span><span class="nav-count" id="crNavCount">8</span></button>
+          <button class="nav-item-btn active" data-page="files" type="button"><i data-lucide="folder-kanban"></i><span>歸檔</span><span class="nav-count" id="crNavCount">8</span></button>
           <!-- <button class="nav-item-btn" data-page="upload" type="button"><i data-lucide="cloud-upload"></i><span>批次上傳</span></button> -->
           <button class="nav-item-btn" data-page="search" type="button"><i data-lucide="sparkles"></i><span>智慧搜尋</span></button>
           <button class="nav-item-btn" data-page="pending-return" type="button"><i data-lucide="list-todo"></i><span>待回拋案件</span></button>
@@ -90,7 +90,7 @@
         <section class="page active" id="page-files" aria-labelledby="filesHeading">
           <div class="page-heading">
             <div>
-              <h2 id="filesHeading">案件管理</h2>
+              <h2 id="filesHeading">歸檔</h2>
               <p>依案件掌握文件處理、人工確認及需人工審核狀態。</p>
             </div>
             <a class="btn btn-primary ocr-list-entry" href="?page=ocr-documents" data-ocr-route="ocr-documents">
@@ -163,7 +163,7 @@
         <section class="page" id="page-ocr-documents" aria-labelledby="ocrDocumentsTitle">
           <div class="ocr-back-action">
             <a class="btn btn-outline-secondary" href="index.html" data-ocr-route="files" data-ocr-back>
-              <i data-lucide="arrow-left" aria-hidden="true"></i>返回案件管理
+              <i data-lucide="arrow-left" aria-hidden="true"></i>返回歸檔
             </a>
           </div>
           <div class="page-heading">
@@ -400,7 +400,7 @@
               <div class="empty-state" id="crProcessingNotice" hidden><strong id="crProcessingTitle">AI 文件處理中</strong><p id="crProcessingDescription">本案尚未完成擷取，暫時無法人工核對。</p><button class="btn btn-primary" id="crStartCase" type="button" hidden>開始處理</button><button class="btn btn-outline-primary" id="crSimulateReady" type="button">模擬擷取完成（討論用）</button></div>
             </section>
           </div>
-          <footer class="cr-footer"><button class="btn btn-outline-secondary" data-go="files" type="button"><i data-lucide="arrow-left"></i>返回案件管理</button><div class="cr-footer-info"><strong id="crProgress" role="status">已核對 0 / 11 個欄位</strong><small id="crSaveInfo" aria-live="polite"></small></div><button class="btn btn-outline-primary" id="crSave" type="button">儲存草稿</button><button class="btn btn-primary" id="crConfirm" type="button">確認資料</button></footer>
+          <footer class="cr-footer"><button class="btn btn-outline-secondary" data-go="files" type="button"><i data-lucide="arrow-left"></i>返回歸檔</button><div class="cr-footer-info"><strong id="crProgress" role="status">已核對 0 / 11 個欄位</strong><small id="crSaveInfo" aria-live="polite"></small></div><button class="btn btn-outline-primary" id="crSave" type="button">儲存草稿</button><button class="btn btn-primary" id="crConfirm" type="button">確認資料</button></footer>
           <dialog class="cr-dialog" id="crConfirmDialog" aria-labelledby="crConfirmTitle"><h3 id="crConfirmTitle">確認案件資料？</h3><p>收文文號：<strong id="crConfirmReceipt"></strong><br>司法互助類型：<span id="crConfirmType"></span></p><p id="crConfirmSummary"></p><p>確認後，回拋狀態會變成「待回拋」。只有實際傳送成功才是「已回拋」。修改內容後需重新核對；本版未串接正式 API。</p><div class="cr-dialog-actions"><button class="btn btn-outline-secondary" type="button" data-cr-close="crConfirmDialog">繼續核對</button><button class="btn btn-primary" type="button" id="crConfirmAction">確認無誤</button></div></dialog>
           <dialog class="cr-dialog cr-party-dialog" id="crPartyDialog" aria-labelledby="crPartyDialogTitle">
             <form id="crPartyForm"><h3 id="crPartyDialogTitle">新增當事人</h3><p>請至少填寫中文或外文姓名。其他未提供的欄位可保留空白。</p><div class="cr-party-form-grid" id="crPartyFormFields"></div><p class="cr-error" id="crPartyError" role="alert" hidden></p><div class="cr-dialog-actions"><button class="btn btn-outline-secondary" type="button" data-cr-close="crPartyDialog">取消</button><button class="btn btn-primary" type="submit">儲存當事人</button></div></form>
@@ -472,7 +472,7 @@
                 </article>
               </div>
               <div class="document-footer"><button class="btn btn-outline-primary" data-go="files" type="button"><i
-                    data-lucide="arrow-left"></i>返回案件管理</button></div>
+                    data-lucide="arrow-left"></i>返回歸檔</button></div>
             </section>
             <section class="fields-pane" aria-label="AI 擷取欄位">
               <div class="fields-sticky">
