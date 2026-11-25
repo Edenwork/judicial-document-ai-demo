@@ -5,7 +5,7 @@
   const el = id => document.getElementById('monthly-table-' + id);
   const { executionRows, executionTotals, deliveryRows } = app.statisticsMonthlyData;
   const requests = ['我方請求', '陸方請求'];
-  const monthWithExecution = '2026-02';
+  const monthWithExecution = '2026-10';
   let applied = { mode: 'month', month: monthWithExecution, start: 111, end: 115 };
   let draftMonth = applied.month;
   let direction = 0;
@@ -74,7 +74,7 @@
     ['項次'], ['協助事項'], ['我方', requestHeading], ['陸方回復', ...replyColumns],
     ['陸方', requestHeading], ['我方回復', ...replyColumns], ['備註']
   ];
-  const monthlyNote = '來源：第 005 頁，115 年 3 月 10 日製表。原表合計包含緝捕遣返人數。當月完成可包含前期案件。';
+  const monthlyNote = '原表合計包含緝捕遣返人數。';
   const monthlyTotals = [['雙方相互請求', executionTotals[0]], ['雙方合作完成', executionTotals[1]]];
   const monthlyItems = executionRows.filter((_, i) => i !== 1);
   const monthlyTable = {
@@ -150,7 +150,7 @@
   const annualRequestCols = [0, 2, 3, 5, 7, 9, 10, 11, 12];
   const annualCompletedCols = [1, 4, 6, 8];
   const sourceYearLabel = (first, last) => first === last
-    ? first + (first === 115 ? ' 年（截至 2 月）' : ' 年')
+    ? first + (first === 115 ? ' 年（截至 10 月）' : ' 年')
     : first + '～' + last + ' 年';
   const covers = (first, last) => applied.start <= first && applied.end >= last;
 
@@ -280,7 +280,7 @@
       period,
       trendTitle: '各月請求統計',
       tickSuffix: ' 月',
-      note: '目前案件總表僅有 115 年 2 月。原表統計包含緝捕遣返人數。'
+      note: '目前案件總表為 115 年 10 月。原表統計包含緝捕遣返人數。'
     };
   }
 
@@ -313,7 +313,7 @@
       period,
       trendTitle: '各年度請求統計',
       tickSuffix: ' 年',
-      note: '統計包含緝捕遣返人數。各年度趨勢不計入無法拆分的跨年彙總。115 年統計截至 2 月。'
+      note: '統計包含緝捕遣返人數。各年度趨勢不計入無法拆分的跨年彙總。115 年統計截至 10 月。'
     };
   }
 
@@ -346,7 +346,7 @@
     const [year, month] = applied.month.split('-').map(Number);
     const annual = applied.mode === 'year';
     const period = annual ? '民國 ' + (applied.start === applied.end ? sourceYearLabel(applied.start, applied.end)
-      : applied.start + '～' + applied.end + ' 年' + (applied.end === 115 ? '（截至 2 月）' : ''))
+      : applied.start + '～' + applied.end + ' 年' + (applied.end === 115 ? '（截至 10 月）' : ''))
       : '民國 ' + (year - 1911) + ' 年 ' + month + ' 月';
     const records = annual ? annualRecords() : [];
     const hasMonthly = !annual && applied.month === monthWithExecution;
@@ -354,14 +354,14 @@
     const documents = deliverySection();
     const overview = hasAnnual ? yearOverview(records, period) : hasMonthly ? monthOverview(period) : null;
     const title = annual ? '案件歷年統計' : '案件統計';
-    let coverage = '來源：第 002～003 頁（民國 98 年 6 月至 115 年 2 月）。原表「單年累計」包含請求及完成欄位。115 年截至 2 月。「—」表示原表未提供或無法按選定期間切分。';
+    let coverage = '來源：第 002～003 頁（民國 98 年 6 月至 115 年 10 月）。原表「單年累計」包含請求及完成欄位。115 年截至 10 月。「—」表示原表未提供或無法按選定期間切分。';
     if (applied.start <= 100 && applied.end >= 98 && !covers(98, 100)) {
       coverage += ' 98～100 年為合併資料，需查詢完整區間。';
     }
     const sourceTotals = hasAnnual && covers(98, 115) ? annualSourceTotals : null;
     const missing = !overview && !documents ? (annual
       ? '所選年度區間沒有可顯示的資料。' + (applied.start <= 100 && applied.end >= 98 ? ' 98～100 年為合併資料，需查詢完整區間。' : '')
-      : '所選月份尚無統計資料。案件總表目前僅提供 115 年 2 月。') : '';
+      : '所選月份尚無統計資料。案件總表目前僅提供 115 年 10 月。') : '';
     const partial = !overview && documents ? '所選月份僅有海基會文書統計。' : '';
 
     report = {
@@ -472,7 +472,7 @@
         sections.push({ title: requests[side] + '統計', period: annual.period, table, note: annual.note });
       });
       if (annual.sourceTotals) {
-        sections.push({ title: '原表總計', totals: annual.sourceTotals, note: '民國 98 年 6 月至 115 年 2 月' });
+        sections.push({ title: '原表總計', totals: annual.sourceTotals, note: '民國 98 年 6 月至 115 年 10 月' });
       }
     }
     if (documents) sections.push(documents);
