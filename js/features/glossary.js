@@ -200,8 +200,13 @@
         ["編輯", "刪除"].forEach((label, action) => {
           const button = document.createElement("button");
           button.type = "button";
-          button.className = "btn btn-sm " + (action ? "btn-outline-danger" : "btn-outline-secondary");
-          button.textContent = label;
+          if (action === 0) {
+            button.className = "icon-btn";
+            button.innerHTML = '<i data-lucide="pencil" aria-hidden="true"></i>';
+          } else {
+            button.className = "btn btn-sm btn-outline-danger";
+            button.textContent = label;
+          }
           button.setAttribute("aria-label", label + "：" + longName);
           button.addEventListener("click", () => {
             if (action) openDeletion(aliases);
