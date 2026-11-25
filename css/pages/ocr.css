@@ -17,7 +17,7 @@
 
 .ocr-documents-table td,
 .ocr-documents-table th {
-    font-size: 1rem;
+    font-size: 0.875rem;
 }
 
 .ocr-documents-table :is(td, th):nth-child(2) {
