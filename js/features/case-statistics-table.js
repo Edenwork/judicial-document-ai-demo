@@ -463,7 +463,8 @@
     render();
   });
 
-  function reportSections({ overview, missing, monthly, annual, documents }) {
+  function reportSections({ overview, missing, monthly, annual, documents, sections: customSections }) {
+    if (customSections) return customSections;
     const sections = [];
     if (missing) sections.push({ note: missing });
     if (monthly) sections.push(monthly);
@@ -581,8 +582,7 @@
     ev.setUint32(12, directorySize, true); ev.setUint32(16, offset, true);
     return new Blob([...parts, ...directory, end], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
   }
-  el('export').addEventListener('click', () => {
-    const format = el('output-format').value;
+  app.exportStatisticsReport = function (format, report) {
     if (format === 'word') {
       const url = URL.createObjectURL(wordBlob(report)), link = document.createElement('a');
       link.href = url; link.download = report.title + '.docx';
@@ -591,7 +591,7 @@
       return;
     }
     const tab = window.open('', '_blank');
-    if (!tab) { window.JudicialApp.showToast('請允許開啟報告視窗後再試。', 'warning'); return; }
+    if (!tab) { app.showToast('請允許開啟報告視窗後再試。', 'warning'); return; }
     tab.opener = null;
     tab.document.write(reportHTML(report));
     tab.document.close();
@@ -600,7 +600,8 @@
       tab.focus();
       tab.print();
     }
-  });
+  };
+  el('export').addEventListener('click', () => app.exportStatisticsReport(el('output-format').value, report));
   updateModeFields();
   render();
 })();

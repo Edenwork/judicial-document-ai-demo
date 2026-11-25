@@ -750,10 +750,22 @@
         <section class="page case-overview" id="page-case-overview" aria-labelledby="case-overview-heading">
           <div class="page-heading">
             <div>
-              <h2 id="case-overview-heading">案件統計</h2>
+              <div class="case-overview-title">
+                <h2 id="case-overview-heading">案件統計</h2>
+                <span class="case-overview-source">示範資料</span>
+              </div>
               <p>依期間查看文件上傳、歸檔與類型分布。</p>
             </div>
-            <span class="case-overview-source">示範資料</span>
+            <div class="case-overview-export d-flex align-items-center flex-wrap gap-2">
+              <label class="d-flex align-items-center gap-2" for="case-overview-output-format">輸出格式
+                <select class="form-select form-select-sm w-auto" id="case-overview-output-format">
+                  <option value="web">網頁報告</option>
+                  <option value="pdf">PDF</option>
+                  <option value="word">Word</option>
+                </select>
+              </label>
+              <button class="btn btn-primary" id="case-overview-export" type="button">輸出報告</button>
+            </div>
           </div>
 
           <form class="panel case-overview-filters" aria-label="統計期間">

@@ -61,6 +61,19 @@
     select.value = selected;
   }
 
+  function distributionTable(categories, counts, unit) {
+    const total = counts.reduce((sum, count) => sum + count, 0);
+    return {
+      groups: [["類型"], ["數量（" + unit + "）"], ["占比"]],
+      weights: [2, 1, 1],
+      rowHeader: 0,
+      rows: categories.map(({ label }, index) => [
+        label, counts[index], formatPercent.format(total ? counts[index] / total : 0),
+      ]),
+      totalRow: ["合計", total, formatPercent.format(total ? 1 : 0)],
+    };
+  }
+
   App.initCaseOverview = function () {
     const page = document.getElementById("page-case-overview");
     if (!page) return;
@@ -83,6 +96,7 @@
     setOptions(year, years, "年", latestParts[0]);
     setOptions(month, range(12), "月", latestParts[1]);
     let previousDayCount = 0;
+    let appliedReport;
 
     function renderDistribution(prefix, categories, counts, unit) {
       const total = counts.reduce((sum, count) => sum + count, 0);
@@ -176,19 +190,47 @@
       uploaded.forEach(function (file) {
         kindCounts.set(file.kind, (kindCounts.get(file.kind) || 0) + 1);
       });
-      renderDistribution("", kinds, kinds.map(({ label }) => kindCounts.get(label) || 0), "份");
+      const documentCounts = kinds.map(({ label }) => kindCounts.get(label) || 0);
+      renderDistribution("", kinds, documentCounts, "份");
 
       const graphDate = periodEnd < latestDate ? periodEnd : latestDate;
       const graph = graphSnapshots.findLast(({ date }) => date <= graphDate) || emptyGraph;
-      element("graph-period").textContent = "累計至 " + graphDate.replaceAll("-", "/");
+      const graphPeriod = "累計至 " + graphDate.replaceAll("-", "/");
+      element("graph-period").textContent = graphPeriod;
       element("main-count").textContent = formatNumber.format(graph.main);
       element("child-count").textContent = formatNumber.format(graph.child);
       element("relation-count").textContent = formatNumber.format(graph.confirmed + graph.belongs);
       element("confirmed-count").textContent = formatNumber.format(graph.confirmed);
       element("belongs-count").textContent = formatNumber.format(graph.belongs);
       renderDistribution("entity-", entityKinds, graph.entities, "個");
+
+      appliedReport = {
+        title: "案件統計",
+        sections: [
+          {
+            title: "文件統計",
+            period: periodLabel + " · 示範資料",
+            totals: [["上傳文件數（份）", uploaded.length], ["歸檔文件數（份）", archiveCount]],
+            note: "歸檔文件數以所選期間上傳且已歸檔的文件計算。",
+          },
+          { title: "上傳文件類型分布", table: distributionTable(kinds, documentCounts, "份") },
+          {
+            title: "知識圖譜統計",
+            period: graphPeriod,
+            totals: [
+              ["主節點（個）", graph.main], ["次節點（個）", graph.child],
+              ["關聯總數（條）", graph.confirmed + graph.belongs],
+              ["確定（條）", graph.confirmed], ["屬於（條）", graph.belongs],
+            ],
+          },
+          { title: "實體類型分布", table: distributionTable(entityKinds, graph.entities, "個") },
+        ],
+      };
     }
 
+    element("export").addEventListener("click", function () {
+      App.exportStatisticsReport(element("output-format").value, appliedReport);
+    });
     filters.addEventListener("change", syncDateFields);
     filters.addEventListener("submit", function (event) {
       event.preventDefault();
