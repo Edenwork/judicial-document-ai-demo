@@ -66,6 +66,8 @@
     if (!page) return;
 
     const element = (suffix) => page.querySelector("#case-overview-" + suffix);
+    const filters = page.querySelector(".case-overview-filters");
+    const selectedGranularity = () => filters.querySelector('input[name="case-overview-granularity"]:checked').value;
     const year = element("year");
     const month = element("month");
     const day = element("day");
@@ -116,8 +118,16 @@
       element(prefix + "empty").hidden = total > 0;
     }
 
-    function render() {
-      const granularity = page.querySelector('input[name="case-overview-granularity"]:checked').value;
+    function setRangeError(message) {
+      const hasError = Boolean(message);
+      rangeError.hidden = !hasError;
+      rangeError.textContent = message;
+      rangeStart.setAttribute("aria-invalid", String(hasError));
+      rangeEnd.setAttribute("aria-invalid", String(hasError));
+    }
+
+    function syncDateFields() {
+      const granularity = selectedGranularity();
       const isRange = granularity === "range";
       element("calendar-fields").hidden = isRange;
       element("range-fields").hidden = !isRange;
@@ -130,7 +140,12 @@
         setOptions(day, range(dayCount), "日", Math.min(selectedDay, dayCount));
         previousDayCount = dayCount;
       }
+      setRangeError("");
+    }
 
+    function render() {
+      const granularity = selectedGranularity();
+      const dayCount = daysInMonth(Number(year.value), Number(month.value));
       const monthPrefix = year.value + "-" + datePart(month.value);
       const date = monthPrefix + "-" + datePart(day.value);
       const bounds = {
@@ -141,20 +156,12 @@
       };
       const [periodStart, periodEnd, periodLabel] = bounds[granularity];
       let error = "";
-      if (isRange) {
+      if (granularity === "range") {
         if (!periodStart || !periodEnd) error = "請選擇起日與迄日。";
         else if (periodStart > periodEnd) error = "起日須早於或等於迄日。";
       }
-      rangeError.hidden = !error;
-      rangeError.textContent = error;
-      rangeStart.setAttribute("aria-invalid", String(Boolean(error)));
-      rangeEnd.setAttribute("aria-invalid", String(Boolean(error)));
-      element("file-results").hidden = Boolean(error);
-      element("graph-results").hidden = Boolean(error);
-      if (error) {
-        element("status").textContent = "";
-        return;
-      }
+      setRangeError(error);
+      if (error) return;
 
       const uploaded = documents.filter((file) => file.uploadedAt >= periodStart && file.uploadedAt <= periodEnd);
       const archiveCount = uploaded.filter((file) => file.archived).length;
@@ -182,7 +189,12 @@
       renderDistribution("entity-", entityKinds, graph.entities, "個");
     }
 
-    page.querySelector(".case-overview-filters").addEventListener("change", render);
+    filters.addEventListener("change", syncDateFields);
+    filters.addEventListener("submit", function (event) {
+      event.preventDefault();
+      render();
+    });
+    syncDateFields();
     render();
   };
 })(window);

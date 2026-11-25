@@ -756,7 +756,7 @@
             <span class="case-overview-source">示範資料</span>
           </div>
 
-          <div class="panel case-overview-filters" role="group" aria-label="統計期間">
+          <form class="panel case-overview-filters" aria-label="統計期間">
             <fieldset class="case-overview-granularity">
               <legend>統計粒度</legend>
               <div class="case-overview-segments">
@@ -779,8 +779,9 @@
               <label>起日<input type="date" class="form-control" id="case-overview-range-start" aria-describedby="case-overview-range-error"></label>
               <label>迄日<input type="date" class="form-control" id="case-overview-range-end" aria-describedby="case-overview-range-error"></label>
             </div>
+            <button class="btn btn-primary case-overview-confirm" type="submit">確認</button>
             <p class="case-overview-range-error" id="case-overview-range-error" role="status" hidden></p>
-          </div>
+          </form>
 
           <section class="case-overview-section" id="case-overview-file-results" aria-labelledby="case-overview-files-heading">
             <div class="case-overview-section-heading">

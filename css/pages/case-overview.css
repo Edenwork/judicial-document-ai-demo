@@ -106,6 +106,12 @@
     min-width: 132px;
 }
 
+.case-overview-confirm {
+    flex: none;
+    min-height: 40px;
+    margin-inline-start: auto;
+}
+
 .case-overview-range-error {
     flex-basis: 100%;
     margin: 0;
