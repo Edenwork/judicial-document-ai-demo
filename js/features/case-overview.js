@@ -218,7 +218,7 @@
             title: "知識圖譜統計",
             period: graphPeriod,
             totals: [
-              ["主節點（個）", graph.main], ["次節點（個）", graph.child],
+              ["實體（個）", graph.main], ["關聯（個）", graph.child],
               ["關聯總數（條）", graph.confirmed + graph.belongs],
               ["確定（條）", graph.confirmed], ["屬於（條）", graph.belongs],
             ],
