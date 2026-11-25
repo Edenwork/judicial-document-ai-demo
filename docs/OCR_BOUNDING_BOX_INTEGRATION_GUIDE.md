@@ -1,8 +1,11 @@
 # OCR 原稿檢視器整合手冊
 
-本手冊說明我方 OCR 檢視器原型的實作，供協力廠商開發文件檢視頁時參考。原型在原稿上顯示當頁的 OCR 區塊藍框，滑鼠移入藍框時顯示該區塊的信心度，移出時隱藏提示。
+本手冊說明 TWAI Cloud OCR 檢視器原型的實作，供協力廠商開發文件檢視頁時參考。原型在原稿上顯示當頁的 OCR 區塊藍框，滑鼠移入藍框時顯示該區塊的信心度，移出時隱藏提示。
 
-## 1. 我方原型如何顯示原稿與藍框
+[開啟藍框與信心度 Demo](https://edenwork.github.io/judicial-document-ai-demo/index.html?page=ocr-viewer&document=20261007_001)  
+在「原稿影像」中將滑鼠移到藍框上，即可查看該區塊的信心度。
+
+## 1. TWAI Cloud 原型如何顯示原稿與藍框
 
 1. 原稿使用專案內的逐頁 WebP。以示範文件第 1 頁為例，`<img id="ocrPageImage">` 顯示 `assets/ocr/20261007_001-1.webp`。
 2. `setPage(pageNo)` 取出同一文件、同一頁的 JSONL 字串，用 `JSON.parse` 讀取該頁 OCR 結果，再呼叫 `renderBoxes(record)`。
@@ -35,7 +38,7 @@
 | `index.html` | 找 `.ocr-page-preview`，參考 `#ocrPageImage`、`#ocrBoxOverlay` 和 `#ocrBoxTooltip` 的結構。 |
 | `css/pages/ocr.css` | 參考 `.ocr-page-preview`、`.ocr-box-overlay`、`.ocr-bounding-box` 和 `.ocr-box-tooltip` 的定位、藍框樣式與滑鼠事件設定。 |
 
-## 4. 我方原型的圖層結構
+## 4. TWAI Cloud 原型的圖層結構
 
 以下片段取自原型。`<img>`、SVG 藍框層與提示元素共用同一個容器。原稿的 `src` 由 `setPage(pageNo)` 設定。
 
