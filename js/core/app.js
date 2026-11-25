@@ -10,7 +10,8 @@
     review: ["文件校對", "原始文件與 AI 結果對照確認"],
     search: ["智慧搜尋", "查找、勾選並彙整已入庫文件"],
     relations: ["關聯視覺化", "案件、文件、引用及相似關係"],
-    "reports-table": ["案件統計", "司法互助案件的月統計與歷年統計"],
+    "case-overview": ["案件統計", "文件處理與知識圖譜"],
+    "reports-table": ["案件統計-報表", "司法互助案件的月統計與歷年統計"],
     "reports-charts": ["案件統計-版型1", "案件統計圖表"],
     reports: ["案件統計-版型2", "各科月報與協助事項明細"],
     supervisor: ["需人工審核", "核准或退回承辦人修正內容"],
@@ -59,7 +60,10 @@
     if (isOcrPage) selectedPage = "files";
     if (pageName === "pending-return-document") selectedPage = "pending-return";
     document.querySelectorAll(".nav-item-btn").forEach(function (button) {
-      button.classList.toggle("active", button.dataset.page === selectedPage);
+      const isCurrent = button.dataset.page === selectedPage;
+      button.classList.toggle("active", isCurrent);
+      if (isCurrent) button.setAttribute("aria-current", "page");
+      else button.removeAttribute("aria-current");
     });
 
     const topTitle = document.getElementById("topTitle");
@@ -97,7 +101,7 @@
       }
 
       const nextUrl = pageName === "files" ? location.pathname : "?page=" + pageName + (pageName === "case-review" && App.currentReviewCaseId ? "&case=" + encodeURIComponent(App.currentReviewCaseId) : "");
-      const shouldReturnHome = pageName === "relations" || pageName === "reports" || pageName === "reports-table";
+      const shouldReturnHome = pageName === "relations" || pageName === "reports" || pageName === "reports-table" || pageName === "case-overview";
 
       if (shouldReturnHome) {
         history.replaceState({ page: "files" }, "", location.pathname);

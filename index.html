@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="css/components/overlays.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/pages/case-statistics-table.css">
+  <link rel="stylesheet" href="css/pages/case-overview.css">
   <link rel="stylesheet" href="css/pages/case-review.css">
   <link rel="stylesheet" href="css/pages/pending-return.css">
   <link rel="stylesheet" href="css/pages/ocr.css">
@@ -44,7 +45,8 @@
           <!-- <button class="nav-item-btn" data-page="upload" type="button"><i data-lucide="cloud-upload"></i><span>批次上傳</span></button> -->
           <button class="nav-item-btn" data-page="search" type="button"><i data-lucide="sparkles"></i><span>智慧搜尋</span></button>
           <button class="nav-item-btn" data-page="pending-return" type="button"><i data-lucide="list-todo"></i><span>待回拋案件</span></button>
-          <button class="nav-item-btn" data-page="reports-table" type="button" aria-label="案件統計" title="案件統計"><i data-lucide="table-2" aria-hidden="true"></i><span>案件統計</span></button>
+          <button class="nav-item-btn" data-page="case-overview" type="button"><i data-lucide="chart-column" aria-hidden="true"></i><span>案件統計</span></button>
+          <button class="nav-item-btn" type="button" disabled><i data-lucide="table-2" aria-hidden="true"></i><span>案件統計-報表</span></button>
           <!-- 暫時隱藏案件統計版型1、2的側欄入口
           <button class="nav-item-btn" data-page="reports-charts" type="button" aria-label="案件統計-版型1" title="案件統計-版型1"><i data-lucide="chart-column" aria-hidden="true"></i><span>案件統計-版型1</span></button>
           <button class="nav-item-btn" data-page="reports" type="button" aria-label="案件統計-版型2" title="案件統計-版型2"><i data-lucide="table" aria-hidden="true"></i><span>案件統計-版型2</span></button>
@@ -538,7 +540,7 @@
               <div class="review-footer"><span class="footer-hint" id="fieldProgress">已確認 0 / 9 個欄位</span><button
                   class="btn btn-outline-secondary" data-go="relations" type="button"><i
                     data-lucide="network"></i>關聯視覺化</button><button class="btn btn-primary" id="generateCaseReport"
-                  data-go="reports-table" type="button"><i data-lucide="file-chart-column"></i>案件統計</button>
+                  data-go="reports-table" type="button"><i data-lucide="file-chart-column"></i>案件統計-報表</button>
               </div>
             </section>
           </div>
@@ -745,9 +747,90 @@
                 data-lucide="arrow-left"></i>返回案件</button>
           </div>
         </section>
+        <section class="page case-overview" id="page-case-overview" aria-labelledby="case-overview-heading">
+          <div class="page-heading">
+            <div>
+              <h2 id="case-overview-heading">案件統計</h2>
+              <p>依期間查看文件上傳、歸檔與知識圖譜規模。</p>
+            </div>
+            <span class="case-overview-source">示範資料</span>
+          </div>
+
+          <div class="panel case-overview-filters" role="group" aria-label="統計期間">
+            <fieldset class="case-overview-granularity">
+              <legend>統計粒度</legend>
+              <div class="case-overview-segments">
+                <input type="radio" name="case-overview-granularity" id="case-overview-by-year" value="year">
+                <label for="case-overview-by-year">年</label>
+                <input type="radio" name="case-overview-granularity" id="case-overview-by-month" value="month" checked>
+                <label for="case-overview-by-month">月</label>
+                <input type="radio" name="case-overview-granularity" id="case-overview-by-day" value="day">
+                <label for="case-overview-by-day">日</label>
+              </div>
+            </fieldset>
+            <div class="case-overview-date-fields">
+              <label>年份<select class="form-select" id="case-overview-year"></select></label>
+              <label id="case-overview-month-field">月份<select class="form-select" id="case-overview-month"></select></label>
+              <label id="case-overview-day-field" hidden>日期<select class="form-select" id="case-overview-day"></select></label>
+            </div>
+          </div>
+
+          <section class="case-overview-section" aria-labelledby="case-overview-files-heading">
+            <div class="case-overview-section-heading">
+              <h3 id="case-overview-files-heading">文件統計</h3>
+              <p id="case-overview-period"></p>
+            </div>
+            <div class="case-overview-documents">
+              <div class="case-overview-doc-metrics">
+                <article class="panel case-overview-metric case-overview-upload">
+                  <span class="case-overview-icon" aria-hidden="true"><i data-lucide="upload"></i></span>
+                  <div><h4>上傳文件數</h4><p class="case-overview-value"><strong id="case-overview-upload-count"></strong><span>份</span></p>
+                  <p class="case-overview-note">依上傳成功日期</p></div>
+                </article>
+                <article class="panel case-overview-metric case-overview-archive">
+                  <span class="case-overview-icon" aria-hidden="true"><i data-lucide="archive"></i></span>
+                  <div><h4>歸檔文件數</h4><p class="case-overview-value"><strong id="case-overview-archive-count"></strong><span>份</span></p>
+                  <p class="case-overview-note">依首次完成歸檔日期</p></div>
+                </article>
+              </div>
+              <article class="panel case-overview-types">
+                <h4>上傳文件類型</h4>
+                <ul class="case-overview-bars" id="case-overview-bars"></ul>
+                <p class="case-overview-note" id="case-overview-unclassified" hidden></p>
+                <p class="case-overview-note" id="case-overview-empty" hidden>這段期間沒有上傳成功的文件。</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="case-overview-section" aria-labelledby="case-overview-graph-heading">
+            <div class="case-overview-section-heading">
+              <h3 id="case-overview-graph-heading">知識圖譜統計</h3>
+              <p id="case-overview-graph-period"></p>
+            </div>
+            <div class="case-overview-graph-metrics">
+              <article class="panel case-overview-graph-card">
+                <h4>主節點</h4><p class="case-overview-value"><strong id="case-overview-main-count"></strong><span>個</span></p>
+                <p class="case-overview-note">案件主卡</p>
+              </article>
+              <article class="panel case-overview-graph-card">
+                <h4>次節點</h4><p class="case-overview-value"><strong id="case-overview-child-count"></strong><span>個</span></p>
+                <p class="case-overview-note">關聯卡與文件</p>
+              </article>
+              <article class="panel case-overview-graph-card">
+                <h4>實體</h4><p class="case-overview-value"><strong id="case-overview-entity-count"></strong><span>個</span></p>
+                <ul class="case-overview-breakdown" id="case-overview-entity-types"></ul>
+              </article>
+              <article class="panel case-overview-graph-card">
+                <h4>關聯</h4><p class="case-overview-value"><strong id="case-overview-edge-count"></strong><span>條</span></p>
+                <ul class="case-overview-breakdown" id="case-overview-edge-types"></ul>
+              </article>
+            </div>
+          </section>
+          <p class="case-overview-status" id="case-overview-status" role="status"></p>
+        </section>
 <section class="page" id="page-reports-table" aria-labelledby="monthly-table-heading">
 <div class="page-heading">
-<div><h2 id="monthly-table-heading">案件統計</h2>
+<div><h2 id="monthly-table-heading">案件統計-報表</h2>
 <p>查閱海峽兩岸共同打擊犯罪及司法互助協議的案件統計。</p></div>
 <div class="d-flex align-items-center flex-wrap gap-2">
   <label class="d-flex align-items-center gap-2" for="monthly-table-output-format">輸出格式
@@ -1288,6 +1371,7 @@
   <script src="js/features/session.js" defer></script>
   <script src="js/features/glossary.js" defer></script>
   <script src="js/features/case-review.js" defer></script>
+  <script src="js/features/case-overview.js" defer></script>
   <script src="js/bootstrap.js" defer></script>
   <script src="js/features/case-statistics-charts.js" defer></script>
   <script src="js/features/case-statistics.js" defer></script>

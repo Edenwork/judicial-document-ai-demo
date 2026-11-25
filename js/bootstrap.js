@@ -5,6 +5,7 @@
   const initialPage = new URLSearchParams(location.search).get("page");
 
   App.initCore();
+  App.initCaseOverview();
   App.initFileList();
   App.initUploadStatus();
   App.initUpload();
