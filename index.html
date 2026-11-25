@@ -46,7 +46,7 @@
           <button class="nav-item-btn" data-page="search" type="button"><i data-lucide="sparkles"></i><span>智慧搜尋</span></button>
           <button class="nav-item-btn" data-page="pending-return" type="button"><i data-lucide="list-todo"></i><span>待回拋案件</span></button>
           <button class="nav-item-btn" data-page="case-overview" type="button"><i data-lucide="chart-column" aria-hidden="true"></i><span>案件統計</span></button>
-          <button class="nav-item-btn" type="button" disabled><i data-lucide="table-2" aria-hidden="true"></i><span>案件統計-報表</span></button>
+          <!-- <button class="nav-item-btn" data-page="reports-table" type="button"><i data-lucide="table-2" aria-hidden="true"></i><span>案件統計-報表</span></button> -->
           <!-- 暫時隱藏案件統計版型1、2的側欄入口
           <button class="nav-item-btn" data-page="reports-charts" type="button" aria-label="案件統計-版型1" title="案件統計-版型1"><i data-lucide="chart-column" aria-hidden="true"></i><span>案件統計-版型1</span></button>
           <button class="nav-item-btn" data-page="reports" type="button" aria-label="案件統計-版型2" title="案件統計-版型2"><i data-lucide="table" aria-hidden="true"></i><span>案件統計-版型2</span></button>
@@ -751,7 +751,7 @@
           <div class="page-heading">
             <div>
               <h2 id="case-overview-heading">案件統計</h2>
-              <p>依期間查看文件上傳、歸檔與知識圖譜規模。</p>
+              <p>依期間查看文件上傳、歸檔與類型分布。</p>
             </div>
             <span class="case-overview-source">示範資料</span>
           </div>
@@ -790,39 +790,21 @@
                 <article class="panel case-overview-metric case-overview-archive">
                   <span class="case-overview-icon" aria-hidden="true"><i data-lucide="archive"></i></span>
                   <div><h4>歸檔文件數</h4><p class="case-overview-value"><strong id="case-overview-archive-count"></strong><span>份</span></p>
-                  <p class="case-overview-note">依首次完成歸檔日期</p></div>
+                  <p class="case-overview-note">所選期間上傳且已歸檔</p></div>
                 </article>
               </div>
               <article class="panel case-overview-types">
-                <h4>上傳文件類型</h4>
-                <ul class="case-overview-bars" id="case-overview-bars"></ul>
-                <p class="case-overview-note" id="case-overview-unclassified" hidden></p>
+                <h4>上傳文件類型分布</h4>
+                <div class="case-overview-distribution">
+                  <div class="case-overview-donut" id="case-overview-donut" aria-hidden="true">
+                    <div class="case-overview-donut-center">
+                      <strong id="case-overview-donut-total"></strong>
+                      <span>上傳總數</span>
+                    </div>
+                  </div>
+                  <ul class="case-overview-legend" id="case-overview-legend" aria-label="各類型的份數與占比"></ul>
+                </div>
                 <p class="case-overview-note" id="case-overview-empty" hidden>這段期間沒有上傳成功的文件。</p>
-              </article>
-            </div>
-          </section>
-
-          <section class="case-overview-section" aria-labelledby="case-overview-graph-heading">
-            <div class="case-overview-section-heading">
-              <h3 id="case-overview-graph-heading">知識圖譜統計</h3>
-              <p id="case-overview-graph-period"></p>
-            </div>
-            <div class="case-overview-graph-metrics">
-              <article class="panel case-overview-graph-card">
-                <h4>主節點</h4><p class="case-overview-value"><strong id="case-overview-main-count"></strong><span>個</span></p>
-                <p class="case-overview-note">案件主卡</p>
-              </article>
-              <article class="panel case-overview-graph-card">
-                <h4>次節點</h4><p class="case-overview-value"><strong id="case-overview-child-count"></strong><span>個</span></p>
-                <p class="case-overview-note">關聯卡與文件</p>
-              </article>
-              <article class="panel case-overview-graph-card">
-                <h4>實體</h4><p class="case-overview-value"><strong id="case-overview-entity-count"></strong><span>個</span></p>
-                <ul class="case-overview-breakdown" id="case-overview-entity-types"></ul>
-              </article>
-              <article class="panel case-overview-graph-card">
-                <h4>關聯</h4><p class="case-overview-value"><strong id="case-overview-edge-count"></strong><span>條</span></p>
-                <ul class="case-overview-breakdown" id="case-overview-edge-types"></ul>
               </article>
             </div>
           </section>
