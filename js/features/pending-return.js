@@ -13,12 +13,12 @@
   const documents = [
     {
       id: "scan-20261119",
-      fileName: "掃描_20261119.pdf",
+      fileName: "調查取證（臺請陸）附件資料.pdf",
       documentNumber: "1080062971",
       caseType: "我國對外國請求（刑事）",
       uploadedBy: "Justin.Lee",
       uploadedAt: "2026-11-19",
-      jsonSource: "調查取證（臺請陸）附件資料",
+      jsonSource: "",
       documentJson:
         "{\n" +
         "  \"schemaVersion\": \"1.0.0\",\n" +
@@ -140,7 +140,7 @@
       caseType: "人身自由(臺請陸)",
       uploadedBy: "Justin.Lee",
       uploadedAt: "2026-11-19",
-      jsonSource: "人身自由(臺請陸)附件資料",
+      jsonSource: "",
       documentJson:
         "{\n" +
         "  \"結構版本\": \"1.0.0\",\n" +
@@ -202,7 +202,7 @@
       caseType: "受刑人移交(陸請臺)",
       uploadedBy: "Justin.Lee",
       uploadedAt: "2026-11-19",
-      jsonSource: "受刑人移交(陸請臺)附件資料",
+      jsonSource: "",
       documentJson:
         "{\n" +
         "  \"結構版本\": \"1.0.0\",\n" +
@@ -257,7 +257,7 @@
       caseType: "緝捕遣返請求(陸請臺)",
       uploadedBy: "Justin.Lee",
       uploadedAt: "2026-11-19",
-      jsonSource: "緝捕遣返請求(陸請臺)附件資料",
+      jsonSource: "",
       documentJson:
         "{\n" +
         "  \"結構版本\": \"1.0.0\",\n" +
@@ -312,12 +312,12 @@
     },
     {
       id: "scan-20260910-0921",
-      fileName: "掃描_20260910_0921.pdf",
+      fileName: "法務部函（副本）_20260910_0921.pdf",
       documentNumber: "1080065200",
       caseType: "我國對外國請求（刑事）",
       uploadedBy: "lisa.wu",
       uploadedAt: "2026-09-10",
-      jsonSource: "法務部函（副本）・文件擷取示範",
+      jsonSource: "",
       documentJson: {
         schemaVersion: "1.0.0",
         requestId: "req-demo-se-0001",
@@ -379,7 +379,7 @@
       caseType: "我國對外國請求（刑事）",
       uploadedBy: "lisa.wu",
       uploadedAt: "2026-09-10",
-      jsonSource: "外交部轉函・文件擷取示範",
+      jsonSource: "",
       documentJson: {
         schemaVersion: "1.0.0",
         requestId: "req-demo-se-0001",
@@ -441,12 +441,12 @@
     },
     {
       id: "scan-20260910-0912-b",
-      fileName: "掃描_20261011_1014.pdf",
+      fileName: "瑞典司法互助補充請求書.pdf",
       documentNumber: "1080065107",
       caseType: "我國對外國請求（刑事）",
       uploadedBy: "lisa.wu",
       uploadedAt: "2026-10-10",
-      jsonSource: "瑞典司法互助補充請求書（中文譯本）・文件擷取示範",
+      jsonSource: "",
       documentJson: {
         schemaVersion: "1.0.0",
         requestId: "req-demo-se-0001",
